@@ -107,7 +107,7 @@ const urls = {
 }
 
 const allReadUrls = ()=> {
-    return Object.values(urls).map(value => 'http://localhost:5000'+value['read']);
+    return Object.values(urls).map(value => `http://localhost:5000${value['read']}` );
 }
 
 export { urls, allReadUrls };

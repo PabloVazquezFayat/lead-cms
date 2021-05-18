@@ -1,28 +1,14 @@
-import React, { useState, useEffect} from 'react';
-import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
-import { fetchAll } from './utils/fetchData';
-import Auth from './components/Auth/Auth';
-import Login from './components/Login/Login';
-import Editor from './components/Editor/Editor/Editor';
-import AssetPage from './components/AssetsManager/AssetPage/AssetPage';
-import NotFound from './components/NotFound/NotFound';
+import React from 'react'
+import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom'
+import Auth from './components/Auth/Auth'
+import Login from './components/Login/Login'
+import Editor from './components/Editor/Editor/Editor'
+import AssetPage from './components/AssetsManager/AssetPage/AssetPage'
+import NotFound from './components/NotFound/NotFound'
+
+import Home from './components/Editor/HomePage/Home'
 
 function App() {
-
-  const [data, setData] = useState();
-
-  const loadData = async ()=> {
-    const data = await fetchAll();
-    setData(data);
-  }
-
-  useEffect(()=> {
-    loadData();
-  }, []);
-
-  if(data){
-    console.log(data.assets[0]);
-  }
 
   return (
     <div className="App">
@@ -48,9 +34,7 @@ function App() {
               <Route exact path="/editor/home">
                   <Auth>
                     <Editor>
-                      <div className="editor-home-page">
-                          <h1>EDIT HOME PAGE</h1>
-                      </div>
+                      <Home/>
                     </Editor>
                   </Auth>
               </Route>
