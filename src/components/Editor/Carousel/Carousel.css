@@ -1,36 +1,118 @@
-.carousel-indicators{
+/*
+    CAROUSEL STYLES
+*/
+.cms-carousel{
     width: 100%;
-    position: absolute;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    z-index: 15;
     display: flex;
-    justify-content: center;
-    padding-left: 0;
-    margin-right: 15%;
-    margin-left: 15%;
-    list-style: none;
+    flex-direction: column;
+    position: relative;
 }
 
-.carousel-indicator-btns{
-    background: red;
-    width: 30px;
+.cms-carousel-body{
+    width: 100%;
+    margin: 0px;
+    padding: 0px;
+    position: relative;
+}
+
+
+/*
+    SLIDE STYLES
+*/
+.cms-slide-item{
+    width: 100%;
+    margin: 0px;
+    padding: 0px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.cms-slide-image{
+    width: 100%;
+    height: auto;
+}
+
+.cms-slide-overlay{
+    width: 100%;
+    height: inherit;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    z-index: 998;
+    opacity: 0.3;
+}
+
+.cms-slide-caption{
+    margin: 0px;
+    padding: 0px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+    position: absolute;
+}
+
+.cms-slide-caption h5{
+    font-family: var(--mont);
+    font-size: 32px;
+    text-transform: uppercase;
+    text-align: center;
+    color: white;
+    padding: 0px;
+    margin: 20px 0px;
+}
+
+.cms-slide-caption p{
+    width: 100%;
+    font-family: var(--popn);
+    font-size: 14px;
+    text-align: center;
+    margin: 0px 0px 30px 0px;
+    color: white;
+}
+
+.cms-slide-caption label{
+    background: white;
+    padding: 10px 20px;
+    margin: 0px 0px;
+    border-radius: 45px;
+    font-family: var(--popn);
+    font-size: 14px;
+    text-align: center;
+    text-decoration: none;
+}
+
+
+/*
+    SLIDE CONTROL BTNS STYLE
+*/
+.cms-carousel-btns{
+    width: 100%;
+    position: absolute;
+    top: 85%;
+    display: flex;
+    justify-content: center;
+    list-style: none;
+    z-index: 999;
+    padding: 0px;
+}
+
+.cms-carousel-btn{
+    background-color: rgba(255, 255, 255, 0.5);
+    width: 35px;
     height: 5px;
+    margin: 0px 5px;
+    padding: 0px;
     cursor: pointer;
 }
 
-.carousel-inner{
-    background: green;
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-    list-style: none;
-    display: inline;
+.cms-carousel-btn:hover{
+    background-color: rgba(255, 255, 255, 1.0);
 }
 
-.carousel-item{
-    float: left;
-    margin: 0px;
-    padding:0px;
-}
+

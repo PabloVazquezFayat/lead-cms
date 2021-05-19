@@ -1,21 +1,21 @@
 :root{
-    --mont: 'Montserrat', sans-serif;
-    --popn: 'Poppins', sans-serif;
-  }
-  
-  body {
-    padding: 0px;
-    margin: 0px;
-  }
-  
-  a{
-    color: #00B7FF;
-    text-decoration: none !important;
-  }
-  
-  p{
-    letter-spacing: .5px;
-  }
+  --mont: 'Montserrat', sans-serif;
+  --popn: 'Poppins', sans-serif;
+}
+
+body {
+  padding: 0px;
+  margin: 0px;
+}
+
+a{
+  color: #00B7FF;
+  text-decoration: none !important;
+}
+
+p{
+  letter-spacing: .5px;
+}
   
   /****************************************************
      NAVBAR SECTION

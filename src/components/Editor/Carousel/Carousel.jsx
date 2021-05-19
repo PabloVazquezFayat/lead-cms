@@ -1,59 +1,75 @@
 import './Carousel.css'
-import React from 'react'
+import React, { useState, useEffect, useMemo } from 'react'
 
 export default function Carousel(props) {
     
-    const slides = props.data || [];
+    const slides = useMemo(()=> props.data || [], [props.data]);
 
-    console.log(slides)
+    const [currentSlide, setCurrentSlide] = useState();
+
+    useEffect(()=> {
+        if(slides.length > 0){
+            setCurrentSlide(slides[0]);
+        }
+    }, [slides]);
+
+    const handleCarouselControlsClick = (e)=> {
+        const id = e.target.id; 
+        setCurrentSlide(slides[id]);
+    }
 
     const carouselControls = ()=> {
 
         if(slides.map === 0){
-            return <li className="carousel-indicator-btns"></li>
+            return <li className="cms-carousel-btn"></li>
         }
         
-        return slides.map( (slide, i) =>  <li key={i} className="carousel-indicator-btns"></li>)
+        return slides.map( (slide, i) =>  {
+            return  <li 
+                        key={i} 
+                        id={i}
+                        className="cms-carousel-btn"
+                        onClick={handleCarouselControlsClick}
+                    >
+                    </li>
+        })
     }
 
     const carouselSlides = ()=>{
 
-        if(slides.length === 0){
+        if(!currentSlide){
             return <div> No slides found</div>
         }
 
-        return slides.map((slide, i)=> {
+        const style = {backgroundColor: currentSlide.overlayColor};
 
-            const style = {background: `background: ${slide.overlayColor}}`};
-
-            return <div key={i} className="carousel-item">
-                        <img className="" src={slide.backgroundImage} alt="slide"/>
-                        <div className="overlay" style={style}></div>
-                        <div className="carousel-caption slide-header">
-                            <h5>{slide.header}</h5>
-                            <p>{slide.paragraph}</p>
-                            <p><a href={slide.link}>{slide.cta}</a></p>
-                        </div>
+        return <li className="cms-slide-item">
+                    <img className="cms-slide-image" src={currentSlide.backgroundImage} alt="slide"/>
+                    <div className="cms-slide-overlay" style={style}></div>
+                    <div className="cms-slide-caption">
+                        <h5>{currentSlide.header}</h5>
+                        <p>{currentSlide.paragraph}</p>
+                        <label>{currentSlide.cta}</label>
                     </div>
-        });
+                </li>
     }
 
     return (
-        <div className="carousel slide">
-            <ol className="carousel-indicators">
-                {carouselControls()}
-            </ol>
-            <ul className="carousel-inner">
+        <div className="cms-carousel">
+            <ul className="cms-carousel-body">
                 {carouselSlides()}
             </ul>
-            <div className="carousel-control-prev">
+            <ol className="cms-carousel-btns">
+                {carouselControls()}
+            </ol>
+            {/* <div className="carousel-control-prev">
                 <span className="carousel-control-prev-icon"></span>
                 <span className="sr-only">Previous</span>
             </div>
             <div className="carousel-control-next">
                 <span className="carousel-control-next-icon"></span>
                 <span className="sr-only">Next</span>
-            </div>
+            </div> */}
         </div>
     )
 }

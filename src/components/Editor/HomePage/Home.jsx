@@ -1,3 +1,4 @@
+import './Home.css'
 import React, { useState, useEffect } from 'react'
 import Navbar from '../Navbar/Navbar'
 import Carousel from '../Carousel/Carousel'
@@ -47,7 +48,7 @@ export default function Home() {
     }, []);
 
     return (
-        <div>
+        <div className="home-page-container">
             <Navbar data={data.navbar}/>
             <Carousel data={data.carousel}/>
         </div>
