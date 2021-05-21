@@ -57,7 +57,7 @@ const fetchMissionData = async ()=> {
 
     try{
         const data = await axios.get(url);
-        return data.data.missionStatement
+        return data.data.mission
     }catch(error){
         ErrorHandler(error);
     }
@@ -84,7 +84,6 @@ const fetchFeaturedProjectsData = async ()=> {
     try{
         const data = await axios.get(url);
         return data.data.projects;
-
     }catch(error){
         ErrorHandler(error);
     }
@@ -96,7 +95,19 @@ const fetchRecentNewsData = async ()=> {
 
     try{
         const data = await axios.get(url);
-        return data.data.recentNews;
+        return data.data.latestNews;
+    }catch(error){
+        ErrorHandler(error);
+    }
+}
+
+const fetchRecentNewsArticlesData = async ()=> {
+    
+    const url = 'http://localhost:5000'+urls.newsArticle.read;
+
+    try{
+        const data = await axios.get(url);
+        return data.data.newsArticles;
     }catch(error){
         ErrorHandler(error);
     }
@@ -134,6 +145,7 @@ export {
     fetchFeaturedProjectsPanelData,
     fetchFeaturedProjectsData,
     fetchRecentNewsData,
+    fetchRecentNewsArticlesData,
     fetchCareersData,
     fetchFooterData
 };

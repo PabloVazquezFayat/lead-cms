@@ -62,14 +62,6 @@ export default function Carousel(props) {
             <ol className="cms-carousel-btns">
                 {carouselControls()}
             </ol>
-            {/* <div className="carousel-control-prev">
-                <span className="carousel-control-prev-icon"></span>
-                <span className="sr-only">Previous</span>
-            </div>
-            <div className="carousel-control-next">
-                <span className="carousel-control-next-icon"></span>
-                <span className="sr-only">Next</span>
-            </div> */}
         </div>
     )
 }

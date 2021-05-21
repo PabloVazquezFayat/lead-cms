@@ -2,6 +2,8 @@ import './Home.css'
 import React, { useState, useEffect } from 'react'
 import Navbar from '../Navbar/Navbar'
 import Carousel from '../Carousel/Carousel'
+import Mission from '../Mission/Mission'
+import RecentNews from '../RecentNews/RecentNews'
 
 import { 
     fetchNavbarData, 
@@ -10,6 +12,7 @@ import {
     fetchFeaturedProjectsPanelData,
     fetchFeaturedProjectsData,
     fetchRecentNewsData,
+    fetchRecentNewsArticlesData,
     fetchCareersData,
     fetchFooterData
  } from '../../../utils/fetchData';
@@ -26,6 +29,7 @@ export default function Home() {
         const featuredProjectsPanelData = await fetchFeaturedProjectsPanelData();
         const featuredProjectsData = await fetchFeaturedProjectsData();
         const recentNewsData = await fetchRecentNewsData();
+        const newsArticlesData = await fetchRecentNewsArticlesData();
         const careersData = await fetchCareersData();
         const footerData = await fetchFooterData();
         
@@ -36,6 +40,7 @@ export default function Home() {
             featuredProjectsPanel: featuredProjectsPanelData,
             featuredProjects: featuredProjectsData,
             recentNews: recentNewsData,
+            newsArticles: newsArticlesData,
             careers: careersData,
             footer: footerData,
         }
@@ -51,6 +56,8 @@ export default function Home() {
         <div className="home-page-container">
             <Navbar data={data.navbar}/>
             <Carousel data={data.carousel}/>
+            <Mission data={data.mission}/>
+            <RecentNews data={{recentNews: data.recentNews, newsArticles: data.newsArticles}}/>
         </div>
     )
 }
