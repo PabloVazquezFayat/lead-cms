@@ -3,7 +3,10 @@ import React, { useState, useEffect } from 'react'
 import Navbar from '../Navbar/Navbar'
 import Carousel from '../Carousel/Carousel'
 import Mission from '../Mission/Mission'
+import FeaturedProjects from '../FeaturedProjects/FeaturedProjects'
 import RecentNews from '../RecentNews/RecentNews'
+import Careers from '../Careers/Careers'
+import Footer from '../Footer/Footer'
 
 import { 
     fetchNavbarData, 
@@ -57,7 +60,10 @@ export default function Home() {
             <Navbar data={data.navbar}/>
             <Carousel data={data.carousel}/>
             <Mission data={data.mission}/>
+            <FeaturedProjects data={{projectsPanel: data.featuredProjectsPanel, projects: data.featuredProjects}}/>
             <RecentNews data={{recentNews: data.recentNews, newsArticles: data.newsArticles}}/>
+            <Careers data={data.careers}/> 
+            <Footer data={data.footer}/>
         </div>
     )
 }

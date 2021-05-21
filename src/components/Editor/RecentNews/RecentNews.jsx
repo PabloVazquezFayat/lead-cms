@@ -5,8 +5,7 @@ export default function RecentNews(props) {
     const { recentNews, newsArticles} = props.data || {}
 
     const formatDate = (date)=> {
-        const newDate = new Date(date);
-        const dateStrings = newDate.toString().split(' ');
+        const dateStrings = new Date(date).toString().split(' ');
         return `${dateStrings[0]} ${dateStrings[2]} ${dateStrings[3]}`
     }
 

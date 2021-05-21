@@ -929,7 +929,7 @@ p{
     transition: 0.3s;
   }
   
-  .project-overlay a{
+  .project-overlay a, .project-overlay div{
     font-family: var(--popn);
     font-size: 14px;
     color: #00B7FF;
