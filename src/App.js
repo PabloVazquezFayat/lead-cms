@@ -16,7 +16,6 @@ import Careers from './components/Editor/CareersPage/Careers'
 import Contact from './components/Editor/ContactPage/Contact'
 
 import { auth } from './utils/auth'
-
 import { fetchAll } from './utils/fetchData';
 
 function App() {

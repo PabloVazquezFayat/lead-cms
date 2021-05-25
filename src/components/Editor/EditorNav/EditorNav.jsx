@@ -27,7 +27,7 @@ export default function EditorNav() {
                     <NavLink to="/editor/contact">Contact</NavLink>
                 </li>
                 <li>
-                    <NavLink to="/editor/assets">Asssets</NavLink>
+                    <NavLink to="/editor/assets">Assets</NavLink>
                 </li>
             </ul>
         </div>
