@@ -18,6 +18,9 @@ export default function EditorNav() {
                     <NavLink to="/editor/news">News</NavLink>
                 </li>
                 <li>
+                    <NavLink to="/editor/article">Article</NavLink>
+                </li>
+                <li>
                     <NavLink to="/editor/careers">Careers</NavLink>
                 </li>
                 <li>

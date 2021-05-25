@@ -137,6 +137,18 @@ const fetchFooterData = async ()=> {
     }
 }
 
+const checkToken = async ()=> {
+
+    const url = 'http://localhost:5000/cms/auth'
+
+    try{
+        const res = axios.get(url);
+        return res.data;
+    }catch(error){
+        ErrorHandler(error);
+    }
+}
+
 export { 
     fetchAll, 
     fetchNavbarData, 
@@ -147,5 +159,6 @@ export {
     fetchRecentNewsData,
     fetchRecentNewsArticlesData,
     fetchCareersData,
-    fetchFooterData
+    fetchFooterData,
+    checkToken
 };

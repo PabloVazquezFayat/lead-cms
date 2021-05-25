@@ -8,62 +8,29 @@ import RecentNews from '../RecentNews/RecentNews'
 import Careers from '../Careers/Careers'
 import Footer from '../Footer/Footer'
 
-import { 
-    fetchNavbarData, 
-    fetchCarouselData, 
-    fetchMissionData,
-    fetchFeaturedProjectsPanelData,
-    fetchFeaturedProjectsData,
-    fetchRecentNewsData,
-    fetchRecentNewsArticlesData,
-    fetchCareersData,
-    fetchFooterData
- } from '../../../utils/fetchData';
+export default function Home(props) {
 
-export default function Home() {
-
-    const [data, setData] = useState({});
-
-    const fetchHomePageData = async ()=> {
-
-        const navbarData = await fetchNavbarData();
-        const carouselData = await fetchCarouselData();
-        const missionData = await fetchMissionData();
-        const featuredProjectsPanelData = await fetchFeaturedProjectsPanelData();
-        const featuredProjectsData = await fetchFeaturedProjectsData();
-        const recentNewsData = await fetchRecentNewsData();
-        const newsArticlesData = await fetchRecentNewsArticlesData();
-        const careersData = await fetchCareersData();
-        const footerData = await fetchFooterData();
-        
-        const dataObject = {
-            navbar: navbarData,
-            carousel: carouselData,
-            mission: missionData,
-            featuredProjectsPanel: featuredProjectsPanelData,
-            featuredProjects: featuredProjectsData,
-            recentNews: recentNewsData,
-            newsArticles: newsArticlesData,
-            careers: careersData,
-            footer: footerData,
-        }
-
-        setData(dataObject);
-    };
-
-    useEffect(()=>{
-        fetchHomePageData();
-    }, []);
+    const { 
+        navbar, 
+        careers, 
+        footer, 
+        slides, 
+        mission, 
+        projectsPanel, 
+        projects, 
+        latestNews, 
+        newsArticles 
+    } = props.data || {};
 
     return (
         <div className="home-page-container">
-            <Navbar data={data.navbar}/>
-            <Carousel data={data.carousel}/>
-            <Mission data={data.mission}/>
-            <FeaturedProjects data={{projectsPanel: data.featuredProjectsPanel, projects: data.featuredProjects}}/>
-            <RecentNews data={{recentNews: data.recentNews, newsArticles: data.newsArticles}}/>
-            <Careers data={data.careers}/> 
-            <Footer data={data.footer}/>
+            <Navbar data={navbar}/>
+            <Carousel data={slides}/>
+            <Mission data={mission}/>
+            <FeaturedProjects data={{projectsPanel: projectsPanel, projects: projects}}/>
+            <RecentNews data={{recentNews: latestNews, newsArticles: newsArticles}}/>
+            <Careers data={careers}/> 
+            <Footer data={footer}/>
         </div>
     )
 }

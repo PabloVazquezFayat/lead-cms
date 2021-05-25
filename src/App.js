@@ -1,5 +1,6 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom'
+
 import Auth from './components/Auth/Auth'
 import Login from './components/Login/Login'
 import Editor from './components/Editor/Editor/Editor'
@@ -7,8 +8,31 @@ import AssetPage from './components/AssetsManager/AssetPage/AssetPage'
 import NotFound from './components/NotFound/NotFound'
 
 import Home from './components/Editor/HomePage/Home'
+import About from './components/Editor/AboutPage/About'
+import Projects from './components/Editor/ProjectsPage/Projects'
+import News from './components/Editor/NewsPage/News'
+import Article from './components/Editor/ArticlePage/Article'
+import Careers from './components/Editor/CareersPage/Careers'
+import Contact from './components/Editor/ContactPage/Contact'
+
+import { auth } from './utils/auth'
+
+import { fetchAll } from './utils/fetchData';
 
 function App() {
+
+  const [data, setData] = useState();
+
+  const getAllData = async ()=> {
+    const res = await fetchAll();
+    setData(res);
+  }
+
+  useEffect(()=> {
+    if(auth()){
+      getAllData();
+    }
+  }, []);
 
   return (
     <div className="App">
@@ -34,7 +58,7 @@ function App() {
               <Route exact path="/editor/home">
                   <Auth>
                     <Editor>
-                      <Home/>
+                      <Home data={data}/>
                     </Editor>
                   </Auth>
               </Route>
@@ -42,9 +66,7 @@ function App() {
               <Route exact path="/editor/about">
                   <Auth>
                     <Editor>
-                      <div className="editor-home-page">
-                          <h1>EDIT ABOUT PAGE</h1>
-                      </div>
+                      <About data={data}/>
                     </Editor>
                   </Auth>
               </Route>
@@ -52,9 +74,7 @@ function App() {
               <Route exact path="/editor/projects">
                   <Auth>
                     <Editor>
-                      <div className="editor-home-page">
-                          <h1>EDIT PROJECTS PAGE</h1>
-                      </div>
+                      <Projects data={data}/>
                     </Editor>
                   </Auth>
               </Route>
@@ -62,9 +82,15 @@ function App() {
               <Route exact path="/editor/news">
                   <Auth>
                     <Editor>
-                      <div className="editor-home-page">
-                          <h1>EDIT NEWS PAGE</h1>
-                      </div>
+                      <News data={data}/>
+                    </Editor>
+                  </Auth>
+              </Route>
+
+              <Route exact path="/editor/article">
+                  <Auth>
+                    <Editor>
+                      <Article data={data}/>
                     </Editor>
                   </Auth>
               </Route>
@@ -72,9 +98,7 @@ function App() {
               <Route exact path="/editor/careers">
                   <Auth>
                     <Editor>
-                      <div className="editor-home-page">
-                          <h1>EDIT CAREERS PAGE</h1>
-                      </div>
+                      <Careers data={data}/>
                     </Editor>
                   </Auth>
               </Route>
@@ -82,9 +106,7 @@ function App() {
               <Route exact path="/editor/contact">
                   <Auth>
                     <Editor>
-                      <div className="editor-home-page">
-                          <h1>EDIT CONTACT PAGE</h1>
-                      </div>
+                      <Contact data={data}/>
                     </Editor>
                   </Auth>
               </Route>
@@ -92,7 +114,7 @@ function App() {
               <Route exact path="/editor/assets">
                   <Auth>
                     <Editor>
-                      <AssetPage/>
+                      <AssetPage data={data}/>
                     </Editor>
                   </Auth>
               </Route>
