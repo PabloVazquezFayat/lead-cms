@@ -2,8 +2,6 @@ import React from 'react'
 
 export default function Expertise(props) {
 
-    console.log(props.data)
-
     const {services, servicesPanel} = props.data || {};
     const {backgroundColor, header} = servicesPanel || {};
 
