@@ -88,7 +88,7 @@ export default function AssetPage(props) {
     return (
         <div className="asset-manager-page">
             <div className="assets-search-bar">
-                <input type="text" onChange={  searchAssets } placeholder="Search for image or video by name"/>
+                <input type="text" onChange={searchAssets} placeholder="Search for image or video by name"/>
             </div>
             <ul className="assets-gallery">
                 {createAssets()}
