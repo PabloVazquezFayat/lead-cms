@@ -7,11 +7,9 @@ import Careers from '../Careers/Careers'
 import Footer from '../Footer/Footer'
 
 //components unique to page
-import Projects from '../Projects/Projects'
+import Projects from '../Projects/Project'
 
 export default function AboutPage(props) {
-
-    console.log(props.data);
 
     const {navbar, staticBanner, projectsPanel, projects, careers, footer} = props.data || {};
 

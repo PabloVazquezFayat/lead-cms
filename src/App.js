@@ -10,10 +10,14 @@ import NotFound from './components/NotFound/NotFound'
 import Home from './components/Editor/HomePage/Home'
 import About from './components/Editor/AboutPage/About'
 import Projects from './components/Editor/ProjectsPage/Projects'
+import Project from './components/Editor/Project/Project'
 import News from './components/Editor/NewsPage/News'
 import Article from './components/Editor/ArticlePage/Article'
 import Careers from './components/Editor/CareersPage/Careers'
 import Contact from './components/Editor/ContactPage/Contact'
+
+import Messages from './components/Editor/Messages/Messages'
+import Applications from './components/Editor/Applications/Applications'
 
 import { auth } from './utils/auth'
 import { fetchAll } from './utils/fetchData';
@@ -78,6 +82,14 @@ function App() {
                   </Auth>
               </Route>
 
+              <Route exact path="/editor/project">
+                  <Auth>
+                    <Editor>
+                      <Project data={data}/>
+                    </Editor>
+                  </Auth>
+              </Route>
+
               <Route exact path="/editor/news">
                   <Auth>
                     <Editor>
@@ -114,6 +126,22 @@ function App() {
                   <Auth>
                     <Editor>
                       <AssetPage data={data}/>
+                    </Editor>
+                  </Auth>
+              </Route>
+
+              <Route exact path="/editor/messages">
+                  <Auth>
+                    <Editor>
+                      <Messages data={data} />
+                    </Editor>
+                  </Auth>
+              </Route>
+
+              <Route exact path="/editor/applications">
+                  <Auth>
+                    <Editor>
+                      <Applications data={data}/>
                     </Editor>
                   </Auth>
               </Route>

@@ -1,17 +1,20 @@
 import React from 'react'
+
+//standard layout components
 import Navbar from '../Navbar/Navbar'
 import StaticBanner from '../StaticBanner/StaticBanner'
 import Careers from '../Careers/Careers'
 import Footer from '../Footer/Footer'
 
-export default function AboutPage(props) {
+export default function Project(props) {
 
-    const {navbar, staticBanner, careers, footer} = props.data || {};
+    const { navbar, staticBanner, careers, footer } = props.data || {};
 
     return (
-        <div className="article-page-container">
+        <div>
             <Navbar data={navbar}/>
-            <StaticBanner data={staticBanner} page="article"/>
+            <StaticBanner data={staticBanner} page="project"/>
+
             <Careers data={careers}/> 
             <Footer data={footer}/>
         </div>

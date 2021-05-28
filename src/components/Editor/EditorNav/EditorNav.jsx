@@ -1,7 +1,10 @@
 import React from 'react'
 import { NavLink } from 'react-router-dom';
 
-export default function EditorNav() {
+import MessagesNav from '../EditorNav/MessagesNav'
+
+export default function EditorNav(props) {
+
     return (
         <div className="cms-navbar">
             <ul>
@@ -13,6 +16,9 @@ export default function EditorNav() {
                 </li>
                 <li>
                     <NavLink to="/editor/projects">Projects</NavLink>
+                </li>
+                <li>
+                    <NavLink to="/editor/project">Project</NavLink>
                 </li>
                 <li>
                     <NavLink to="/editor/news">News</NavLink>
@@ -30,6 +36,9 @@ export default function EditorNav() {
                     <NavLink to="/editor/assets">Assets</NavLink>
                 </li>
             </ul>
+            <div>
+                <MessagesNav/>
+            </div>
         </div>
     )
 }

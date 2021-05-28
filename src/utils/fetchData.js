@@ -137,6 +137,30 @@ const fetchFooterData = async ()=> {
     }
 }
 
+const fetchMessagesData = async ()=> {
+
+    const url = 'http://localhost:5000'+urls.messages.read;
+
+    try{
+        const res = await axios.get(url);
+        return res.data.messages;
+    }catch(error){
+        ErrorHandler(error);
+    }
+}
+
+const fetchApplicationsData = async ()=> {
+
+    const url = 'http://localhost:5000'+urls.applications.read;
+
+    try{
+        const res = await axios.get(url);
+        return res.data.applications;
+    }catch(error){
+        ErrorHandler(error);
+    }
+}
+
 const checkToken = async ()=> {
 
     const url = 'http://localhost:5000/cms/auth'
@@ -160,5 +184,7 @@ export {
     fetchRecentNewsArticlesData,
     fetchCareersData,
     fetchFooterData,
+    fetchMessagesData,
+    fetchApplicationsData,
     checkToken
 };
