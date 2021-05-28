@@ -1,7 +1,7 @@
 import React from 'react'
 import { NavLink } from 'react-router-dom';
 
-import MessagesNav from '../EditorNav/MessagesNav'
+import MessagesNav from '../MessagesNav/MessagesNav'
 
 export default function EditorNav(props) {
 

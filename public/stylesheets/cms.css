@@ -11,14 +11,16 @@ body, html{
     width: 100%;
     height: 150px;
     display: flex;
+    flex-direction: column;
     justify-content: center;
+    align-items: flex-start;
 }
 
 .cms-navbar > ul{
-    /* background: red; */
+    /* background: green; */
     width: 80%;
     height: auto;
-    margin: 0px;
+    margin: 0px 0px 0px 20px;
     padding: 0px;
     display: flex;
     justify-content: left;
@@ -44,6 +46,41 @@ body, html{
 
 .cms-navbar > ul li a:last-of-type{
     padding: 10px 12px;
+}
+
+.messages-nav{
+    /* background: red; */
+    margin: 15px 0px 0px 27px;
+    display: flex;
+
+}
+
+.contact-messages-nav{
+    /* background: yellow; */
+    margin: 5px 15px 0px 0px;
+    display: flex;
+    justify-self: center;
+    align-items: flex-start;
+    font-family: var(--popn);
+}
+
+.message-link{
+    background: #ffffff;
+    border-radius: 4px;
+    padding: 5px 10px;
+    color: rgb(66, 66, 66);
+    cursor: pointer;
+}
+
+.message-counter{
+    background: red;
+    min-width: 18px;
+    border-radius: 20px;
+    padding: 2px 4px 2px 2px;
+    margin: 0px 6px;
+    font-size: 12px;
+    color: white;
+    text-align: center;
 }
 
 /****************************************************
@@ -1216,4 +1253,8 @@ body, html{
 
 .messages-container ul li div{
     margin: 0px 0px 15px 0px;
+}
+
+.messages-actions button{
+    cursor: pointer;
 }

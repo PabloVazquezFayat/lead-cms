@@ -7,7 +7,6 @@ import { fetchMessagesData, fetchApplicationsData } from "../../../utils/fetchDa
 export default function MessagesNav() {
 
   const [data, setData] = useState({});
-
   const {messages, applications} = data || {};
 
   const getData = async () => {
@@ -28,17 +27,15 @@ export default function MessagesNav() {
     }
   }, []);
 
-  console.log(data);
-
   return (
     <div className="messages-nav">
       <div className="contact-messages-nav">
-        <NavLink to="/editor/messages">Messages</NavLink>
-        <div>{messages ? messages.length : '0'}</div>
+        <NavLink className="message-link" to="/editor/messages">Messages</NavLink>
+        <div className="message-counter">{messages ? messages.length : '0'}</div>
       </div>
       <div className="contact-messages-nav">
-        <NavLink to="/editor/applications">Applications</NavLink>
-        <div>{applications ? applications.length : '0'}</div>
+        <NavLink className="message-link" to="/editor/applications">Applications</NavLink>
+        <div className="message-counter">{applications ? applications.length : '0'}</div>
       </div>
     </div>
   );
