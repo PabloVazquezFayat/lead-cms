@@ -15,8 +15,22 @@ const deleteMessage = async (id)=> {
 
 }
 
+const deleteApplication = async (id)=> {
+
+    const url = 'http://localhost:5000'+urls.applications.delete;
+
+    try{
+        const res = await axios.post(url, { id: id });
+        return res.data;
+    }catch(error){
+        ErrorHandler(error);
+    }
+
+}
+
 export {
-    deleteMessage
+    deleteMessage,
+    deleteApplication
 }
 
 
