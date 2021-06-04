@@ -4,7 +4,7 @@ import ErrorHandler from '../components/Errors/Error';
 
 const deleteMessage = async (id)=> {
     
-    const url = 'http://localhost:5000'+urls.messages.delete;
+    const url = 'http://localhost:3001'+urls.messages.delete;
 
     try{
         const res = await axios.post(url, { id: id });
@@ -17,7 +17,7 @@ const deleteMessage = async (id)=> {
 
 const deleteApplication = async (id)=> {
 
-    const url = 'http://localhost:5000'+urls.applications.delete;
+    const url = 'http://localhost:3001'+urls.applications.delete;
 
     try{
         const res = await axios.post(url, { id: id });

@@ -1,13 +1,19 @@
 import React, { useState } from 'react';
 
+import { login } from '../../utils/login'
+
 export default function Login() {
 
     const [creds, setCreds] = useState({});
 
     const handleClick = (e)=> {
         e.preventDefault();
+        loginUser();
+    }
 
-        console.log(creds);
+    const loginUser = async ()=>{
+        const res = await login(creds);
+        console.log(res);
     }
 
     const handleInput = (e)=> {
