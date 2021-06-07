@@ -30,14 +30,16 @@ const fetchAll = async ()=> {
 
 const fetchNavbarData = async ()=> {
 
-    const url = domain+urls.navbar.read;
+    // const url = domain+urls.navbar.read;
 
-    try{
-        const data = await axios.get(url, {withCredentials: true});
-        return data.data.navbar;
-    }catch(error){
-        ErrorHandler(error);
-    }
+    // try{
+    //     const data = await axios.get(url, {withCredentials: true});
+    //     return data.data.navbar;
+    // }catch(error){
+    //     ErrorHandler(error);
+    // }
+
+
 
 }
 
@@ -177,7 +179,7 @@ const checkToken = async ()=> {
 }
 
 export { 
-    fetchAll, 
+     fetchAll,
     fetchNavbarData, 
     fetchCarouselData, 
     fetchMissionData,
