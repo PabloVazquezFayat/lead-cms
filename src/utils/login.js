@@ -1,16 +1,25 @@
-import axios from 'axios';
+import axios from "axios";
 
+const login = async (user) => {
+  const url = "http://localhost:3001/cms/login";
 
-const login = async (user)=> {
+  try {
+    const res = await axios.post(url, user, { withCredentials: true });
+    return res.data.user;
+  } catch (error) {
+    console.log(error);
+  }
+};
 
-    const url = 'http://localhost:3001/cms/login';
+const logout = async () => {
+  const url = "http://localhost:3001/cms/logout";
 
-    try{
-        const res = await axios.post(url, user, {withCredentials: true});
-        return res;
-    }catch(error){
-        console.log(error);
-    }
-}
+  try {
+    const res = await axios.get(url, { withCredentials: true });
+    return res.data.auth;
+  } catch (error) {
+    console.log(error);
+  }
+};
 
-export { login }
+export { login, logout };

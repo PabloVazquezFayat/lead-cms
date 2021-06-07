@@ -4,10 +4,10 @@ import ErrorHandler from '../components/Errors/Error';
 
 const deleteMessage = async (id)=> {
     
-    const url = 'http://localhost:3001'+urls.messages.delete;
+    const url = `http://localhost:3001${urls.messages.delete}/${id}`
 
     try{
-        const res = await axios.post(url, { id: id });
+        const res = await axios.delete(url, {withCredentials: true});
         return res.data;
     }catch(error){
         ErrorHandler(error);
@@ -17,10 +17,10 @@ const deleteMessage = async (id)=> {
 
 const deleteApplication = async (id)=> {
 
-    const url = 'http://localhost:3001'+urls.applications.delete;
+    const url = `http://localhost:3001${urls.applications.delete}/${id}`
 
     try{
-        const res = await axios.post(url, { id: id });
+        const res = await axios.delete(url, {withCredentials: true});
         return res.data;
     }catch(error){
         ErrorHandler(error);

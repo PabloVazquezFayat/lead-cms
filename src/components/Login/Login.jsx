@@ -2,18 +2,24 @@ import React, { useState } from 'react';
 
 import { login } from '../../utils/login'
 
-export default function Login() {
+export default function Login(props) {
 
     const [creds, setCreds] = useState({});
 
     const handleClick = (e)=> {
         e.preventDefault();
-        loginUser();
+
+        if(creds.email && creds.password){
+            loginUser();
+        }
     }
 
     const loginUser = async ()=>{
         const res = await login(creds);
-        console.log(res);
+
+        if(res && res.auth){
+            props.setAuth(true);
+        }
     }
 
     const handleInput = (e)=> {

@@ -1,7 +1,8 @@
 import React from 'react'
 import { NavLink } from 'react-router-dom';
 
-import MessagesNav from '../MessagesNav/MessagesNav'
+import MessagesNav from '../MessagesNav/MessagesNav';
+import Logout from '../Logout/Logout';
 
 export default function EditorNav(props) {
 
@@ -35,9 +36,12 @@ export default function EditorNav(props) {
                 <li>
                     <NavLink to="/editor/assets">Assets</NavLink>
                 </li>
+                <li>
+                    <Logout setAuth={props.setAuth}/>
+                </li>
             </ul>
             <div>
-                <MessagesNav/>
+                <MessagesNav data={props.data}/>
             </div>
         </div>
     )

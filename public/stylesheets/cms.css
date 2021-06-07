@@ -33,7 +33,8 @@ body, html{
     list-style: none;
 }
 
-.cms-navbar > ul li a{
+.cms-navbar > ul li a,
+.cms-navbar > ul li button{
     background: #1F75FE;
     padding: 10px 25px;
     text-decoration: none;
@@ -42,6 +43,7 @@ body, html{
     font-size: 14px;
     border: none;
     border-radius: 2px;
+    cursor: pointer;
 }
 
 .cms-navbar > ul li a:last-of-type{

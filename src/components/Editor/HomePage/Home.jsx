@@ -1,5 +1,5 @@
 import './Home.css'
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import Navbar from '../Navbar/Navbar'
 import Carousel from '../Carousel/Carousel'
 import Mission from '../Mission/Mission'

@@ -17,8 +17,6 @@ const fetchAll = async ()=> {
         for(let i = 0; i < mappedData.length; i++){
             dataObject[Object.keys(mappedData[i])[0]] = mappedData[i][Object.keys(mappedData[i])[0]];
         }
-
-        console.log(dataObject)
         
         return dataObject;
 
@@ -164,12 +162,12 @@ const fetchApplicationsData = async ()=> {
     }
 }
 
-const checkToken = async ()=> {
+const checkAuth = async ()=> {
 
-    const url = 'http://localhost:5000/cms/auth'
+    const url = 'http://localhost:3001/cms/auth'
 
     try{
-        const res = axios.get(url, {withCredentials: true});
+        const res = await axios.get(url, {withCredentials: true});
         return res.data;
     }catch(error){
         ErrorHandler(error);
@@ -189,5 +187,5 @@ export {
     fetchFooterData,
     fetchMessagesData,
     fetchApplicationsData,
-    checkToken
+    checkAuth
 };

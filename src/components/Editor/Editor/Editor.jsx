@@ -5,7 +5,7 @@ import EditorNav from '../EditorNav/EditorNav';
 export default function Editor(props) {
     return (
         <div className="editor-page">
-            <EditorNav/>
+            <EditorNav setAuth={props.setAuth} data={props.data}/>
             {props.children}
         </div>
     )
