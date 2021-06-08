@@ -2,7 +2,9 @@
     CAROUSEL STYLES
 */
 .cms-carousel{
+    background: red;
     width: 100%;
+    min-height: 400px;
     display: flex;
     flex-direction: column;
     position: relative;
@@ -10,6 +12,7 @@
 
 .cms-carousel-body{
     width: 100%;
+    min-height: 400px;
     margin: 0px;
     padding: 0px;
     position: relative;
@@ -21,6 +24,7 @@
 */
 .cms-slide-item{
     width: 100%;
+    min-height: 400px;
     margin: 0px;
     padding: 0px;
     overflow: hidden;
@@ -32,6 +36,7 @@
 
 .cms-slide-image{
     width: 100%;
+    min-height: 400px;
     height: auto;
 }
 
