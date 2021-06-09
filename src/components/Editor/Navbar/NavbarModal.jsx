@@ -1,13 +1,10 @@
 import React, { useState, useEffect } from "react";
 
 export default function NavbarModal(props) {
-    const [data, setData] = useState(props.data);
+    const [data, setData] = useState({});
     const [display, setDisplay] = useState("none");
 
-    const [tempData, setTempData] = useState();
-
-    const { logo, tagline, phone, facebook, instagram, linkedin, twitter } =
-        data || {};
+    const { logo, tagline, phone, facebook, instagram, linkedin, twitter } = props.data || {};
 
     const handleInput = (e) => {
         const { name, value } = e.target;
@@ -19,31 +16,9 @@ export default function NavbarModal(props) {
 
             return prevState;
         });
+
+        console.log(data);
     };
-
-    const handleFocus = (e) => {
-
-        const value = {
-            logo: logo,
-            tagline: tagline,
-            phone: phone,
-            facebook: facebook,
-            instagram: instagram,
-            linkedin: linkedin,
-            twitter: twitter
-        }[e.target.name]
-
-        if(!tempData){
-            setTempData(value)
-        }
-    }
-
-    const handleBlur = (e) => {
-        if(e.target.value === undefined){
-            const data = {name: e.target.name, value: tempData};
-            handleInput(data);
-        }
-    }
 
     const toggleModal = (e) => {
         const action = e.target.attributes["data-role"].value;
@@ -61,10 +36,6 @@ export default function NavbarModal(props) {
         display: display,
     };
 
-    useEffect(() => {
-        setData(props.data);
-    }, [props.data]);
-
     return (
         <div className="modal-navbar">
             <button className="modal-button" data-role="open" onClick={toggleModal}>
@@ -76,7 +47,7 @@ export default function NavbarModal(props) {
                     {logo ? (
                         <div>
                             <label>{logo}</label>
-                            <input className="modal-input" type="text" name="logo" onChange={handleInput} onFocus={handleFocus} onBlur={handleBlur}/>
+                            <input className="modal-input" type="text" name="logo" onChange={handleInput}/>
                         </div>
                     ) : null}
 
