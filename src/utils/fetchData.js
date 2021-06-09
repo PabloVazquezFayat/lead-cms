@@ -174,8 +174,21 @@ const checkAuth = async ()=> {
     }
 }
 
+const updateNavbarData = async (data)=> {
+    const url = domain+urls.navbar.update;
+
+    try{
+        const res = await axios.put(url, data, {withCredentials: true});
+        if(res.data){
+            return res.data.navbar;
+        }
+    }catch(error){
+        ErrorHandler(error);
+    }
+}   
+
 export { 
-     fetchAll,
+    fetchAll,
     fetchNavbarData, 
     fetchCarouselData, 
     fetchMissionData,
@@ -187,5 +200,6 @@ export {
     fetchFooterData,
     fetchMessagesData,
     fetchApplicationsData,
-    checkAuth
+    checkAuth,
+    updateNavbarData 
 };

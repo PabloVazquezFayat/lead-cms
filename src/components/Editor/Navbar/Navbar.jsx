@@ -1,13 +1,20 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import NavbarModal from "./NavbarModal";
 
 export default function Navbar(props) {
-  const { facebook, instagram, linkedin, tagline, twitter, logo } =
-    props.data || {};
+
+
+  const [data, setData] = useState(props.data || {});
+
+  const { facebook, instagram, linkedin, tagline, twitter, logo } = data || {};
+
+  useEffect(()=> {
+    setData(props.data);
+  }, [props.data])
 
   return (
     <div className="navbar-container navbar-capture">  
-      <NavbarModal data={props.data}/>
+      <NavbarModal data={data} setData={setData}/>
       <div className="navbar-header">
         <div className="navbar-header-content">
           <p>{tagline}</p>
