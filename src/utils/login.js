@@ -1,25 +1,14 @@
-import axios from "axios";
+import { urls } from "../API/urls";
+import { getService, postService } from "../API/services";
 
-const login = async (user) => {
-  const url = "http://localhost:3001/cms/login";
-
-  try {
-    const res = await axios.post(url, user, { withCredentials: true });
-    return res.data.user;
-  } catch (error) {
-    console.log(error);
-  }
+const login = async (data) => {
+	const { user } = await postService(urls.users.login, data);
+	return user;
 };
 
 const logout = async () => {
-  const url = "http://localhost:3001/cms/logout";
-
-  try {
-    const res = await axios.get(url, { withCredentials: true });
-    return res.data.auth;
-  } catch (error) {
-    console.log(error);
-  }
+	const { auth } = await getService(urls.users.logout);
+	return auth;
 };
 
 export { login, logout };

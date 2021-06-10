@@ -1,95 +1,109 @@
-import React, { useState, useEffect } from 'react'
-import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom'
+import React, { useState, useEffect } from "react";
+import {
+	BrowserRouter as Router,
+	Switch,
+	Route,
+	Redirect,
+} from "react-router-dom";
 
-import Auth from './components/Auth/Auth'
-import Login from './components/Login/Login'
-import Editor from './components/Editor/Editor/Editor'
-import AssetPage from './components/AssetsManager/AssetPage/AssetPage'
-import NotFound from './components/NotFound/NotFound'
+import Auth from "./components/Auth/Auth";
+import Login from "./components/Login/Login";
+import Editor from "./components/Editor/Editor/Editor";
+import AssetPage from "./components/AssetsManager/AssetPage/AssetPage";
+import NotFound from "./components/NotFound/NotFound";
 
-import Home from './components/Editor/HomePage/Home'
-import About from './components/Editor/AboutPage/About'
-import Projects from './components/Editor/ProjectsPage/Projects'
-import Project from './components/Editor/Project/Project'
-import News from './components/Editor/NewsPage/News'
-import Article from './components/Editor/ArticlePage/Article'
-import Careers from './components/Editor/CareersPage/Careers'
-import Contact from './components/Editor/ContactPage/Contact'
+import Home from "./components/Editor/HomePage/Home";
+import About from "./components/Editor/AboutPage/About";
+import Projects from "./components/Editor/ProjectsPage/Projects";
+import Project from "./components/Editor/Project/Project";
+import News from "./components/Editor/NewsPage/News";
+import Article from "./components/Editor/ArticlePage/Article";
+import Careers from "./components/Editor/CareersPage/Careers";
+import Contact from "./components/Editor/ContactPage/Contact";
 
-import Messages from './components/Editor/Messages/Messages'
-import Applications from './components/Editor/Applications/Applications'
+import Messages from "./components/Editor/Messages/Messages";
+import Applications from "./components/Editor/Applications/Applications";
 
-import { fetchAll, checkAuth } from './utils/fetchData';
+import EditorNav from "./components/Editor/EditorNav/EditorNav";
+
+import { checkAuth } from "./utils/fetchData";
 
 function App() {
+	//const [data, setData] = useState();
+	const [auth, setAuth] = useState(false);
+	const [navData, setNavdata] = useState({ messages: [], applications: [] });
 
-  const [data, setData] = useState();
-  const [auth, setAuth] = useState(false);
-  const [navData, setNavdata] = useState({messages: [], applications: []});
+	// const getAllData = async () => {
+	// 	const res = await fetchAll();
+	// 	setData(res);
+	// };
 
-  const getAllData = async ()=> {
-    const res = await fetchAll();
-    setData(res);
-  }
+	const authenticate = async () => {
+		const { auth } = (await checkAuth()) || false;
 
-  const authenticate = async ()=>{
-    const { auth } = await checkAuth() || false;
+		if (auth) {
+			return setAuth(auth);
+		}
 
-    if(auth){
-     return setAuth(auth)
-    }
+		setAuth(auth);
+	};
 
-    setAuth(auth)
-  }
+	useEffect(() => {
+		if (!auth) {
+			authenticate();
+		}
+		// } else {
+		// 	getAllData();
+		// }
+	}, [auth]);
 
-  useEffect(()=> {
-    if(!auth){
-      authenticate();
-    }else{
-      getAllData();
-    }
-  }, [auth]);
+	// useEffect(() => {
+	// 	if (data) {
+	// 		setNavdata({ messages: data.messages, applications: data.applications });
+	// 	}
+	// }, [data]);
 
-  useEffect(()=> {
-    if(data){
-      setNavdata({messages: data.messages, applications: data.applications})
-    }
-  }, [data]);
+	return (
+		<div className="App">
+			<Router>
+				<Switch>
+					<Route exact path="/">
+						{auth ? <Redirect to="/editor/home" /> : <Redirect to="/login" />}
+					</Route>
 
-  return (
-    <div className="App">
-       <Router>
-        <Switch>
+					<Route exact path="/login">
+						{auth ? (
+							<Redirect to="/editor/home" />
+						) : (
+							<Login setAuth={setAuth} />
+						)}
+					</Route>
 
-              <Route exact path="/">
-                  {
-                    auth
-                    ?
-                    <Redirect to='/editor/home'/>
-                    :
-                     <Redirect to='/login'/>
-                  }
+					<Auth auth={auth}>
+						<EditorNav />
+
+						<Route exact path="/editor/home">
+							<Home />
+						</Route>
+
+						<Route exact path="/editor/about">
+							<About />
+						</Route>
+					</Auth>
+
+					<Route>
+						<NotFound />
+					</Route>
+
+					{/* <Route exact path="/editor/home">
+                <Auth auth={auth}>
+                  <Editor setAuth={setAuth} data={navData}>
+                    <Home data={data} />
+                  </Editor>
+                </Auth>
               </Route>
 
-              <Route exact path="/login">
-                  {
-                    auth
-                    ?
-                    <Redirect to='/editor/home'/>
-                    :
-                    <Login setAuth={setAuth}/>
-                  }
-              </Route>
-
-              <Route exact path="/editor/home">
-                  <Auth auth={auth}>
-                    <Editor setAuth={setAuth} data={navData}>
-                      <Home data={data}/>
-                    </Editor>
-                  </Auth>
-              </Route>
-
-              <Route exact path="/editor/about">
+					    <Route exact path="/editor/about">
                   <Auth auth={auth} >
                   <Editor setAuth={setAuth} data={navData}>
                       <About data={data}/>
@@ -167,16 +181,11 @@ function App() {
                       <Applications data={data}/>
                     </Editor>
                   </Auth>
-              </Route>
-
-              <Route>
-                <NotFound/>
-              </Route>
-
-        </Switch>
-      </Router>
-    </div>
-  );
+              </Route> */}
+				</Switch>
+			</Router>
+		</div>
+	);
 }
 
 export default App;
