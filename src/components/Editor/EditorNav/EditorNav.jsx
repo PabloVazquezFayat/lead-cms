@@ -1,22 +1,20 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { NavLink } from "react-router-dom";
 
-import Logout from "../Logout/Logout";
-import { urls } from "../../../API/urls";
+import { logout } from "../../../utils/login";
 import { useAPI } from "../../../API/services";
+import { urls } from "../../../API/urls";
 
 export default function EditorNav(props) {
 	const { setAuth } = props;
-
 	const [messageData, getMessages] = useAPI(urls.messages.read, "GET");
 	const [applicationData, getApplications] = useAPI(urls.applications.read, "GET");
-
 	const messages = messageData.data.messages;
 	const applications = applicationData.data.applicationData;
 
-	const handleLogoutClick = () => {
-		const res = Logout();
-		setAuth(res);
+	const handleLogoutClick = async () => {
+		const auth = await logout();
+		setAuth(auth);
 	};
 
 	useEffect(() => {

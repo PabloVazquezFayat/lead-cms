@@ -3,10 +3,10 @@ import { BrowserRouter as Router, Switch, Route, Redirect } from "react-router-d
 
 import Auth from "./components/Auth/Auth";
 import Login from "./components/Login/Login";
-import Editor from "./components/Editor/Editor/Editor";
+
+import EditorNav from "./components/Editor/EditorNav/EditorNav";
 import AssetPage from "./components/AssetsManager/AssetPage/AssetPage";
 import NotFound from "./components/NotFound/NotFound";
-
 import Home from "./components/Editor/HomePage/Home";
 import About from "./components/Editor/AboutPage/About";
 import Projects from "./components/Editor/ProjectsPage/Projects";
@@ -15,32 +15,21 @@ import News from "./components/Editor/NewsPage/News";
 import Article from "./components/Editor/ArticlePage/Article";
 import Careers from "./components/Editor/CareersPage/Careers";
 import Contact from "./components/Editor/ContactPage/Contact";
-
 import Messages from "./components/Editor/Messages/Messages";
 import Applications from "./components/Editor/Applications/Applications";
-
-import EditorNav from "./components/Editor/EditorNav/EditorNav";
-
 import { checkAuth } from "./utils/fetchData";
 
 function App() {
 	const [auth, setAuth] = useState(false);
 
 	const authenticate = async () => {
-		const { auth } = (await checkAuth()) || false;
-
-		if (auth) {
-			return setAuth(auth);
-		}
-
+		const { auth } = await checkAuth();
 		setAuth(auth);
 	};
 
 	useEffect(() => {
-		if (!auth) {
-			authenticate();
-		}
-	}, [auth]);
+		authenticate();
+	}, []);
 
 	return (
 		<div className="App">
@@ -55,7 +44,7 @@ function App() {
 					</Route>
 
 					<Auth auth={auth}>
-						<EditorNav />
+						<EditorNav setAuth={setAuth} />
 
 						<Route exact path="/editor/home">
 							<Home />

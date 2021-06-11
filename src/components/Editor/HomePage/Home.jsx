@@ -12,12 +12,12 @@ export default function Home() {
 	return (
 		<div className="home-page-container">
 			<Navbar />
-			{/* <Carousel data={slides}/>
-            <Mission data={mission}/>
-            <FeaturedProjects data={{projectsPanel: projectsPanel, projects: projects}}/>
-            <RecentNews data={{recentNews: latestNews, newsArticles: newsArticles}}/>
-            <Careers data={careers}/> 
-            <Footer data={footer}/> */}
+			<Carousel />
+			<Mission />
+			<FeaturedProjects />
+			<RecentNews />
+			<Careers />
+			<Footer />
 		</div>
 	);
 }
