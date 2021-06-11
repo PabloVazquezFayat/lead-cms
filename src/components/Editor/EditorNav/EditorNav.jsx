@@ -2,29 +2,26 @@ import React, { useState, useEffect } from "react";
 import { NavLink } from "react-router-dom";
 
 import Logout from "../Logout/Logout";
-import { getMessagesData, getApplicationsData } from "../../../API/requests";
+import { urls } from "../../../API/urls";
+import { useAPI } from "../../../API/services";
 
 export default function EditorNav(props) {
 	const { setAuth } = props;
-	const [messages, setMessages] = useState();
-	const [applications, setApplications] = useState();
+
+	const [messageData, getMessages] = useAPI(urls.messages.read, "GET");
+	const [applicationData, getApplications] = useAPI(urls.applications.read, "GET");
+
+	const messages = messageData.data.messages;
+	const applications = applicationData.data.applicationData;
 
 	const handleLogoutClick = () => {
 		const res = Logout();
 		setAuth(res);
 	};
 
-	const getMessagesAndApplicationsData = async () => {
-		const messagesData = await getMessagesData();
-		const applicationsData = await getApplicationsData();
-		setMessages(messagesData);
-		setApplications(applicationsData);
-
-		console.log(messagesData, applicationsData);
-	};
-
 	useEffect(() => {
-		getMessagesAndApplicationsData();
+		getMessages();
+		getApplications();
 	}, []);
 
 	return (
@@ -67,17 +64,13 @@ export default function EditorNav(props) {
 						<NavLink className="message-link" to="/editor/messages">
 							Messages
 						</NavLink>
-						<div className="message-counter">
-							{messages ? messages.length : "0"}
-						</div>
+						<div className="message-counter">{messages ? messages.length : "0"}</div>
 					</div>
 					<div className="contact-messages-nav">
 						<NavLink className="message-link" to="/editor/applications">
 							Applications
 						</NavLink>
-						<div className="message-counter">
-							{applications ? applications.length : "0"}
-						</div>
+						<div className="message-counter">{applications ? applications.length : "0"}</div>
 					</div>
 				</div>
 			</div>

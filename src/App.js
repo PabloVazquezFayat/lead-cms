@@ -1,10 +1,5 @@
 import React, { useState, useEffect } from "react";
-import {
-	BrowserRouter as Router,
-	Switch,
-	Route,
-	Redirect,
-} from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route, Redirect } from "react-router-dom";
 
 import Auth from "./components/Auth/Auth";
 import Login from "./components/Login/Login";
@@ -29,14 +24,7 @@ import EditorNav from "./components/Editor/EditorNav/EditorNav";
 import { checkAuth } from "./utils/fetchData";
 
 function App() {
-	//const [data, setData] = useState();
 	const [auth, setAuth] = useState(false);
-	const [navData, setNavdata] = useState({ messages: [], applications: [] });
-
-	// const getAllData = async () => {
-	// 	const res = await fetchAll();
-	// 	setData(res);
-	// };
 
 	const authenticate = async () => {
 		const { auth } = (await checkAuth()) || false;
@@ -52,16 +40,7 @@ function App() {
 		if (!auth) {
 			authenticate();
 		}
-		// } else {
-		// 	getAllData();
-		// }
 	}, [auth]);
-
-	// useEffect(() => {
-	// 	if (data) {
-	// 		setNavdata({ messages: data.messages, applications: data.applications });
-	// 	}
-	// }, [data]);
 
 	return (
 		<div className="App">
@@ -72,11 +51,7 @@ function App() {
 					</Route>
 
 					<Route exact path="/login">
-						{auth ? (
-							<Redirect to="/editor/home" />
-						) : (
-							<Login setAuth={setAuth} />
-						)}
+						{auth ? <Redirect to="/editor/home" /> : <Login setAuth={setAuth} />}
 					</Route>
 
 					<Auth auth={auth}>
@@ -89,99 +64,47 @@ function App() {
 						<Route exact path="/editor/about">
 							<About />
 						</Route>
+
+						<Route exact path="/editor/projects">
+							<Projects />
+						</Route>
+
+						<Route exact path="/editor/project">
+							<Project />
+						</Route>
+
+						<Route exact path="/editor/news">
+							<News />
+						</Route>
+
+						<Route exact path="/editor/article">
+							<Article />
+						</Route>
+
+						<Route exact path="/editor/careers">
+							<Careers />
+						</Route>
+
+						<Route exact path="/editor/contact">
+							<Contact />
+						</Route>
+
+						<Route exact path="/editor/assets">
+							<AssetPage />
+						</Route>
+
+						<Route exact path="/editor/messages">
+							<Messages />
+						</Route>
+
+						<Route exact path="/editor/applications">
+							<Applications />
+						</Route>
 					</Auth>
 
 					<Route>
 						<NotFound />
 					</Route>
-
-					{/* <Route exact path="/editor/home">
-                <Auth auth={auth}>
-                  <Editor setAuth={setAuth} data={navData}>
-                    <Home data={data} />
-                  </Editor>
-                </Auth>
-              </Route>
-
-					    <Route exact path="/editor/about">
-                  <Auth auth={auth} >
-                  <Editor setAuth={setAuth} data={navData}>
-                      <About data={data}/>
-                    </Editor>
-                  </Auth>
-              </Route>
-
-              <Route exact path="/editor/projects">
-                  <Auth auth={auth}>
-                    <Editor setAuth={setAuth} data={navData}>
-                      <Projects data={data}/>
-                    </Editor>
-                  </Auth>
-              </Route>
-
-              <Route exact path="/editor/project">
-                  <Auth auth={auth}>
-                    <Editor setAuth={setAuth} data={navData}>
-                      <Project data={data}/>
-                    </Editor>
-                  </Auth>
-              </Route>
-
-              <Route exact path="/editor/news">
-                  <Auth auth={auth} >
-                    <Editor setAuth={setAuth} data={navData}>
-                      <News data={data}/>
-                    </Editor>
-                  </Auth>
-              </Route>
-
-              <Route exact path="/editor/article">
-                  <Auth auth={auth}>
-                    <Editor setAuth={setAuth} data={navData}>
-                      <Article data={data}/>
-                    </Editor>
-                  </Auth>
-              </Route>
-
-              <Route exact path="/editor/careers">
-                  <Auth auth={auth}>
-                    <Editor setAuth={setAuth} data={navData}>
-                      <Careers data={data} />
-                    </Editor>
-                  </Auth>
-              </Route>
-
-              <Route exact path="/editor/contact">
-                  <Auth auth={auth}>
-                    <Editor setAuth={setAuth} data={navData}>
-                      <Contact data={data}/>
-                    </Editor>
-                  </Auth>
-              </Route>
-
-              <Route exact path="/editor/assets">
-                  <Auth auth={auth}>
-                    <Editor setAuth={setAuth} data={navData}>
-                      <AssetPage data={data}/>
-                    </Editor>
-                  </Auth>
-              </Route>
-
-              <Route exact path="/editor/messages">
-                  <Auth auth={auth}>
-                    <Editor setAuth={setAuth} data={navData}>
-                      <Messages data={data} />
-                    </Editor>
-                  </Auth>
-              </Route>
-
-              <Route exact path="/editor/applications">
-                  <Auth auth={auth}>
-                    <Editor setAuth={setAuth} data={navData}>
-                      <Applications data={data}/>
-                    </Editor>
-                  </Auth>
-              </Route> */}
 				</Switch>
 			</Router>
 		</div>
