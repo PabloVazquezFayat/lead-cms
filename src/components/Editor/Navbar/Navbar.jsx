@@ -2,29 +2,19 @@ import React, { useState, useEffect } from "react";
 import NavbarModal from "./NavbarModal";
 
 import { urls } from "../../../API/urls";
-import { getService } from "../../../API/services";
+import { useAPI } from "../../../API/services";
 
 export default function Navbar() {
-	const [data, setData] = useState();
-	const { facebook, instagram, linkedin, tagline, twitter, logo } = data || {};
-
-	const getNavbarData = async () => {
-		const { navbar } = await getService(urls.navbar.read);
-
-		if (navbar) {
-			setData(navbar);
-		}
-	};
+	const [data, getData] = useAPI("GET", urls.navbar.read);
+	const { facebook, instagram, linkedin, tagline, twitter, logo } = data.data.navbar || {};
 
 	useEffect(() => {
-		if (!data) {
-			getNavbarData();
-		}
-	}, [data]);
+		getData();
+	}, []);
 
 	return (
 		<div className="navbar-container navbar-capture">
-			<NavbarModal data={data} setData={setData} />
+			<NavbarModal data={data} />
 			<div className="navbar-header">
 				<div className="navbar-header-content">
 					<p>{tagline}</p>

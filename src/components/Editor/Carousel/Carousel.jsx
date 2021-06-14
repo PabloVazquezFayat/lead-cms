@@ -1,67 +1,68 @@
-import './Carousel.css'
-import React, { useState, useEffect, useMemo } from 'react'
+import "./Carousel.css";
+import React, { useState, useEffect } from "react";
 
-export default function Carousel(props) {
-    
-    const slides = useMemo(()=> props.data || [], [props.data]);
+import { urls } from "../../../API/urls";
+import { useAPI } from "../../../API/services";
 
-    const [currentSlide, setCurrentSlide] = useState();
+export default function Carousel() {
+	const [slidesData, getSlidesData] = useAPI("GET", urls.carousel.read);
 
-    useEffect(()=> {
-        if(slides.length > 0){
-            setCurrentSlide(slides[0]);
-        }
-    }, [slides]);
+	const { loading, data, error } = slidesData;
+	const [current, setCurrentSlide] = useState({});
 
-    const handleCarouselControlsClick = (e)=> {
-        const id = e.target.id; 
-        setCurrentSlide(slides[id]);
-    }
+	const handleCarouselControlsClick = (e) => {
+		const id = e.target.id;
+		setCurrentSlide(data.slides[id]);
+	};
 
-    const carouselControls = ()=> {
+	const CarouselControls = () => {
+		if (loading) {
+			return <li className="cms-carousel-btn"></li>;
+		}
 
-        if(slides.map === 0){
-            return <li className="cms-carousel-btn"></li>
-        }
-        
-        return slides.map( (slide, i) =>  {
-            return  <li 
-                        key={i} 
-                        id={i}
-                        className="cms-carousel-btn"
-                        onClick={handleCarouselControlsClick}
-                    >
-                    </li>
-        })
-    }
+		return data.slides.map((slide, i) => {
+			return <li key={i} id={i} className="cms-carousel-btn" onClick={handleCarouselControlsClick}></li>;
+		});
+	};
 
-    const carouselSlides = ()=>{
+	const CarouselSlides = () => {
+		if (loading) {
+			return <div>Loading...</div>;
+		}
 
-        if(!currentSlide){
-            return <div> No slides found</div>
-        }
+		const style = { backgroundColor: current.overlayColor };
 
-        const style = {backgroundColor: currentSlide.overlayColor};
+		return (
+			<li className="cms-slide-item">
+				<img className="cms-slide-image" src={current.backgroundImage} alt="slide" />
+				<div className="cms-slide-overlay" style={style}></div>
+				<div className="cms-slide-caption">
+					<h5>{current.header}</h5>
+					<p>{current.paragraph}</p>
+					<label>{current.cta}</label>
+				</div>
+			</li>
+		);
+	};
 
-        return <li className="cms-slide-item">
-                    <img className="cms-slide-image" src={currentSlide.backgroundImage} alt="slide"/>
-                    <div className="cms-slide-overlay" style={style}></div>
-                    <div className="cms-slide-caption">
-                        <h5>{currentSlide.header}</h5>
-                        <p>{currentSlide.paragraph}</p>
-                        <label>{currentSlide.cta}</label>
-                    </div>
-                </li>
-    }
+	useEffect(() => {
+		getSlidesData();
+	}, []);
 
-    return (
-        <div className="cms-carousel">
-            <ul className="cms-carousel-body">
-                {carouselSlides()}
-            </ul>
-            <ol className="cms-carousel-btns">
-                {carouselControls()}
-            </ol>
-        </div>
-    )
+	useEffect(() => {
+		if (!loading) {
+			setCurrentSlide(data.slides[0]);
+		}
+	}, [loading, data.slides]);
+
+	return (
+		<div className="cms-carousel">
+			<ul className="cms-carousel-body">
+				<CarouselSlides />
+			</ul>
+			<ol className="cms-carousel-btns">
+				<CarouselControls />
+			</ol>
+		</div>
+	);
 }

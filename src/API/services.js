@@ -46,9 +46,9 @@ const deleteService = async (url) => {
 	}
 };
 
-const useAPI = (url, method, reqData) => {
+const useAPI = (method, url, reqData) => {
 	const [res, setRes] = useState({
-		loading: false,
+		loading: true,
 		data: {},
 		error: undefined,
 	});

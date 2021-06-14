@@ -7,8 +7,9 @@ import { urls } from "../../../API/urls";
 
 export default function EditorNav(props) {
 	const { setAuth } = props;
-	const [messageData, getMessages] = useAPI(urls.messages.read, "GET");
-	const [applicationData, getApplications] = useAPI(urls.applications.read, "GET");
+	const [messageData, getMessages] = useAPI("GET", urls.messages.read);
+	const [applicationData, getApplications] = useAPI("GET", urls.applications.read);
+
 	const messages = messageData.data.messages;
 	const applications = applicationData.data.applicationData;
 

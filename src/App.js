@@ -23,7 +23,7 @@ function App() {
 	const [auth, setAuth] = useState(false);
 
 	const authenticate = async () => {
-		const { auth } = await checkAuth();
+		const { auth } = (await checkAuth()) || false;
 		setAuth(auth);
 	};
 
