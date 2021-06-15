@@ -60,10 +60,11 @@ const useAPI = (method, url, reqData) => {
 		DELETE: deleteService,
 	}[method];
 
-	const requestData = async () => {
+	const requestData = async (id) => {
 		setRes((prevState) => ({ ...prevState, loading: true }));
 		try {
-			const data = await serviceMethod(url, reqData || null);
+			const endpoint = id ? `${url}/${id}` : url;
+			const data = await serviceMethod(endpoint, reqData || null);
 			setRes((prevState) => ({ ...prevState, loading: false, data: data }));
 		} catch (error) {
 			setRes((prevState) => ({ ...prevState, loading: false, error: error }));

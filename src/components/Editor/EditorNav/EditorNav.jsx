@@ -11,7 +11,7 @@ export default function EditorNav(props) {
 	const [applicationData, getApplications] = useAPI("GET", urls.applications.read);
 
 	const messages = messageData.data.messages;
-	const applications = applicationData.data.applicationData;
+	const applications = applicationData.data.applications;
 
 	const handleLogoutClick = async () => {
 		const auth = await logout();

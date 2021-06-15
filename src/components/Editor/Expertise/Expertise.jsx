@@ -1,35 +1,74 @@
-import React from 'react'
+import React, { useEffect } from "react";
 
-export default function Expertise(props) {
+import { urls } from "../../../API/urls";
+import { useAPI } from "../../../API/services";
 
-    const {services, servicesPanel} = props.data || {};
-    const {backgroundColor, header} = servicesPanel || {};
+export default function Expertise() {
+	const [serviceRes, getServiceData] = useAPI("GET", urls.services.read);
+	const [panelRes, getPanelData] = useAPI("GET", urls.servicesPanel.read);
 
-    const createServices = ()=> {
+	const {
+		loading: serviceLoading,
+		data: { services },
+		error: serviceError,
+	} = serviceRes || {};
 
-        if(!services){
-            return <li>No services found</li>
-        }
+	const {
+		loading: panelLoading,
+		data: { servicesPanel },
+		error: panelError,
+	} = panelRes || {};
 
-        return services.map((service, i)=> {
-            return  <li key={i}>
-                        <img src={service.image} alt="service="/>
-                        <p>{service.title}</p>
-                    </li>
-        })
+	const { header, backgroundColor } = servicesPanel || {};
 
-    }
+	const ServicesPanel = (props) => {
+		if (panelError) {
+			return <div>Something went wrong</div>;
+		}
 
-    const style = {
-        background: backgroundColor || '#fff',
-    }
+		if (panelLoading) {
+			return <div>Loading...</div>;
+		}
 
-    return (
-        <div className="services-container" style={style}>
-            <h2>{header}</h2>
-            <ul>
-                {createServices()}
-            </ul>
-        </div>
-    )
+		const style = {
+			background: backgroundColor || "#fff",
+		};
+
+		return (
+			<div className="services-container" style={style}>
+				<h2>{header}</h2>
+				<ul>{props.children}</ul>
+			</div>
+		);
+	};
+
+	const ServicesList = () => {
+		if (serviceError) {
+			return <li>Something went wrong</li>;
+		}
+
+		if (serviceLoading) {
+			return <li>Loading</li>;
+		}
+
+		return services.map((service, i) => {
+			return (
+				<li key={i}>
+					<img src={service.image} alt="service=" />
+					<p>{service.title}</p>
+				</li>
+			);
+		});
+	};
+
+	useEffect(() => {
+		getServiceData();
+		getPanelData();
+	}, []);
+
+	return (
+		<ServicesPanel>
+			<ServicesList />
+		</ServicesPanel>
+	);
 }

@@ -1,53 +1,89 @@
-import React from 'react'
+import React, { useEffect } from "react";
 
-export default function Leadership(props) {
+import { urls } from "../../../API/urls";
+import { useAPI } from "../../../API/services";
 
-    const {leadershipBanner, members } = props.data || {};
-    const {background, header, paragraph} = leadershipBanner || {};
+export default function Leadership() {
+	const [panelRes, getPanelData] = useAPI("GET", urls.leadershipBanner.read);
+	const [teamRes, getTeamData] = useAPI("GET", urls.leadershipMembers.read);
 
-    const createMembers = ()=> {
+	const {
+		loading: panelLoading,
+		data: { leadershipBanner },
+		error: panelError,
+	} = panelRes || {};
 
-        if(!members){
-            return <li>Leadership members not found</li>
-        }
+	const {
+		loading: teamLoading,
+		data: { members },
+		error: teamError,
+	} = teamRes || {};
 
-        return members.map((member, i)=> {
-            return <li key={i}>
-                        <img className='member-pic' src={member.image} alt="member"/>
-                        <div className='member-info'>
-                            <h3>{member.name}</h3>
-                            <p>{member.title}</p>
-                            <p>{member.bio}</p>
-                            {
-                                member.social 
-                                ?
-                                <a href={member.social}><i className="fab fa-linkedin"></i></a>
-                                :
-                                null
-                            }
-                        </div>
-                    </li>
-        });
+	const { background, header, paragraph } = leadershipBanner || {};
 
-    }
+	const LeaderShipTeam = (props) => {
+		if (panelError) {
+			return <div>Something went wrong</div>;
+		}
 
-    const containerStyle = {
-        background: background || '#fff',
-    }
+		if (panelLoading) {
+			return <div>Loading...</div>;
+		}
 
-    return (
-        <div className='leadershipBanner-container'  style={containerStyle}>
-            <div className='leadershipBanner-wrapper' data-aos="fade-right" data-aos-delay='250' data-aos-once="true">
-                <h2>{header || 'Header text here'}</h2>
-                <p>{paragraph || 'Paragraph text here'}</p>
-            </div>
-            <div className="leadershipMembers-container capture" style={containerStyle}>
-                <ul>
-                    {createMembers()}
-                </ul>
-                <div className="leadershipMembers-wrapper">
-                </div>
-            </div>
-        </div>
-    )
+		const containerStyle = {
+			background: background || "#fff",
+		};
+
+		return (
+			<div className="leadershipBanner-container" style={containerStyle}>
+				<div className="leadershipBanner-wrapper" data-aos="fade-right" data-aos-delay="250" data-aos-once="true">
+					<h2>{header || "Header text here"}</h2>
+					<p>{paragraph || "Paragraph text here"}</p>
+				</div>
+				<div className="leadershipMembers-container capture" style={containerStyle}>
+					<ul>{props.children}</ul>
+					<div className="leadershipMembers-wrapper"></div>
+				</div>
+			</div>
+		);
+	};
+
+	const TeamsMembers = () => {
+		if (teamError) {
+			return <li>Something went wrong</li>;
+		}
+
+		if (teamLoading) {
+			return <li>Loading</li>;
+		}
+
+		return members.map((member, i) => {
+			return (
+				<li key={i}>
+					<img className="member-pic" src={member.image} alt="member" />
+					<div className="member-info">
+						<h3>{member.name}</h3>
+						<p>{member.title}</p>
+						<p>{member.bio}</p>
+						{member.social ? (
+							<a href={member.social}>
+								<i className="fab fa-linkedin"></i>
+							</a>
+						) : null}
+					</div>
+				</li>
+			);
+		});
+	};
+
+	useEffect(() => {
+		getPanelData();
+		getTeamData();
+	}, []);
+
+	return (
+		<LeaderShipTeam>
+			<TeamsMembers />
+		</LeaderShipTeam>
+	);
 }

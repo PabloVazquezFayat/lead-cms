@@ -1,104 +1,87 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect } from "react";
 
-import { fetchApplicationsData } from '../../../utils/fetchData'
-import { deleteApplication } from '../../../utils/deleteData'
+import { urls } from "../../../API/urls";
+import { useAPI } from "../../../API/services";
 
-export default function Applications(props) {
+export default function Applications() {
+	const [res, getData] = useAPI("GET", urls.applications.read);
+	const [deleteRes, deleteApplication] = useAPI("DELETE", urls.applications.delete);
+	const {
+		loading,
+		data: { applications },
+		error,
+	} = res;
 
-    const [applications, setApplicationData] = useState([]);
+	const handleDeleteApplication = async (e) => {
+		deleteApplication(e.target.id);
+	};
 
-    useEffect(()=> {
-        if(props.data && props.data.applications){
-            setApplicationData(props.data.applications);
-        }
-    }, [props.data]);
+	const CreateApplications = () => {
+		if (error) {
+			return <li>Something went wrong</li>;
+		}
 
-    const getApplicationData = async ()=> {
-        const data = await fetchApplicationsData();
+		if (loading) {
+			return <li>Loading</li>;
+		}
 
-        if(data){
-            setApplicationData(data);
-        }
-    }
+		return applications.map((application, i) => {
+			return (
+				<li className="application-data-container" key={i}>
+					<div className="application-data-wrapper">
+						<div className="application-bio">
+							<p>{application.name}</p>
+							<p>{new Date(application.date).toString().substr(3, 12)}</p>
+							<p>{application.phone}</p>
+							<p>{application.email}</p>
+						</div>
+						<div className="application-position-container">
+							<div className="application-position">
+								<p>{application.position}</p>
+							</div>
+							<div className="application-position">
+								<p>{application.salary}</p>
+							</div>
+							<div className="application-message">
+								<p>{application.message}</p>
+							</div>
+						</div>
+						<div className="application-resume-container">
+							<div className="application-resume">
+								{application.resume ? (
+									<a href={application.resume} target="_blank" rel="noreferrer">
+										view resume
+									</a>
+								) : (
+									<p>no resume attached</p>
+								)}
+								<embed src={application.resume} alt="no resume attached" />
+							</div>
+							<div className="application-actions">
+								<button
+									id={application._id}
+									className="delete-application btn-action btn-delete"
+									onClick={handleDeleteApplication}
+								>
+									delete
+								</button>
+							</div>
+						</div>
+					</div>
+				</li>
+			);
+		});
+	};
 
-    const handleDeleteApplication = async(e)=> {
-            
-        const res = await deleteApplication(e.target.id);
+	useEffect(() => {
+		getData();
+	}, [deleteRes.data]);
 
-        console.log(res);
-
-        if(res){
-
-            const fetchedApplications = await getApplicationData();
-
-            setApplicationData((prevState)=> {
-                if(fetchedApplications){
-                    setApplicationData(fetchedApplications);
-                }
-
-                return prevState;
-            });
-
-        }
-
-    }
-    
-    const createApplications = ()=> {
-        
-        if(!applications || applications.length === 0){
-            return <li>No applications found</li>
-        }
-
-        return applications.map((application, i)=> {
-            return <li className="application-data-container" key={i}>
-                        <div className="application-data-wrapper">
-                            <div className="application-bio">
-                                <p>{application.name}</p>
-                                <p>{new Date(application.date).toString().substr(3,12)}</p>
-                                <p>{application.phone}</p>
-                                <p>{application.email}</p>
-                            </div>
-                            <div className="application-position-container">
-                                <div className="application-position">
-                                    <p>{application.position}</p>
-                                </div>
-                                <div className="application-position">
-                                    <p>{application.salary}</p>
-                                </div>
-                                <div className="application-message">
-                                    <p>{application.message}</p>
-                                </div>
-                            </div>
-                            <div className="application-resume-container">
-                                <div className="application-resume">
-                                    {
-                                    application.resume 
-                                    ? <a href={application.resume} target="_blank" rel="noreferrer">view resume</a> 
-                                    : <p>no resume attached</p>
-                                    }
-                                    <embed src={application.resume} alt="no resume attached" />
-                                </div>
-                                <div className="applicartion-actions">
-                                    <button 
-                                        id={application._id}
-                                        className="delete-application btn-action btn-delete"
-                                        onClick={handleDeleteApplication}
-                                    >
-                                        delete
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </li>
-        });
-
-    }
-
-    return (
-        <div>
-            <ul>
-                {createApplications()}
-            </ul>
-        </div>
-    )
+	return (
+		<div>
+			<ul>
+				<CreateApplications />
+			</ul>
+		</div>
+	);
 }
