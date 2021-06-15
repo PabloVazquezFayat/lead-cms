@@ -26,6 +26,10 @@ export default function Carousel() {
 	};
 
 	const CarouselSlides = () => {
+		if (error) {
+			return <div>Something went wrong...</div>;
+		}
+
 		if (loading) {
 			return <div>Loading...</div>;
 		}
@@ -51,7 +55,7 @@ export default function Carousel() {
 
 	useEffect(() => {
 		if (!loading) {
-			setCurrentSlide(data.slides[0]);
+			setCurrentSlide(data.slides[0] || {});
 		}
 	}, [loading, data.slides]);
 
