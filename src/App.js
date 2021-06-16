@@ -44,49 +44,60 @@ function App() {
 					</Route>
 
 					<Auth auth={auth}>
-						<EditorNav setAuth={setAuth} />
-
 						<Route exact path="/editor/home">
+							<EditorNav setAuth={setAuth} />
 							<Home />
 						</Route>
 
 						<Route exact path="/editor/about">
+							<EditorNav setAuth={setAuth} />
 							<About />
 						</Route>
 
 						<Route exact path="/editor/projects">
+							<EditorNav setAuth={setAuth} />
 							<Projects />
 						</Route>
 
 						<Route exact path="/editor/project">
-							<Project />
+							<Auth auth={auth}>
+								<EditorNav setAuth={setAuth} />
+								<Project />
+							</Auth>
 						</Route>
 
 						<Route exact path="/editor/news">
+							<EditorNav setAuth={setAuth} />
 							<News />
 						</Route>
 
 						<Route exact path="/editor/article">
+							<EditorNav setAuth={setAuth} />
 							<Article />
 						</Route>
 
 						<Route exact path="/editor/careers">
+							<EditorNav setAuth={setAuth} />
 							<Careers />
 						</Route>
 
 						<Route exact path="/editor/contact">
+							<EditorNav setAuth={setAuth} />
 							<Contact />
 						</Route>
 
 						<Route exact path="/editor/assets">
+							<EditorNav setAuth={setAuth} />
 							<AssetPage />
 						</Route>
 
 						<Route exact path="/editor/messages">
+							<EditorNav setAuth={setAuth} />
 							<Messages />
 						</Route>
 
 						<Route exact path="/editor/applications">
+							<EditorNav setAuth={setAuth} />
 							<Applications />
 						</Route>
 					</Auth>

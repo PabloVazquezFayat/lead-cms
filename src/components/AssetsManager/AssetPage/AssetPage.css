@@ -2,75 +2,74 @@ input:focus,
 select:focus,
 textarea:focus,
 button:focus {
-    outline: none;
+	outline: none;
 }
 
-.asset-manager-page{
-    display: flex;
-    flex-direction: column;
+.asset-manager-page {
+	display: flex;
+	flex-direction: column;
 }
 
-.assets-search-bar{
-    width: 100%;
-    height: auto;
-    padding: 15px;
+.assets-search-bar {
+	width: 100%;
+	height: auto;
+	padding: 15px;
 }
 
-.assets-search-bar input{
-    background-color: rgb(226, 226, 226);
-    width: 450px;
-    padding: 15px;
-    border: solid 1px gray;
-    border-radius: 5px;
-    font-size: 14px;
+.assets-search-bar input {
+	background-color: rgb(226, 226, 226);
+	width: 450px;
+	padding: 15px;
+	border: solid 1px gray;
+	border-radius: 5px;
+	font-size: 14px;
 }
 
-.assets-search-bar input:focus{
-    background-color: #fff;
+.assets-search-bar input:focus {
+	background-color: #fff;
 }
 
-.assets-gallery{
-    display: flex;
-    flex-wrap: wrap;
-    margin: 0px;
-    padding: 10px;
+.assets-gallery {
+	display: flex;
+	flex-wrap: wrap;
+	margin: 0px;
+	padding: 10px;
 }
 
-.asset{
-    background: #fff;
-    width: 250px;
-    height: auto;
-    box-shadow: 0px 3px 12px 0px rgba(0,0,0,0.75);
-    -webkit-box-shadow: 0px 3px 12px 0px rgba(0,0,0,0.75);
-    -moz-box-shadow: 0px 3px 12px 0px rgba(0,0,0,0.75);
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: center;
-    border-radius: 7px;
+.asset {
+	background: #fff;
+	width: 250px;
+	height: auto;
+	box-shadow: 0px 1px 4px 0px rgba(0, 0, 0, 0.75);
+	-webkit-box-shadow: 0px 1px 4px 0px rgba(0, 0, 0, 0.75);
+	-moz-box-shadow: 0px 1px 4px 0px rgba(0, 0, 0, 0.75);
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	align-items: center;
+	border-radius: 7px;
 }
 
-.asset-container{
-    width: 90%;
-    height: auto;
-    margin: 10px 0px 0px 0px;
+.asset-container {
+	width: 90%;
+	height: auto;
+	margin: 10px 0px 0px 0px;
 }
 
-.asset-container img{
-    width: 100%;
+.asset-container img {
+	width: 100%;
 }
 
-.asset-container p{
-    padding: 0px;
-    margin: 4px 0px;
-    font-family: var(--popn);
-    font-size: 12px;
-    text-transform: capitalize;
+.asset-container p {
+	padding: 0px;
+	margin: 4px 0px;
+	font-family: var(--popn);
+	font-size: 12px;
+	text-transform: capitalize;
 }
 
-.asset-actions-container{
-    /* background: red; */
-    width: 90%;
-    padding: 0px 0px 5px 0px;
+.asset-actions-container {
+	/* background: red; */
+	width: 90%;
+	padding: 0px 0px 5px 0px;
 }
-

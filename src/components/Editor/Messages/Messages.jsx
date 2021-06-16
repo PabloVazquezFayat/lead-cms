@@ -1,69 +1,65 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect } from "react";
 
-import { fetchMessagesData} from '../../../utils/fetchData'
-import { deleteMessage } from '../../../utils/deleteData'
+import { urls } from "../../../API/urls";
+import { useAPI } from "../../../API/services";
 
 export default function Message(props) {
+	const [resGet, getMessages] = useAPI("GET", urls.messages.read);
+	const [resDelete, deleteMessage] = useAPI("DELETE", urls.messages.delete);
 
-    const [messages, setMessages] = useState([]);
+	const {
+		loading,
+		data: { messages },
+		error,
+	} = resGet || {};
 
-    useEffect(()=> {
-        if(props.data && props.data.messages){
-            setMessages(props.data.messages)
-        }
-    }, [props.data]);
+	const handleDeleteMessage = (e) => {
+		deleteMessage(e.target.id);
+	};
 
-    const handleDeleteMessage = async(e)=> {
+	const MessageList = () => {
+		if (error) {
+			return <li>Something went wrong</li>;
+		}
 
-        const res = await deleteMessage(e.target.id)
+		if (loading) {
+			return <li>Loading...</li>;
+		}
 
-        if(res){
+		if (messages.length === 0) {
+			return <li>No messages found</li>;
+		}
 
-            const fetchedMessages = await fetchMessagesData();
+		return messages.map((message, i) => {
+			return (
+				<li key={i}>
+					<div className="message-contact-info">
+						<p>name: {message.name}</p>
+						<p>email: {message.email}</p>
+					</div>
+					<div className="message-body">
+						<p>subject: {message.subject}</p>
+						<p>{message.message}</p>
+					</div>
+					<div className="messages-actions">
+						<button id={message._id} className="delete-message btn-action btn-delete" onClick={handleDeleteMessage}>
+							delete
+						</button>
+					</div>
+				</li>
+			);
+		});
+	};
 
-            setMessages((prevSate)=> {
-                if(fetchedMessages){
-                    setMessages(fetchedMessages);
-                }
+	useEffect(() => {
+		getMessages();
+	}, [resDelete.data]);
 
-                return prevSate;
-            });
-        }
-    }
-
-    const createMessages = ()=> {
-
-        if(!messages || messages.length === 0){
-            return <li>No messages found...</li>
-        }
-
-        return messages.map((message, i)=> {
-            return <li key={i}>
-                        <div className="message-contact-info">
-                            <p>name: {message.name}</p>
-                            <p>email: {message.email}</p>
-                        </div>
-                        <div className="message-body">
-                            <p>subject: {message.subject}</p>
-                            <p>{message.message}</p>
-                        </div>
-                        <div className="messages-actions">
-                            <button 
-                                id={message._id} 
-                                className="delete-message btn-action btn-delete"
-                                onClick={handleDeleteMessage}
-                            >delete</button>
-                        </div>
-                    </li>
-        })
-
-    }
-    
-    return (
-        <div className="messages-container">
-            <ul>
-                {createMessages()}
-            </ul>
-        </div>
-    )
+	return (
+		<div className="messages-container">
+			<ul>
+				<MessageList />
+			</ul>
+		</div>
+	);
 }
