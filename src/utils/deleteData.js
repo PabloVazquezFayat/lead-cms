@@ -1,6 +1,5 @@
 import axios from "axios";
 import { urls } from "../API/urls";
-import ErrorHandler from "../components/Errors/Error";
 
 const deleteMessage = async (id) => {
 	const url = `http://localhost:3001${urls.messages.delete}/${id}`;
@@ -9,7 +8,7 @@ const deleteMessage = async (id) => {
 		const res = await axios.delete(url, { withCredentials: true });
 		return res.data;
 	} catch (error) {
-		ErrorHandler(error);
+		console.log(error);
 	}
 };
 
@@ -20,7 +19,7 @@ const deleteApplication = async (id) => {
 		const res = await axios.delete(url, { withCredentials: true });
 		return res.data;
 	} catch (error) {
-		ErrorHandler(error);
+		console.log(error);
 	}
 };
 

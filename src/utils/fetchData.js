@@ -1,11 +1,8 @@
 import axios from "axios";
 import { domain, urls, allReadUrls } from "../API/urls";
-import ErrorHandler from "../components/Errors/Error";
 
 const fetchAll = async () => {
-	const readUrls = allReadUrls().map((url) =>
-		axios.get(url, { withCredentials: true })
-	);
+	const readUrls = allReadUrls().map((url) => axios.get(url, { withCredentials: true }));
 
 	try {
 		const data = await axios.all(readUrls);
@@ -15,13 +12,12 @@ const fetchAll = async () => {
 		const dataObject = {};
 
 		for (let i = 0; i < mappedData.length; i++) {
-			dataObject[Object.keys(mappedData[i])[0]] =
-				mappedData[i][Object.keys(mappedData[i])[0]];
+			dataObject[Object.keys(mappedData[i])[0]] = mappedData[i][Object.keys(mappedData[i])[0]];
 		}
 
 		return dataObject;
 	} catch (error) {
-		ErrorHandler(error);
+		console.log(error);
 	}
 };
 
@@ -32,7 +28,7 @@ const fetchNavbarData = async () => {
 		const data = await axios.get(url, { withCredentials: true });
 		return data.data.navbar;
 	} catch (error) {
-		ErrorHandler(error);
+		console.log(error);
 	}
 };
 
@@ -43,7 +39,7 @@ const fetchCarouselData = async () => {
 		const data = await axios.get(url, { withCredentials: true });
 		return data.data.slides;
 	} catch (error) {
-		ErrorHandler(error);
+		console.log(error);
 	}
 };
 
@@ -54,7 +50,7 @@ const fetchMissionData = async () => {
 		const data = await axios.get(url, { withCredentials: true });
 		return data.data.mission;
 	} catch (error) {
-		ErrorHandler(error);
+		console.log(error);
 	}
 };
 
@@ -65,7 +61,7 @@ const fetchFeaturedProjectsPanelData = async () => {
 		const data = await axios.get(url, { withCredentials: true });
 		return data.data.projectsPanel;
 	} catch (error) {
-		ErrorHandler(error);
+		console.log(error);
 	}
 };
 
@@ -76,7 +72,7 @@ const fetchFeaturedProjectsData = async () => {
 		const data = await axios.get(url, { withCredentials: true });
 		return data.data.projects;
 	} catch (error) {
-		ErrorHandler(error);
+		console.log(error);
 	}
 };
 
@@ -87,7 +83,7 @@ const fetchRecentNewsData = async () => {
 		const data = await axios.get(url, { withCredentials: true });
 		return data.data.latestNews;
 	} catch (error) {
-		ErrorHandler(error);
+		console.log(error);
 	}
 };
 
@@ -98,7 +94,7 @@ const fetchRecentNewsArticlesData = async () => {
 		const data = await axios.get(url, { withCredentials: true });
 		return data.data.newsArticles;
 	} catch (error) {
-		ErrorHandler(error);
+		console.log(error);
 	}
 };
 
@@ -109,7 +105,7 @@ const fetchCareersData = async () => {
 		const data = await axios.get(url, { withCredentials: true });
 		return data.data.careers;
 	} catch (error) {
-		ErrorHandler(error);
+		console.log(error);
 	}
 };
 
@@ -120,7 +116,7 @@ const fetchFooterData = async () => {
 		const data = await axios.get(url, { withCredentials: true });
 		return data.data.footer;
 	} catch (error) {
-		ErrorHandler(error);
+		console.log(error);
 	}
 };
 
@@ -131,7 +127,7 @@ const fetchMessagesData = async () => {
 		const res = await axios.get(url, { withCredentials: true });
 		return res.data.messages;
 	} catch (error) {
-		ErrorHandler(error);
+		console.log(error);
 	}
 };
 
@@ -142,7 +138,7 @@ const fetchApplicationsData = async () => {
 		const res = await axios.get(url, { withCredentials: true });
 		return res.data.applications;
 	} catch (error) {
-		ErrorHandler(error);
+		console.log(error);
 	}
 };
 
@@ -153,7 +149,7 @@ const checkAuth = async () => {
 		const res = await axios.get(url, { withCredentials: true });
 		return res.data;
 	} catch (error) {
-		ErrorHandler(error);
+		console.log(error);
 	}
 };
 
@@ -166,7 +162,7 @@ const updateNavbarData = async (data) => {
 			return res.data.navbar;
 		}
 	} catch (error) {
-		ErrorHandler(error);
+		console.log(error);
 	}
 };
 
