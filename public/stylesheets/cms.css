@@ -1386,6 +1386,31 @@ html {
 	-webkit-box-shadow: 0px 2px 10px 0px #666;
 }
 
+.modal-action-buttons {
+	display: flex;
+	justify-content: flex-end;
+	width: 100%;
+	margin: 5px 0px;
+}
+
+.modal-action-buttons div {
+	background-color: red;
+	width: 16px;
+	height: 16px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin-right: 5px;
+	border-radius: 8px;
+}
+
+.modal-action-buttons div i {
+	color: #fff;
+	cursor: pointer;
+	margin: -0.4px 0px 0px 0px;
+	padding: 5px;
+}
+
 .modal-input-wrapper,
 .modal-input-wrapper > div {
 	width: 90%;
@@ -1393,7 +1418,7 @@ html {
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
-	align-items: flex-start;
+	align-items: center;
 }
 
 .modal-input-wrapper label {

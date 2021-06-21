@@ -4,8 +4,7 @@ import { useAPI } from "../../../API/services";
 
 export default function NavbarModal(props) {
 	const [res, updateData] = useAPI("PUT", urls.navbar.update);
-	const [navbarData, setNavbarData] = useState({});
-	const { _id, logo, tagline, phone, facebook, instagram, linkedin, twitter } = navbarData;
+	const { _id, logo, tagline, phone, facebook, instagram, linkedin, twitter } = props.data.data.navbar || {};
 
 	const [newData, setNewData] = useState({});
 	const [display, setDisplay] = useState("none");
@@ -40,11 +39,9 @@ export default function NavbarModal(props) {
 
 	useEffect(() => {
 		if (res.data.navbar) {
-			setNavbarData(res.data.navbar);
-		} else if (props.data.data.navbar) {
-			setNavbarData(props.data.data.navbar);
+			props.getData();
 		}
-	}, [props.data.data.navbar, res.data.navbar]);
+	}, [res.data.navbar]);
 
 	return (
 		<div className="modal-navbar">
@@ -52,6 +49,11 @@ export default function NavbarModal(props) {
 				Edit
 			</button>
 			<div className="modal-wrapper" style={style}>
+				<div className="modal-action-buttons">
+					<div>
+						<i class="fa fa-times fa-xs" data-role="close" aria-hidden="true" onClick={toggleModal}></i>
+					</div>
+				</div>
 				<div className="modal-input-wrapper">
 					{logo ? (
 						<div>
