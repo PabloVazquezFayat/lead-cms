@@ -7,7 +7,7 @@ import { useAPI } from "../../../API/services";
 export default function Carousel() {
 	const [slidesData, getSlidesData] = useAPI("GET", urls.carousel.read);
 
-	const { loading, data, error } = slidesData;
+	const { loading, data, error } = slidesData || {};
 	const [current, setCurrentSlide] = useState({});
 
 	const handleCarouselControlsClick = (e) => {
@@ -16,6 +16,10 @@ export default function Carousel() {
 	};
 
 	const CarouselControls = () => {
+		if (error) {
+			return;
+		}
+
 		if (loading) {
 			return <li className="cms-carousel-btn"></li>;
 		}

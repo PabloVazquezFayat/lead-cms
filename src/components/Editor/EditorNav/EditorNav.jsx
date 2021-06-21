@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { NavLink } from "react-router-dom";
 
-import { logout } from "../../../utils/login";
+import { logout } from "../../../API/login";
 import { useAPI } from "../../../API/services";
 import { urls } from "../../../API/urls";
 

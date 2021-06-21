@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import NavbarModal from "./NavbarModal";
 
 import { urls } from "../../../API/urls";
@@ -14,7 +14,7 @@ export default function Navbar() {
 
 	return (
 		<div className="navbar-container navbar-capture">
-			<NavbarModal data={data} />
+			<NavbarModal getData={getData} data={data} />
 			<div className="navbar-header">
 				<div className="navbar-header-content">
 					<p>{tagline}</p>

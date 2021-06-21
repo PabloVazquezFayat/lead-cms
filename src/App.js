@@ -17,19 +17,21 @@ import Careers from "./components/Editor/CareersPage/Careers";
 import Contact from "./components/Editor/ContactPage/Contact";
 import Messages from "./components/Editor/Messages/Messages";
 import Applications from "./components/Editor/Applications/Applications";
-import { checkAuth } from "./utils/fetchData";
+
+import { urls } from "./API/urls";
+import { useAPI } from "./API/services";
 
 function App() {
 	const [auth, setAuth] = useState(false);
-
-	const authenticate = async () => {
-		const { auth } = (await checkAuth()) || false;
-		setAuth(auth);
-	};
+	const [res, getAuth] = useAPI("GET", urls.users.auth);
+	const { data } = res || {};
 
 	useEffect(() => {
-		authenticate();
-	}, []);
+		getAuth();
+		if (data.auth) {
+			setAuth(data.auth);
+		}
+	}, [data.auth]);
 
 	return (
 		<div className="App">
@@ -60,10 +62,8 @@ function App() {
 						</Route>
 
 						<Route exact path="/editor/project">
-							<Auth auth={auth}>
-								<EditorNav setAuth={setAuth} />
-								<Project />
-							</Auth>
+							<EditorNav setAuth={setAuth} />
+							<Project />
 						</Route>
 
 						<Route exact path="/editor/news">

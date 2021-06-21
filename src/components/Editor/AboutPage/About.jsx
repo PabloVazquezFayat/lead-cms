@@ -13,8 +13,6 @@ import Recognitions from "../Recognitions/Recognitions";
 import StaticBanner from "../StaticBanner/StaticBanner";
 
 export default function AboutPage(props) {
-	// console.log(props.data);
-
 	const {
 		navbar,
 		staticBanner,

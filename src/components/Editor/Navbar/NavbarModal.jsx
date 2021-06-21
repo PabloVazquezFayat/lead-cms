@@ -1,14 +1,14 @@
-import React, { useState } from "react";
-
-import { updateNavbarData } from "../../../utils/fetchData";
+import React, { useEffect, useState } from "react";
+import { urls } from "../../../API/urls";
+import { useAPI } from "../../../API/services";
 
 export default function NavbarModal(props) {
-	//const setData = props.setData;
+	const [res, updateData] = useAPI("PUT", urls.navbar.update);
+	const [navbarData, setNavbarData] = useState({});
+	const { _id, logo, tagline, phone, facebook, instagram, linkedin, twitter } = navbarData;
 
 	const [newData, setNewData] = useState({});
 	const [display, setDisplay] = useState("none");
-
-	const { _id, logo, tagline, phone, facebook, instagram, linkedin, twitter } = props.data || {};
 
 	const handleInput = (e) => {
 		const { name, value } = e.target;
@@ -31,17 +31,20 @@ export default function NavbarModal(props) {
 	};
 
 	const handleSaveClick = async () => {
-		const res = await updateNavbarData({ ...newData, id: _id });
-
-		if (res) {
-			console.log(res);
-			//setData(res);
-		}
+		updateData({ data: { ...newData, id: _id } });
 	};
 
 	const style = {
 		display: display,
 	};
+
+	useEffect(() => {
+		if (res.data.navbar) {
+			setNavbarData(res.data.navbar);
+		} else if (props.data.data.navbar) {
+			setNavbarData(props.data.data.navbar);
+		}
+	}, [props.data.data.navbar, res.data.navbar]);
 
 	return (
 		<div className="modal-navbar">

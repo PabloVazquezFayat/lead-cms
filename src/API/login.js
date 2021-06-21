@@ -1,5 +1,5 @@
-import { urls } from "../API/urls";
-import { getService, postService } from "../API/services";
+import { urls } from "./urls";
+import { getService, postService } from "./services";
 
 const login = async (data) => {
 	const { user } = await postService(urls.users.login, data);

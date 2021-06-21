@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-import { login } from "../../utils/login";
+import { login } from "../../API/login";
 
 export default function Login(props) {
 	const [creds, setCreds] = useState({});
