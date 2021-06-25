@@ -51,7 +51,7 @@ export default function NavbarModal(props) {
 			<div className="modal-wrapper" style={style}>
 				<div className="modal-action-buttons">
 					<div>
-						<i class="fa fa-times fa-xs" data-role="close" aria-hidden="true" onClick={toggleModal}></i>
+						<i className="fa fa-times fa-xs" data-role="close" aria-hidden="true" onClick={toggleModal}></i>
 					</div>
 				</div>
 				<div className="modal-input-wrapper">

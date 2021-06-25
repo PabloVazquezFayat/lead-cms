@@ -1,5 +1,7 @@
 import React, { useEffect } from "react";
 
+import FooterModal from "./FooterModal";
+
 import { urls } from "../../../API/urls";
 import { useAPI } from "../../../API/services";
 
@@ -42,6 +44,10 @@ export default function Footer() {
 
 		return (
 			<div className="footer-container" style={componentStyle}>
+				<div className="model-editor-container">
+					<FooterModal getData={getData} data={data.footer} dataKey="footer" />
+				</div>
+
 				<div className="footer-overlay" style={footerOverlayStyle}>
 					<div className="footer-social">
 						<div className="footer-social-wrapper">

@@ -3,7 +3,7 @@ import React, { useEffect } from "react";
 import { urls } from "../../../API/urls";
 import { useAPI } from "../../../API/services";
 
-export default function Certifications(props) {
+export default function Certifications() {
 	const [res, getData] = useAPI("GET", urls.certifications.read);
 	const {
 		loading,
