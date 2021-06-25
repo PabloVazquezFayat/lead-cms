@@ -1,13 +1,12 @@
 import React, { useEffect } from "react";
 
-import FooterModal from "./FooterModal";
+import Modal from "../Modal/Modal";
 
 import { urls } from "../../../API/urls";
 import { useAPI } from "../../../API/services";
 
 export default function Footer() {
-	const [res, getData] = useAPI("GET", urls.footer.read);
-	const { loading, data, error } = res || {};
+	const [data, getData] = useAPI("GET", urls.footer.read);
 
 	const {
 		address,
@@ -28,26 +27,19 @@ export default function Footer() {
 		state,
 		twitter,
 		zipcode,
-	} = data.footer || {};
+	} = data.data.footer || {};
 
-	const FooterPanel = () => {
-		if (error) {
-			return <div>Something went wrong</div>;
-		}
+	const componentStyle = { backgroundImage: `url(${backgroundImage})` };
+	const footerOverlayStyle = { background: overlayColor };
 
-		if (loading) {
-			return <div>Loading</div>;
-		}
+	useEffect(() => {
+		getData();
+	}, []);
 
-		const componentStyle = { backgroundImage: `url(${backgroundImage})` };
-		const footerOverlayStyle = { background: overlayColor };
-
-		return (
+	return (
+		<>
+			<Modal getData={getData} data={data.data.footer} dataKey="footer" />
 			<div className="footer-container" style={componentStyle}>
-				<div className="model-editor-container">
-					<FooterModal getData={getData} data={data.footer} dataKey="footer" />
-				</div>
-
 				<div className="footer-overlay" style={footerOverlayStyle}>
 					<div className="footer-social">
 						<div className="footer-social-wrapper">
@@ -159,12 +151,6 @@ export default function Footer() {
 					</div>
 				</div>
 			</div>
-		);
-	};
-
-	useEffect(() => {
-		getData();
-	}, []);
-
-	return <FooterPanel />;
+		</>
+	);
 }
