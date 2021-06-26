@@ -10,11 +10,14 @@ export default function Modal(props) {
 	const [res, updateData] = useAPI("PUT", urls[dataKey].update);
 	const [display, setDisplay] = useState("none");
 
-	let newData = {};
+	const [newData, setNewData] = useState({});
 
 	const handleInput = (e) => {
 		const { name, value } = e.target;
-		newData = { ...newData, [name]: value };
+
+		setNewData((prevState) => {
+			return { ...prevState, [name]: value };
+		});
 	};
 
 	const toggleModal = (e) => {
@@ -55,16 +58,18 @@ export default function Modal(props) {
 					{!data ? (
 						<li>Loading...</li>
 					) : (
-						Object.keys(data)
-							.filter((key) => key !== "_id" && key !== "__v" && key !== "name")
-							.map((key, i) => {
-								return (
-									<li key={i}>
-										<label>{`${key} : ${data[key]}`}</label>
-										<input className="modal-input" type="text" name={key} onChange={handleInput} />
-									</li>
-								);
-							})
+						React.Children.toArray(
+							Object.keys(data)
+								.filter((key) => key !== "_id" && key !== "__v" && key !== "name")
+								.map((key) => {
+									return (
+										<li>
+											<label>{`${key} : ${data[key]}`}</label>
+											<input className="modal-input" type="text" name={key} onChange={handleInput} />
+										</li>
+									);
+								})
+						)
 					)}
 				</ul>
 			</div>
