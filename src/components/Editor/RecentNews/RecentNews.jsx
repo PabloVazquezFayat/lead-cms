@@ -1,5 +1,7 @@
 import React, { useEffect } from "react";
 
+import Modal from "../Modal/Modal";
+
 import { urls } from "../../../API/urls";
 import { useAPI } from "../../../API/services";
 
@@ -7,11 +9,9 @@ export default function RecentNews() {
 	const [resNewsPanel, getNewsPanelData] = useAPI("GET", urls.latestNews.read);
 	const [resArticles, getArticleData] = useAPI("GET", urls.newsArticle.read);
 
-	const {
-		loading: panelLoading,
-		data: { recentNews },
-		error: panelError,
-	} = resNewsPanel;
+	const { header } = resNewsPanel.data.latestNews || {};
+	const { latestNews } = resNewsPanel.data || {};
+
 	const {
 		loading: articleLoading,
 		data: { newsArticles },
@@ -21,27 +21,6 @@ export default function RecentNews() {
 	const formatDate = (date) => {
 		const dateStrings = new Date(date).toString().split(" ");
 		return `${dateStrings[0]} ${dateStrings[2]} ${dateStrings[3]}`;
-	};
-
-	const LatestNewsPanel = (props) => {
-		if (panelError) {
-			return <div>Something went wrong</div>;
-		}
-
-		if (panelLoading) {
-			return <div>Loading...</div>;
-		}
-
-		return (
-			<div className="latest-news-container capture">
-				<div className="latest-news-wrapper">
-					<h2>{recentNews && recentNews.header ? recentNews.header : "Header Goes Here"}</h2>
-					<div className="latest-news-panel-projects-container">
-						<ul>{props.children}</ul>
-					</div>
-				</div>
-			</div>
-		);
 	};
 
 	const NewsArticles = () => {
@@ -55,35 +34,37 @@ export default function RecentNews() {
 
 		const recentNewsArticles = newsArticles.filter((article) => article.featured === true);
 
-		return recentNewsArticles.map((news, i) => {
-			return (
-				<li key={i}>
-					<div>
+		return React.Children.toArray(
+			recentNewsArticles.map((news) => {
+				return (
+					<li>
 						<div>
-							{news.image ? (
-								<div className="news-image-container">
-									<img src={news.image} alt="" />
+							<div>
+								{news.image ? (
+									<div className="news-image-container">
+										<img src={news.image} alt="" />
+									</div>
+								) : null}
+								{news.video ? (
+									<video className="news-video-image-container">
+										<source src={`${news.video}#t=2`} type="video/mp4" />
+										Your browser does not support this video.
+									</video>
+								) : null}
+								<div className="news-date-container">
+									<i className="far fa-calendar-alt mutate"></i>
+									<p className="mutate">{formatDate(news.date)}</p>
 								</div>
-							) : null}
-							{news.video ? (
-								<video className="news-video-image-container">
-									<source src={`${news.video}#t=2`} type="video/mp4" />
-									Your browser does not support this video.
-								</video>
-							) : null}
-							<div className="news-date-container">
-								<i className="far fa-calendar-alt mutate"></i>
-								<p className="mutate">{formatDate(news.date)}</p>
+							</div>
+							<div>
+								<h4>{news.title || "Title"}</h4>
+								<p>{news.paragraph || "Paragraph"}</p>
 							</div>
 						</div>
-						<div>
-							<h4>{news.title || "Title"}</h4>
-							<p>{news.paragraph || "Paragraph"}</p>
-						</div>
-					</div>
-				</li>
-			);
-		});
+					</li>
+				);
+			})
+		);
 	};
 
 	useEffect(() => {
@@ -92,8 +73,18 @@ export default function RecentNews() {
 	}, []);
 
 	return (
-		<LatestNewsPanel>
-			<NewsArticles />
-		</LatestNewsPanel>
+		<div className="component">
+			<Modal getData={getNewsPanelData} data={latestNews} dataKey="latestNews" />
+			<div className="latest-news-container">
+				<div className="latest-news-wrapper">
+					<h2>{header || "Header Goes Here"}</h2>
+					<div className="latest-news-panel-projects-container">
+						<ul>
+							<NewsArticles />
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
 	);
 }

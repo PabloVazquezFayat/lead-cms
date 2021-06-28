@@ -1,5 +1,7 @@
 import React, { useEffect } from "react";
 
+import Modal from "../Modal/Modal";
+
 import { urls } from "../../../API/urls";
 import { useAPI } from "../../../API/services";
 
@@ -8,9 +10,7 @@ export default function FeaturedProjects() {
 	const [resProjects, getProjectsData] = useAPI("GET", urls.projects.read);
 
 	const {
-		loading: panelLoading,
 		data: { projectsPanel },
-		error: panelError,
 	} = resProjectsPanel;
 
 	const {
@@ -18,31 +18,6 @@ export default function FeaturedProjects() {
 		data: { projects },
 		error: projectsError,
 	} = resProjects;
-
-	const FeaturedProjectsPanel = (props) => {
-		if (panelError) {
-			return <div>Something went wrong</div>;
-		}
-
-		if (panelLoading) {
-			return <div>Loading...</div>;
-		}
-
-		const componentStyle = {
-			background: projectsPanel && projectsPanel.background ? projectsPanel.background : "#fff",
-		};
-
-		return (
-			<div className="latest-projects-panel-container" style={componentStyle}>
-				<div className="latest-projects-panel-wrapper">
-					<h2>{projectsPanel && projectsPanel.header ? projectsPanel.header : "Header Here"}</h2>
-					<div className="projects-container">
-						<ul>{props.children}</ul>
-					</div>
-				</div>
-			</div>
-		);
-	};
 
 	const FeaturedProjects = () => {
 		if (projectsError) {
@@ -69,14 +44,28 @@ export default function FeaturedProjects() {
 		});
 	};
 
+	const componentStyle = {
+		background: projectsPanel && projectsPanel.background ? projectsPanel.background : "#fff",
+	};
+
 	useEffect(() => {
 		getProjectsPanelData();
 		getProjectsData();
 	}, []);
 
 	return (
-		<FeaturedProjectsPanel>
-			<FeaturedProjects />
-		</FeaturedProjectsPanel>
+		<div className="component">
+			<Modal getData={getProjectsPanelData} data={projectsPanel} dataKey="projectsPanel" />
+			<div className="latest-projects-panel-container" style={componentStyle}>
+				<div className="latest-projects-panel-wrapper">
+					<h2>{projectsPanel && projectsPanel.header ? projectsPanel.header : "Header Here"}</h2>
+					<div className="projects-container">
+						<ul>
+							<FeaturedProjects />
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
 	);
 }

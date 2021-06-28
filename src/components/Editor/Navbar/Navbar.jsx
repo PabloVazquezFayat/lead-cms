@@ -13,7 +13,7 @@ export default function Navbar() {
 	}, []);
 
 	return (
-		<>
+		<div className="component">
 			<Modal getData={getData} data={data.data.navbar} dataKey="navbar" />
 			<div className="navbar-container navbar-capture">
 				<div className="navbar-header">
@@ -73,6 +73,6 @@ export default function Navbar() {
 					</div>
 				</div>
 			</div>
-		</>
+		</div>
 	);
 }

@@ -37,7 +37,7 @@ export default function Footer() {
 	}, []);
 
 	return (
-		<>
+		<div className="component">
 			<Modal getData={getData} data={data.data.footer} dataKey="footer" />
 			<div className="footer-container" style={componentStyle}>
 				<div className="footer-overlay" style={footerOverlayStyle}>
@@ -151,6 +151,6 @@ export default function Footer() {
 					</div>
 				</div>
 			</div>
-		</>
+		</div>
 	);
 }

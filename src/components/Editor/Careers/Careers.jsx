@@ -1,25 +1,23 @@
 import React, { useEffect } from "react";
 
+import Modal from "../Modal/Modal";
+
 import { urls } from "../../../API/urls";
 import { useAPI } from "../../../API/services";
 
 export default function Careers() {
 	const [res, getData] = useAPI("GET", urls.careers.read);
-	const { loading, data, error } = res || {};
-	const { backgroundColor, button, header, logo, paragraph } = data.careers || {};
+	const { backgroundColor, button, header, logo, paragraph } = res.data.careers || {};
 
-	const CareersPanel = () => {
-		if (error) {
-			return <div>Something went wrong</div>;
-		}
+	const componentStyle = { background: backgroundColor };
 
-		if (loading) {
-			return <div>Loading...</div>;
-		}
+	useEffect(() => {
+		getData();
+	}, []);
 
-		const componentStyle = { background: backgroundColor };
-
-		return (
+	return (
+		<div className="component">
+			<Modal getData={getData} data={res.data.careers} dataKey="careers" />
 			<div className="careers-container capture" style={componentStyle}>
 				<div className="careers-wrapper">
 					<div className="careers-content">
@@ -32,12 +30,6 @@ export default function Careers() {
 					</div>
 				</div>
 			</div>
-		);
-	};
-
-	useEffect(() => {
-		getData();
-	}, []);
-
-	return <CareersPanel />;
+		</div>
+	);
 }

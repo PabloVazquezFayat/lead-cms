@@ -1,33 +1,27 @@
 import React, { useEffect } from "react";
 
+import Modal from "../Modal/Modal";
+
 import { urls } from "../../../API/urls";
 import { useAPI } from "../../../API/services";
 
 export default function Contact() {
 	const [res, getData] = useAPI("GET", urls.contact.read);
-	const {
-		loading,
-		data: { contact },
-		error,
-	} = res;
-
+	const contact = res.data.contact || {};
 	const { address, background, header, paragraph, city, state, zipcode, phone, fax, email, days, hours } =
 		contact || {};
 
-	const CreateContact = () => {
-		if (error) {
-			return <div>Something went wrong</div>;
-		}
+	const style = {
+		background: background,
+	};
 
-		if (loading) {
-			return <div>Loading...</div>;
-		}
+	useEffect(() => {
+		getData();
+	}, []);
 
-		const style = {
-			background: background,
-		};
-
-		return (
+	return (
+		<div className="component">
+			<Modal getData={getData} data={contact} dataKey="contact" />
 			<div className="contact-container" style={style}>
 				<div className="contact-wrapper">
 					<div className="contact-info">
@@ -58,7 +52,7 @@ export default function Contact() {
 							</li>
 							<li>
 								<i className="fas fa-hourglass-start"></i>
-								<p className="footer-contact-text">${hours}</p>
+								<p className="footer-contact-text">{hours}</p>
 							</li>
 						</ul>
 					</div>
@@ -74,12 +68,6 @@ export default function Contact() {
 					</div>
 				</div>
 			</div>
-		);
-	};
-
-	useEffect(() => {
-		getData();
-	}, []);
-
-	return <CreateContact />;
+		</div>
+	);
 }

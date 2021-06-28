@@ -51,8 +51,13 @@ export default function Modal(props) {
 			<i className="far fa-edit modal-button" data-role="open" onClick={toggleModal}></i>
 			<div className="modal-wrapper" style={style}>
 				<div className="modal-action-buttons">
-					<i className="far fa-save " onClick={handleSaveClick}></i>
-					<i className="fas fa-times-circle " data-role="close" aria-hidden="true" onClick={toggleModal}></i>
+					<div>
+						<h3>{data ? data["name"] : ""}</h3>
+					</div>
+					<div>
+						<i className="far fa-save " onClick={handleSaveClick}></i>
+						<i className="fas fa-times-circle " data-role="close" aria-hidden="true" onClick={toggleModal}></i>
+					</div>
 				</div>
 				<ul className="modal-input-wrapper">
 					{!data ? (
@@ -64,7 +69,7 @@ export default function Modal(props) {
 								.map((key) => {
 									return (
 										<li>
-											<label>{`${key} : ${data[key]}`}</label>
+											<label>{`${key || ""} : ${data[key] || ""}`}</label>
 											<input className="modal-input" type="text" name={key} onChange={handleInput} />
 										</li>
 									);
