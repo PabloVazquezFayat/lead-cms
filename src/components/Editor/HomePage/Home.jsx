@@ -11,13 +11,13 @@ import Footer from "../Footer/Footer";
 export default function Home() {
 	return (
 		<div className="home-page-container">
-			<Navbar />
+			{/* <Navbar /> */}
 			<Carousel />
-			<Mission />
-			<FeaturedProjects />
-			<RecentNews />
-			<Careers />
-			<Footer />
+			{/* <Mission /> */}
+			{/* <FeaturedProjects /> */}
+			{/* <RecentNews /> */}
+			{/* <Careers /> */}
+			{/* <Footer /> */}
 		</div>
 	);
 }

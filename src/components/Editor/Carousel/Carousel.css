@@ -45,7 +45,7 @@
 	position: absolute;
 	top: 0;
 	bottom: 0;
-	z-index: 998;
+	z-index: 4;
 	opacity: 0.3;
 }
 
@@ -57,7 +57,7 @@
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
-	z-index: 999;
+	z-index: 5;
 	position: absolute;
 }
 
@@ -101,7 +101,7 @@
 	display: flex;
 	justify-content: center;
 	list-style: none;
-	z-index: 999;
+	z-index: 5;
 	padding: 0px;
 }
 

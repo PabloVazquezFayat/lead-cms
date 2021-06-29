@@ -14,7 +14,7 @@ const urls = {
 		read: "/cms/careers",
 		update: "/cms/careers",
 	},
-	carousel: {
+	slides: {
 		create: "/cms/carousel",
 		read: "/cms/carousel",
 		update: "/cms/carousel",

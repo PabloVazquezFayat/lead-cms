@@ -1,11 +1,13 @@
 import "./Carousel.css";
 import React, { useState, useEffect } from "react";
 
+import ModalCarousel from "../Modal/ModalCarousel";
+
 import { urls } from "../../../API/urls";
 import { useAPI } from "../../../API/services";
 
 export default function Carousel() {
-	const [slidesData, getSlidesData] = useAPI("GET", urls.carousel.read);
+	const [slidesData, getSlidesData] = useAPI("GET", urls.slides.read);
 
 	const { loading, data, error } = slidesData || {};
 	const [current, setCurrentSlide] = useState({});
@@ -64,13 +66,16 @@ export default function Carousel() {
 	}, [loading, data.slides]);
 
 	return (
-		<div className="cms-carousel">
-			<ul className="cms-carousel-body">
-				<CarouselSlides />
-			</ul>
-			<ol className="cms-carousel-btns">
-				<CarouselControls />
-			</ol>
+		<div>
+			<ModalCarousel getData={getSlidesData} data={data.slides} dataKey="slides" />
+			<div className="cms-carousel">
+				<ul className="cms-carousel-body">
+					<CarouselSlides />
+				</ul>
+				<ol className="cms-carousel-btns">
+					<CarouselControls />
+				</ol>
+			</div>
 		</div>
 	);
 }

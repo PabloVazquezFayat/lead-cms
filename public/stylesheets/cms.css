@@ -671,7 +671,7 @@ html {
 .modal-action-buttons {
 	width: 100%;
 	padding: 0px;
-	margin: 12px 0px;
+	margin: 0px;
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
@@ -719,4 +719,82 @@ html {
 	padding: 5px;
 	font-size: 12px;
 	margin: 5px 0px;
+}
+
+/****************************************************
+   MODAL CAROUSEL SECTION
+*****************************************************/
+.modal-carousel-container {
+	/* background: purple; */
+	width: 100%;
+	margin: 0px 0px -44px 0px;
+	z-index: 999;
+	position: absolute;
+}
+
+.modal-carousel-wrapper {
+	background-color: #ffffff;
+	width: 70%;
+	display: none;
+	position: absolute;
+	flex-direction: column;
+	justify-content: flex-start;
+	align-items: center;
+	margin: 0px 25px;
+	padding: 0px 0px 30px 0px;
+	border-radius: 4px;
+	box-shadow: 0px 2px 10px 0px #666;
+	-webkit-box-shadow: 0px 2px 10px 0px #666;
+	z-index: 999;
+}
+
+.modal-carousel-slides-container {
+	/* background: green; */
+	width: 100%;
+	display: flex;
+	justify-content: center;
+}
+
+.slides-list {
+	/* background: red; */
+	width: 90%;
+	margin: 0px;
+	padding: 0px;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: flex-start;
+	list-style: none;
+}
+
+.modal-slide {
+	background: rgb(238, 238, 238);
+	width: 100%;
+	height: auto;
+	margin: 2px;
+	padding: 3px 5px;
+	border-radius: 4px;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.modal-slide-image {
+	width: 75px;
+	height: auto;
+}
+
+.slide-details {
+	width: auto;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.slide-details * {
+	padding: 0px 10px 0px 0px;
+}
+
+.slide-actions i {
+	cursor: pointer;
+	color: #1f75fe;
 }
