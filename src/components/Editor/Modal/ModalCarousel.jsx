@@ -11,6 +11,7 @@ export default function Modal(props) {
 	const [display, setDisplay] = useState("none");
 
 	const [newData, setNewData] = useState({});
+	const [activeSlide, setActiveSlide] = useState({});
 
 	const handleInput = (e) => {
 		const { name, value } = e.target;
@@ -36,8 +37,9 @@ export default function Modal(props) {
 		updateData({ data: { ...newData, id: _id } });
 	};
 
-	const handleEditClick = () => {
-		console.log("edit");
+	const handleEditClick = (e) => {
+		const selectedSlide = data.find((slide) => slide._id === e.target.id);
+		setActiveSlide(selectedSlide);
 	};
 
 	const style = {
@@ -78,7 +80,8 @@ export default function Modal(props) {
 													<h3>{slide.header}</h3>
 												</div>
 												<div className="slide-actions">
-													<i className="fas fa-edit" onClick={handleEditClick}></i>
+													<i className="fas fa-arrows-alt-v"></i>
+													<i className="fas fa-edit" id={slide._id} onClick={handleEditClick}></i>
 												</div>
 											</li>
 										);
@@ -87,25 +90,25 @@ export default function Modal(props) {
 							: null}
 					</ol>
 				</div>
+				{Object.keys(activeSlide).length > 0 ? (
+					<div className="modal-slide-preview">
+						<div className="modal-slide-preview-title">
+							<h3>Slide Editor</h3>
+						</div>
+						<div className="modal-slide-preview-container">
+							<div className="slide-preview">
+								<div className="slide-preview-overlay" style={{ backgroundColor: activeSlide.overlayColor }}></div>
+								<img src={activeSlide.backgroundImage} alt="slide" />
+								<div className="slide-preview-content">
+									<h3>{activeSlide.header}</h3>
+									<p>{activeSlide.paragraph}</p>
+									<label>{activeSlide.cta}</label>
+								</div>
+							</div>
+						</div>
+					</div>
+				) : null}
 			</div>
 		</div>
 	);
-}
-
-{
-	/* <li className="modal-slide">
-	<div className="modal-slide-actions">
-		<p>Slide: {i + 1}</p>
-		<div>
-			<i className="fas fa-edit"></i>
-		</div>
-	</div>
-	<img className="modal-slide-image" src={slide.backgroundImage} alt="slide" />
-	<div className="modal-slide-background" style={{ backgroundColor: slide.overlayColor }}></div>
-	<div className="modal-slide-btns">
-		<h5>{slide.header}</h5>
-		<p>{slide.paragraph}</p>
-		<label>{slide.cta}</label>
-	</div>
-</li> */
 }

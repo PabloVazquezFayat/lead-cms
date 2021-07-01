@@ -795,6 +795,53 @@ html {
 }
 
 .slide-actions i {
+	margin: 0px 5px;
 	cursor: pointer;
 	color: #1f75fe;
+}
+
+.modal-slide-preview {
+	/* background: red; */
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+}
+
+.modal-slide-preview-title {
+	/* background: blue; */
+	width: 100%;
+}
+
+.modal-slide-preview-title > h3 {
+	font-size: 1.5rem;
+	margin: 20px 0px 20px 50px;
+}
+
+.modal-slide-preview-container {
+	width: 90%;
+	display: flex;
+}
+
+.slide-preview {
+	/* background: pink; */
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+}
+
+.slide-preview img {
+	width: 100%;
+}
+
+.slide-preview-overlay {
+	/* background: coral; */
+	width: 100%;
+}
+
+.slide-preview-content {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
 }
