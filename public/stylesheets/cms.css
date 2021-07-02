@@ -397,18 +397,6 @@ html {
 /****************************************************
    NEWS ARTICLES SECTION
 ****************************************************/
-.create-new-slide {
-	width: 100%;
-	height: auto;
-	padding: 50px 100px;
-	position: absolute;
-	top: 300px;
-	z-index: 9990;
-}
-
-/****************************************************
-   NEWS ARTICLES SECTION
-****************************************************/
 .news-article-crud-buttons {
 	width: 100%;
 	height: auto;
@@ -750,14 +738,32 @@ html {
 
 .modal-carousel-slides-container {
 	/* background: green; */
+	width: 90%;
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-start;
+	align-items: flex-start;
+}
+
+.create-new-slide {
+	/* background: red; */
 	width: 100%;
 	display: flex;
-	justify-content: center;
+	justify-content: flex-end;
+	align-items: center;
+	padding: 10px 0px;
+}
+
+.create-new-slide i {
+	padding: 0px 10px;
+	color: #1f75fe;
+	font-size: 16px;
+	cursor: pointer;
 }
 
 .slides-list {
 	/* background: red; */
-	width: 90%;
+	width: 100%;
 	margin: 0px;
 	padding: 0px;
 	display: flex;
@@ -825,19 +831,28 @@ html {
 }
 
 .slide-preview {
-	/* background: pink; */
+	background: pink;
 	width: 100%;
 	display: flex;
 	flex-direction: column;
 }
 
+.slide-image-container {
+	background: chartreuse;
+	width: 100%;
+	min-height: 150px;
+}
+
 .slide-preview img {
 	width: 100%;
+	/* position: absolute; */
 }
 
 .slide-preview-overlay {
 	/* background: coral; */
 	width: 100%;
+	height: 150px;
+	/* position: absolute; */
 }
 
 .slide-preview-content {

@@ -13,8 +13,8 @@ export default function Home() {
 		<div className="home-page-container">
 			{/* <Navbar /> */}
 			<Carousel />
-			{/* <Mission /> */}
-			{/* <FeaturedProjects /> */}
+			<Mission />
+			<FeaturedProjects />
 			{/* <RecentNews /> */}
 			{/* <Careers /> */}
 			{/* <Footer /> */}
