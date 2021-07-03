@@ -667,7 +667,7 @@ html {
 }
 
 .modal-action-buttons > div:first-child {
-	margin-left: 50px;
+	margin-left: 30px;
 }
 
 .modal-action-button h3 {
@@ -822,7 +822,7 @@ html {
 
 .modal-slide-preview-title > h3 {
 	font-size: 1.5rem;
-	margin: 20px 0px 20px 50px;
+	margin: 10px 0px 10px 30px;
 }
 
 .modal-slide-preview-container {
@@ -831,32 +831,43 @@ html {
 }
 
 .slide-preview {
-	background: pink;
 	width: 100%;
 	display: flex;
 	flex-direction: column;
 }
 
 .slide-image-container {
-	background: chartreuse;
 	width: 100%;
-	min-height: 150px;
+}
+
+.slide-image-container i {
+	position: absolute;
+	font-size: 50px;
+	color: #1f75fe;
+	top: 47%;
+	left: 45%;
+	cursor: pointer;
+	border: solid 4px #1f75fe;
+	border-radius: 4px;
+	padding: 10px;
 }
 
 .slide-preview img {
 	width: 100%;
-	/* position: absolute; */
-}
-
-.slide-preview-overlay {
-	/* background: coral; */
-	width: 100%;
-	height: 150px;
-	/* position: absolute; */
 }
 
 .slide-preview-content {
 	display: flex;
 	flex-direction: column;
 	align-items: flex-start;
+}
+
+.slide-preview-content * {
+	width: 97.4%;
+	resize: none;
+	margin: 5px 0px;
+}
+
+.modal-color-input {
+	width: 100px !important;
 }

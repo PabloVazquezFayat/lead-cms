@@ -1,6 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
-
-import { DragDropContext } from "react-beautiful-dnd";
+import React, { useEffect, useState } from "react";
 
 import { urls } from "../../../API/urls";
 import { useAPI } from "../../../API/services";
@@ -14,8 +12,6 @@ export default function Modal(props) {
 
 	const [newData, setNewData] = useState({});
 	const [activeSlide, setActiveSlide] = useState({});
-
-	const slideImageRef = useRef();
 
 	const handleInput = (e) => {
 		const { name, value } = e.target;
@@ -52,16 +48,10 @@ export default function Modal(props) {
 
 	const overlayStyle = {
 		backgroundColor: activeSlide.overlayColor,
-		width: slideImageRef.current ? `${slideImageRef.current.width}px` : null,
-		height: slideImageRef.current ? `${slideImageRef.current.height}px` : null,
 		opacity: "0.3",
 	};
 
-	useEffect(() => {
-		if (res.data[dataKey]) {
-			props.getData();
-		}
-	}, [res.data[dataKey]]);
+	console.log(activeSlide);
 
 	return (
 		<div className="modal-carousel-container">
@@ -99,7 +89,7 @@ export default function Modal(props) {
 							: null}
 					</ol>
 					<div className="create-new-slide">
-						<i class="fas fa-plus"></i>
+						<i className="fas fa-plus"></i>
 					</div>
 				</div>
 				{Object.keys(activeSlide).length > 0 ? (
@@ -110,17 +100,20 @@ export default function Modal(props) {
 						<div className="modal-slide-preview-container">
 							<div className="slide-preview">
 								<div className="slide-image-container">
-									<img ref={slideImageRef} src={activeSlide.backgroundImage} alt="slide" />
-									<div className="slide-preview-overlay" style={overlayStyle}></div>
-									{/* <i class="far fa-images"></i> */}
+									<img src={activeSlide.backgroundImage} alt="slide" />
+									<i class="far fa-images"></i>
 								</div>
 								<div className="slide-preview-content">
-									<h3>{activeSlide.header}</h3>
-									<input type="text" />
-									<p>{activeSlide.paragraph}</p>
-									<input type="text" />
-									<label>{activeSlide.cta}</label>
-									<input type="text" />
+									<label>overlay-color : {activeSlide.overlayColor}</label>
+									<input className="modal-color-input" type="color" defaultValue={activeSlide.overlayColor} />
+									<label>header : {activeSlide.header}</label>
+									<input className="modal-input" type="text" />
+									<label>paragraph : {activeSlide.paragraph}</label>
+									<textarea className="modal-input" maxLength="300"></textarea>
+									<label>button : {activeSlide.cta}</label>
+									<input className="modal-input" type="text" />
+									<label>button-link : {activeSlide.link}</label>
+									<input className="modal-input" type="text" />
 								</div>
 							</div>
 						</div>
