@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 
+import AssetPage from "../../AssetsManager/AssetPage/AssetPage";
+
 import { urls } from "../../../API/urls";
 import { useAPI } from "../../../API/services";
 
@@ -12,6 +14,8 @@ export default function Modal(props) {
 
 	const [newData, setNewData] = useState({});
 	const [activeSlide, setActiveSlide] = useState({});
+	const [assetManagerToggle, setAssetManagerToggle] = useState(false);
+	const [selectedImage, setSelectedImage] = useState("");
 
 	const handleInput = (e) => {
 		const { name, value } = e.target;
@@ -34,12 +38,26 @@ export default function Modal(props) {
 	};
 
 	const handleSaveClick = async () => {
-		updateData({ data: { ...newData, id: _id } });
+		console.log(newData);
+		//updateData({ data: { ...newData, id: _id } });
 	};
 
 	const handleEditClick = (e) => {
 		const selectedSlide = data.find((slide) => slide._id === e.target.id);
 		setActiveSlide(selectedSlide);
+		setAssetManagerToggle(false);
+		setSelectedImage("");
+	};
+
+	const handleImageSelectClick = () => {
+		if (assetManagerToggle) {
+			setAssetManagerToggle(false);
+			return;
+		}
+
+		setSelectedImage("");
+		setAssetManagerToggle(true);
+		return;
 	};
 
 	const style = {
@@ -51,7 +69,11 @@ export default function Modal(props) {
 		opacity: "0.3",
 	};
 
-	console.log(activeSlide);
+	useEffect(() => {
+		if (selectedImage) {
+			setAssetManagerToggle(false);
+		}
+	}, [selectedImage]);
 
 	return (
 		<div className="modal-carousel-container">
@@ -95,13 +117,21 @@ export default function Modal(props) {
 				{Object.keys(activeSlide).length > 0 ? (
 					<div className="modal-slide-preview">
 						<div className="modal-slide-preview-title">
-							<h3>Slide Editor</h3>
+							<h3>Editing: Slide {activeSlide.index}</h3>
 						</div>
 						<div className="modal-slide-preview-container">
 							<div className="slide-preview">
 								<div className="slide-image-container">
-									<img src={activeSlide.backgroundImage} alt="slide" />
-									<i class="far fa-images"></i>
+									{assetManagerToggle ? (
+										<div className="modal-asset-selector">
+											<AssetPage setSelectedImage={setSelectedImage} />
+										</div>
+									) : (
+										<div>
+											<img src={selectedImage || activeSlide.backgroundImage} alt="slide" />
+											<i class="far fa-images" onClick={handleImageSelectClick}></i>
+										</div>
+									)}
 								</div>
 								<div className="slide-preview-content">
 									<label>overlay-color : {activeSlide.overlayColor}</label>

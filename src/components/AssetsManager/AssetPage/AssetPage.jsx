@@ -4,7 +4,8 @@ import React, { useState, useEffect } from "react";
 import { urls } from "../../../API/urls";
 import { useAPI } from "../../../API/services";
 
-export default function AssetPage() {
+export default function AssetPage(props) {
+	const { setSelectedImage } = props || null;
 	const [res, getData] = useAPI("GET", urls.assets.read);
 
 	const {
@@ -14,6 +15,11 @@ export default function AssetPage() {
 	} = res || {};
 
 	const [found, setFound] = useState([]);
+
+	const handleImageSelection = (e) => {
+		const asset = assets.find((asset) => asset._id === e.target.id);
+		setSelectedImage(asset.url);
+	};
 
 	const createAssets = () => {
 		if (error) {
@@ -45,6 +51,11 @@ export default function AssetPage() {
 						) : null}
 						<div className="asset-actions-container">
 							<button className="asset-delete deleteAsset">Delete</button>
+							{setSelectedImage ? (
+								<button className="asset-select" id={asset._id} onClick={handleImageSelection}>
+									Select
+								</button>
+							) : null}
 						</div>
 					</li>
 				);
@@ -53,7 +64,7 @@ export default function AssetPage() {
 
 		return assets.map((asset, i) => {
 			return (
-				<li key={i} className="asset">
+				<li key={asset._id} className="asset">
 					{asset.url.indexOf("mp4") !== -1 ? (
 						<div className="asset-container">
 							<video controls className="asset-container">
@@ -71,6 +82,11 @@ export default function AssetPage() {
 					) : null}
 					<div className="asset-actions-container">
 						<button className="asset-delete deleteAsset">Delete</button>
+						{setSelectedImage ? (
+							<button className="asset-select" id={asset._id} onClick={handleImageSelection}>
+								Select
+							</button>
+						) : null}
 					</div>
 				</li>
 			);
