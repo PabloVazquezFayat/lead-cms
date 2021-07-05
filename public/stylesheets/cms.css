@@ -858,6 +858,10 @@ html {
 	overflow-y: scroll;
 	overflow-x: hidden;
 	border: solid 1px #000;
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-start;
+	align-items: flex-end;
 }
 
 .slide-preview img {
@@ -878,4 +882,21 @@ html {
 
 .modal-color-input {
 	width: 100px !important;
+}
+
+.image-select-exit {
+	background: rgb(218, 52, 52);
+	width: auto;
+	height: auto;
+	padding: 5px 10px;
+	color: white;
+	border: none;
+	border-radius: 2px;
+	font-size: 12px;
+	text-transform: uppercase;
+	text-align: center;
+	margin: 10px 10px -40px 10px;
+	cursor: pointer;
+	z-index: 999;
+	align-self: flex-end;
 }

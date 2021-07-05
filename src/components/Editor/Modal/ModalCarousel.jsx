@@ -6,10 +6,10 @@ import { urls } from "../../../API/urls";
 import { useAPI } from "../../../API/services";
 
 export default function Modal(props) {
-	const { _id } = props.data || {};
 	const { data, dataKey } = props || {};
 
 	const [res, updateData] = useAPI("PUT", urls[dataKey].update);
+	const [resNewSlide, addNewSlide] = useAPI("POST", urls[dataKey].create);
 	const [display, setDisplay] = useState("none");
 
 	const [newData, setNewData] = useState({});
@@ -34,12 +34,17 @@ export default function Modal(props) {
 
 		if (action === "close") {
 			setDisplay("none");
+			setActiveSlide({});
 		}
 	};
 
 	const handleSaveClick = async () => {
-		console.log(newData);
-		//updateData({ data: { ...newData, id: _id } });
+		if (!activeSlide._id) {
+			addNewSlide({ data: { ...newData, index: activeSlide.index } });
+			return;
+		}
+
+		updateData({ data: { ...newData, id: activeSlide._id } });
 	};
 
 	const handleEditClick = (e) => {
@@ -60,20 +65,36 @@ export default function Modal(props) {
 		return;
 	};
 
-	const style = {
-		display: display,
+	const handleNewSlideClick = () => {
+		setActiveSlide({
+			backgroundImage: "",
+			overlayColor: "",
+			header: "",
+			paragraph: "",
+			cta: "",
+			link: "",
+			index: data.length + 1,
+		});
 	};
 
-	const overlayStyle = {
-		backgroundColor: activeSlide.overlayColor,
-		opacity: "0.3",
+	const style = {
+		display: display,
 	};
 
 	useEffect(() => {
 		if (selectedImage) {
 			setAssetManagerToggle(false);
+			setNewData((prevState) => {
+				return { ...prevState, backgroundImage: selectedImage };
+			});
 		}
 	}, [selectedImage]);
+
+	useEffect(() => {
+		if (res.data[dataKey] || resNewSlide.data.slide) {
+			props.getData();
+		}
+	}, [res.data[dataKey], resNewSlide.data.slide]);
 
 	return (
 		<div className="modal-carousel-container">
@@ -94,7 +115,10 @@ export default function Modal(props) {
 							? React.Children.toArray(
 									data.map((slide, i) => {
 										return (
-											<li className="modal-slide">
+											<li
+												className="modal-slide"
+												style={activeSlide.index === i + 1 ? { background: "#badfff" } : null}
+											>
 												<div className="slide-details">
 													<p>Slide: {i + 1}</p>
 													<img className="modal-slide-image" src={slide.backgroundImage} alt="slide" />
@@ -111,7 +135,7 @@ export default function Modal(props) {
 							: null}
 					</ol>
 					<div className="create-new-slide">
-						<i className="fas fa-plus"></i>
+						<i className="fas fa-plus" onClick={handleNewSlideClick}></i>
 					</div>
 				</div>
 				{Object.keys(activeSlide).length > 0 ? (
@@ -124,26 +148,35 @@ export default function Modal(props) {
 								<div className="slide-image-container">
 									{assetManagerToggle ? (
 										<div className="modal-asset-selector">
+											<button className="image-select-exit" onClick={handleImageSelectClick}>
+												Exit
+											</button>
 											<AssetPage setSelectedImage={setSelectedImage} />
 										</div>
 									) : (
 										<div>
-											<img src={selectedImage || activeSlide.backgroundImage} alt="slide" />
+											<img src={selectedImage || activeSlide.backgroundImage} alt="" />
 											<i class="far fa-images" onClick={handleImageSelectClick}></i>
 										</div>
 									)}
 								</div>
 								<div className="slide-preview-content">
 									<label>overlay-color : {activeSlide.overlayColor}</label>
-									<input className="modal-color-input" type="color" defaultValue={activeSlide.overlayColor} />
+									<input
+										className="modal-color-input"
+										name="overlayColor"
+										type="color"
+										defaultValue={activeSlide.overlayColor}
+										onChange={handleInput}
+									/>
 									<label>header : {activeSlide.header}</label>
-									<input className="modal-input" type="text" />
+									<input className="modal-input" type="text" name="header" onChange={handleInput} />
 									<label>paragraph : {activeSlide.paragraph}</label>
-									<textarea className="modal-input" maxLength="300"></textarea>
+									<textarea className="modal-input" maxLength="300" name="paragraph" onChange={handleInput}></textarea>
 									<label>button : {activeSlide.cta}</label>
-									<input className="modal-input" type="text" />
+									<input className="modal-input" type="text" name="cta" onChange={handleInput} />
 									<label>button-link : {activeSlide.link}</label>
-									<input className="modal-input" type="text" />
+									<input className="modal-input" type="text" name="link" onChange={handleInput} />
 								</div>
 							</div>
 						</div>

@@ -19,6 +19,7 @@ export default function AssetPage(props) {
 	const handleImageSelection = (e) => {
 		const asset = assets.find((asset) => asset._id === e.target.id);
 		setSelectedImage(asset.url);
+		return;
 	};
 
 	const createAssets = () => {
@@ -50,7 +51,7 @@ export default function AssetPage(props) {
 							</div>
 						) : null}
 						<div className="asset-actions-container">
-							<button className="asset-delete deleteAsset">Delete</button>
+							{!setSelectedImage ? <button className="asset-delete deleteAsset">Delete</button> : null}
 							{setSelectedImage ? (
 								<button className="asset-select" id={asset._id} onClick={handleImageSelection}>
 									Select
@@ -81,7 +82,7 @@ export default function AssetPage(props) {
 						</div>
 					) : null}
 					<div className="asset-actions-container">
-						<button className="asset-delete deleteAsset">Delete</button>
+						{!setSelectedImage ? <button className="asset-delete deleteAsset">Delete</button> : null}
 						{setSelectedImage ? (
 							<button className="asset-select" id={asset._id} onClick={handleImageSelection}>
 								Select
