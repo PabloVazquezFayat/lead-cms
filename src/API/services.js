@@ -40,7 +40,10 @@ const putService = async (url, data) => {
 const deleteService = async (url) => {
 	try {
 		const res = await axiosInstance.delete(url);
-		return res.data;
+		if (res.status === 204 || res.status === 404) {
+			return true;
+		}
+		return false;
 	} catch (error) {
 		return error;
 	}
