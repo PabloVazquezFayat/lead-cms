@@ -1,5 +1,7 @@
 import React, { useEffect } from "react";
 
+import ModalList from "../Modal/ModalList";
+
 import { urls } from "../../../API/urls";
 import { useAPI } from "../../../API/services";
 
@@ -82,8 +84,15 @@ export default function Leadership() {
 	}, []);
 
 	return (
-		<LeaderShipTeam>
-			<TeamsMembers />
-		</LeaderShipTeam>
+		<div>
+			<ModalList
+				getData={(getPanelData, getTeamData)}
+				data={{ leadershipBanner, members }}
+				dataKeys={["leadershipBanner", "members"]}
+			/>
+			<LeaderShipTeam>
+				<TeamsMembers />
+			</LeaderShipTeam>
+		</div>
 	);
 }
