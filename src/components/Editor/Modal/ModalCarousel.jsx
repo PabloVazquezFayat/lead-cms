@@ -7,7 +7,7 @@ import { urls } from "../../../API/urls";
 import { useAPI } from "../../../API/services";
 
 export default function Modal(props) {
-	const { data, dataKey } = props || {};
+	const { data, dataKey } = props;
 
 	const [res, updateData] = useAPI("PUT", urls[dataKey].update);
 	const [resNewSlide, addNewSlide] = useAPI("POST", urls[dataKey].create);
@@ -72,12 +72,12 @@ export default function Modal(props) {
 	const handleNewSlideClick = () => {
 		setActiveSlide({
 			backgroundImage: "",
-			overlayColor: "",
+			overlayColor: "#0D569c",
 			header: "",
 			paragraph: "",
 			cta: "",
 			link: "",
-			index: data.length + 1,
+			index: data[data.length - 1].index + 1 || 1,
 		});
 	};
 
@@ -140,7 +140,7 @@ export default function Modal(props) {
 												style={activeSlide.index === i + 1 ? { background: "#badfff" } : null}
 											>
 												<div className="slide-details">
-													<p>Slide: {i + 1}</p>
+													<p>Slide: {slide.index}</p>
 													<img className="modal-slide-image" src={slide.backgroundImage} alt="slide" />
 													<h3>{slide.header}</h3>
 												</div>
@@ -176,7 +176,7 @@ export default function Modal(props) {
 									) : (
 										<div>
 											<img src={selectedImage || activeSlide.backgroundImage} alt="" />
-											<i class="far fa-images" onClick={handleImageSelectClick}></i>
+											<i className="far fa-images" onClick={handleImageSelectClick}></i>
 										</div>
 									)}
 								</div>
@@ -189,6 +189,8 @@ export default function Modal(props) {
 										defaultValue={activeSlide.overlayColor}
 										onChange={handleInput}
 									/>
+									<label>index : {activeSlide.index}</label>
+									<input className="modal-input" type="text" name="index" onChange={handleInput} />
 									<label>header : {activeSlide.header}</label>
 									<input className="modal-input" type="text" name="header" onChange={handleInput} />
 									<label>paragraph : {activeSlide.paragraph}</label>
