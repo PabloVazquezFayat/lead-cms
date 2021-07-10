@@ -884,7 +884,7 @@ html {
 	display: flex;
 	flex-direction: column;
 	justify-content: flex-start;
-	align-items: flex-end;
+	align-items: flex-start;
 }
 
 .slide-preview img {
@@ -923,6 +923,136 @@ html {
 	z-index: 999;
 	align-self: flex-end;
 }
+
+/****************************************************
+   LEADERSHIP MODAL SECTION
+*****************************************************/
+.members-modal-wrapper {
+	background-color: #ffffff;
+	width: 70%;
+	display: none;
+	position: absolute;
+	flex-direction: column;
+	justify-content: flex-start;
+	align-items: center;
+	margin: 0px 25px;
+	padding: 0px 0px 30px 0px;
+	border-radius: 4px;
+	box-shadow: 0px 2px 10px 0px #666;
+	-webkit-box-shadow: 0px 2px 10px 0px #666;
+	z-index: 999;
+}
+
+.modal-header-editor {
+	width: 90%;
+	display: flex;
+}
+
+.modal-leadership-section {
+	width: 90%;
+	display: flex;
+	flex-direction: column;
+}
+
+.members-list {
+	width: 100%;
+	margin: 0px;
+	padding: 0px;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: flex-start;
+	list-style: none;
+}
+
+.member-list-item {
+	background: rgb(238, 238, 238);
+	width: 100%;
+	height: auto;
+	margin: 2px;
+	padding: 3px 5px;
+	border-radius: 4px;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.member-details {
+	width: auto;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.member-details * {
+	margin: 0px 0px 0px 10px;
+}
+
+.member-image {
+	height: 60px;
+}
+
+.member-actions {
+	width: 50px;
+	height: 50px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.member-actions i {
+	margin: 0px 5px;
+	cursor: pointer;
+	color: #1f75fe;
+}
+
+.member-image-preview {
+	/* background: blue; */
+	width: 100%;
+}
+
+.member-image-preview > h3 {
+	font-size: 1.5rem;
+	margin: 30px 0px;
+}
+
+.member-image-selector {
+	background-color: #e5e5e5;
+	width: 100%;
+	display: flex;
+	justify-content: center;
+}
+
+.member-image-selector img {
+	height: 400px;
+}
+
+.member-image-selector i {
+	position: absolute;
+	font-size: 50px;
+	color: #1f75fe;
+	cursor: pointer;
+	border: solid 4px #1f75fe;
+	border-radius: 4px;
+	padding: 10px;
+	margin: 145px 0px 0px 0px;
+}
+
+.member-content {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	margin: 10px 0px 0px;
+}
+
+.member-content * {
+	width: 97.4%;
+	resize: none;
+	margin: 5px 0px;
+}
+
+/****************************************************
+   PROMPT SECTION
+*****************************************************/
 
 .prompt-container {
 	background-color: rgba(0, 0, 0, 0.75);
