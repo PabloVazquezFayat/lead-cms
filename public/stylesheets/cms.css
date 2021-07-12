@@ -768,7 +768,8 @@ html {
 	align-items: flex-start;
 }
 
-.create-new-slide {
+.create-new-slide,
+.create-new-member {
 	/* background: red; */
 	width: 100%;
 	display: flex;
@@ -777,7 +778,8 @@ html {
 	padding: 10px 0px;
 }
 
-.create-new-slide i {
+.create-new-slide i,
+.create-new-member i {
 	padding: 0px 10px;
 	color: #1f75fe;
 	font-size: 16px;
@@ -946,6 +948,7 @@ html {
 .modal-header-editor {
 	width: 90%;
 	display: flex;
+	flex-direction: column;
 }
 
 .modal-leadership-section {
@@ -1048,6 +1051,12 @@ html {
 	width: 97.4%;
 	resize: none;
 	margin: 5px 0px;
+}
+
+.modal-banner-editor {
+	width: 100%;
+	display: flex;
+	flex-direction: column;
 }
 
 /****************************************************

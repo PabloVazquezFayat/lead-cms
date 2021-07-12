@@ -7,24 +7,40 @@ import { urls } from "../../../API/urls";
 import { useAPI } from "../../../API/services";
 
 export default function ModalLeadership(props) {
-	const { _id } = props.data || {};
+	const { _id: bannerID } = props.data && props.data.leadershipBanner ? props.data.leadershipBanner : {};
 	const { getData, data, dataKeys } = props || {};
 
-	const [res, updateData] = useAPI("PUT", urls[dataKeys[0]].update);
+	const [resMembers, updateMemberData] = useAPI("PUT", urls.leadershipMembers.update);
+	const [resNewMember, createNewMember] = useAPI("POST", urls.leadershipMembers.create);
+	const [resDeletedMember, deleteMember] = useAPI("DELETE", urls.leadershipMembers.delete);
+
+	const [resBanner, updateBannerData] = useAPI("PUT", urls.leadershipBanner.update);
+
 	const [display, setDisplay] = useState("none");
 
-	const [newData, setNewData] = useState({});
+	const [newBannerData, setNewBannerData] = useState({});
+	const [newMemberData, setNewMemberData] = useState({});
 	const [activeMember, setActiveMember] = useState({});
 	const [assetManagerToggle, setAssetManagerToggle] = useState(false);
 	const [selectedImage, setSelectedImage] = useState("");
 	const [prompt, setPrompt] = useState(false);
+	const [memberID, setMemberID] = useState("");
 
-	const handleInput = (e) => {
-		const { name, value } = e.target;
+	const handleDataInput = (e) => {
+		const { name, value, attributes } = e.target;
 
-		setNewData((prevState) => {
-			return { ...prevState, [name]: value };
-		});
+		if (attributes["data-type"].value === "member") {
+			setNewMemberData((prevState) => {
+				return { ...prevState, [name]: value };
+			});
+		}
+
+		if (attributes["data-type"].value === "banner") {
+			console.log(value);
+			setNewBannerData((prevState) => {
+				return { ...prevState, [name]: value };
+			});
+		}
 	};
 
 	const toggleModal = (e) => {
@@ -36,6 +52,7 @@ export default function ModalLeadership(props) {
 
 		if (action === "close") {
 			setDisplay("none");
+			setActiveMember({});
 		}
 	};
 
@@ -58,7 +75,38 @@ export default function ModalLeadership(props) {
 	};
 
 	const handleSaveClick = async () => {
-		updateData({ data: { ...newData, id: _id } });
+		if (Object.keys(newMemberData).length > 0 && newMemberData._id) {
+			updateMemberData({ data: { ...newMemberData, id: activeMember._id } });
+		}
+
+		if (Object.keys(newBannerData).length > 0) {
+			updateBannerData({ data: { ...newBannerData, id: bannerID } });
+		}
+
+		if (!newMemberData._id) {
+			createNewMember({ data: { ...newMemberData, index: activeMember.index } });
+			return;
+		}
+	};
+
+	const handleNewMemberClick = () => {
+		setActiveMember({
+			image: "",
+			title: "",
+			name: "",
+			bio: "",
+			social: "",
+			index: data.members[data.members.length - 1].index + 1 || 1,
+		});
+	};
+
+	const handleDeleteMemberClick = (e) => {
+		setPrompt(true);
+		setMemberID(e.target.id);
+	};
+
+	const handleDeleteMember = () => {
+		deleteMember({ id: memberID });
 	};
 
 	const style = {
@@ -68,23 +116,33 @@ export default function ModalLeadership(props) {
 	useEffect(() => {
 		if (selectedImage) {
 			setAssetManagerToggle(false);
-			setNewData((prevState) => {
+			setNewMemberData((prevState) => {
 				return { ...prevState, image: selectedImage };
 			});
 		}
 	}, [selectedImage]);
 
-	// useEffect(() => {
-	// 	setActiveMember({});
-	// 	setSelectedImage("");
-	// });
+	useEffect(() => {
+		if (resMembers.data.members || resBanner.data.leadershipBanner || resNewMember.data || resDeletedMember.data) {
+			getData();
+			setSelectedImage("");
+			setActiveMember({});
+		}
+	}, [
+		resMembers.data.members,
+		resBanner.data.leadershipBanner,
+		resNewMember.data.members,
+		resDeletedMember.data.members,
+	]);
+
+	console.log(data.leadershipBanner);
 
 	return (
 		<div className="modal-container">
 			<i className="far fa-edit modal-button" data-role="open" onClick={toggleModal}></i>
 			<div className="members-modal-wrapper" style={style}>
 				{prompt ? (
-					<Prompt active={prompt} setActive={setPrompt}>
+					<Prompt active={prompt} setActive={setPrompt} action={handleDeleteMember}>
 						Are you sure you want to delete this member?
 					</Prompt>
 				) : null}
@@ -97,7 +155,41 @@ export default function ModalLeadership(props) {
 						<i className="fas fa-times-circle " data-role="close" aria-hidden="true" onClick={toggleModal}></i>
 					</div>
 				</div>
-				<div className="modal-header-editor">{data.leadershipBanner ? <h2>Edit Leadership Banner</h2> : null}</div>
+				{/* Banner editor code here */}
+				<div className="modal-header-editor">
+					{data.leadershipBanner ? (
+						<div>
+							<h2>Edit Leadership Banner</h2>
+							<div className="modal-banner-editor">
+								<label>background-color: {data.leadershipBanner.background}</label>
+								<input
+									className="modal-input"
+									type="color"
+									name="background"
+									data-type="banner"
+									onChange={handleDataInput}
+									defaultValue={data.leadershipBanner.background}
+								/>
+								<label>title: {data.leadershipBanner.header}</label>
+								<input
+									className="modal-input"
+									type="text"
+									name="header"
+									data-type="banner"
+									onChange={handleDataInput}
+								/>
+								<label>title: {data.leadershipBanner.header}</label>
+								<input
+									className="modal-input"
+									type="text"
+									name="paragraph"
+									data-type="banner"
+									onChange={handleDataInput}
+								/>
+							</div>
+						</div>
+					) : null}
+				</div>
 				<div className="modal-leadership-section">
 					<ul className="members-list">
 						{data.members
@@ -115,7 +207,7 @@ export default function ModalLeadership(props) {
 												</div>
 												<div className="member-actions">
 													<i className="fas fa-edit" id={member._id} onClick={handleEditClick}></i>
-													<i className="far fa-trash-alt" id={member._id}></i>
+													<i className="far fa-trash-alt" id={member._id} onClick={handleDeleteMemberClick}></i>
 												</div>
 											</li>
 										);
@@ -123,6 +215,9 @@ export default function ModalLeadership(props) {
 							  )
 							: null}
 					</ul>
+					<div className="create-new-member">
+						<i className="fas fa-plus" onClick={handleNewMemberClick}></i>
+					</div>
 				</div>
 				<div className="modal-input-wrapper">
 					{Object.keys(activeMember).length > 0 ? (
@@ -147,15 +242,33 @@ export default function ModalLeadership(props) {
 							</div>
 							<div className="member-content">
 								<label>index: {activeMember.index}</label>
-								<input className="modal-input" type="text" name="index" onChange={handleInput} />
+								<input
+									className="modal-input"
+									type="number"
+									name="index"
+									data-type="member"
+									onChange={handleDataInput}
+								/>
 								<label>name: {activeMember.name}</label>
-								<input className="modal-input" type="text" name="name" onChange={handleInput} />
+								<input className="modal-input" type="text" name="name" data-type="member" onChange={handleDataInput} />
 								<label>title: {activeMember.title}</label>
-								<input className="modal-input" type="text" name="title" onChange={handleInput} />
+								<input className="modal-input" type="text" name="title" data-type="member" onChange={handleDataInput} />
 								<label>bio: {activeMember.bio}</label>
-								<textarea className="modal-input" type="text" name="bio" onChange={handleInput}></textarea>
+								<textarea
+									className="modal-input"
+									type="text"
+									name="bio"
+									data-type="member"
+									onChange={handleDataInput}
+								></textarea>
 								<label>social: {activeMember.social}</label>
-								<input className="modal-input" type="text" name="social" onChange={handleInput} />
+								<input
+									className="modal-input"
+									type="text"
+									name="social"
+									data-type="member"
+									onChange={handleDataInput}
+								/>
 							</div>
 						</div>
 					) : null}
