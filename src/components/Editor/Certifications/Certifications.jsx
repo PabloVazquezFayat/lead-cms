@@ -1,5 +1,7 @@
 import React, { useEffect } from "react";
 
+import ModalCertifications from "../Modal/ModalCertifications";
+
 import { urls } from "../../../API/urls";
 import { useAPI } from "../../../API/services";
 
@@ -34,11 +36,14 @@ export default function Certifications() {
 	}, []);
 
 	return (
-		<div className="certification-container">
-			<h2>certifications</h2>
-			<ul>
-				<CreateCertifications />
-			</ul>
+		<div>
+			<ModalCertifications getData={getData} data={certifications} />
+			<div className="certification-container">
+				<h2>certifications</h2>
+				<ul>
+					<CreateCertifications />
+				</ul>
+			</div>
 		</div>
 	);
 }
