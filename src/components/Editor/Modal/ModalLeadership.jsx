@@ -8,12 +8,15 @@ import { useAPI } from "../../../API/services";
 
 export default function ModalLeadership(props) {
 	const { _id: bannerID } = props.data && props.data.leadershipBanner ? props.data.leadershipBanner : {};
-	const { getData, data, dataKeys } = props || {};
+	const {
+		getData: { getPanelData, getTeamData },
+		data,
+		dataKeys,
+	} = props || {};
 
 	const [resMembers, updateMemberData] = useAPI("PUT", urls.leadershipMembers.update);
 	const [resNewMember, createNewMember] = useAPI("POST", urls.leadershipMembers.create);
 	const [resDeletedMember, deleteMember] = useAPI("DELETE", urls.leadershipMembers.delete);
-
 	const [resBanner, updateBannerData] = useAPI("PUT", urls.leadershipBanner.update);
 
 	const [display, setDisplay] = useState("none");
@@ -83,9 +86,8 @@ export default function ModalLeadership(props) {
 			updateBannerData({ data: { ...newBannerData, id: bannerID } });
 		}
 
-		if (!newMemberData._id) {
+		if (Object.keys(newMemberData).length > 0 && !newMemberData._id) {
 			createNewMember({ data: { ...newMemberData, index: activeMember.index } });
-			return;
 		}
 	};
 
@@ -123,19 +125,13 @@ export default function ModalLeadership(props) {
 	}, [selectedImage]);
 
 	useEffect(() => {
-		if (resMembers.data.members || resBanner.data.leadershipBanner || resNewMember.data || resDeletedMember.data) {
-			getData();
+		if (resMembers.data.members || resNewMember.data.members || resDeletedMember.data.members || resBanner.data) {
+			getPanelData();
+			getTeamData();
 			setSelectedImage("");
 			setActiveMember({});
 		}
-	}, [
-		resMembers.data.members,
-		resBanner.data.leadershipBanner,
-		resNewMember.data.members,
-		resDeletedMember.data.members,
-	]);
-
-	console.log(data.leadershipBanner);
+	}, [resMembers.data.members, resNewMember.data.members, resDeletedMember.data.members, resBanner.data]);
 
 	return (
 		<div className="modal-container">
@@ -155,7 +151,6 @@ export default function ModalLeadership(props) {
 						<i className="fas fa-times-circle " data-role="close" aria-hidden="true" onClick={toggleModal}></i>
 					</div>
 				</div>
-				{/* Banner editor code here */}
 				<div className="modal-header-editor">
 					{data.leadershipBanner ? (
 						<div>
@@ -170,7 +165,7 @@ export default function ModalLeadership(props) {
 									onChange={handleDataInput}
 									defaultValue={data.leadershipBanner.background}
 								/>
-								<label>title: {data.leadershipBanner.header}</label>
+								<label>header: {data.leadershipBanner.header}</label>
 								<input
 									className="modal-input"
 									type="text"
@@ -178,7 +173,7 @@ export default function ModalLeadership(props) {
 									data-type="banner"
 									onChange={handleDataInput}
 								/>
-								<label>title: {data.leadershipBanner.header}</label>
+								<label>paragraph: {data.leadershipBanner.paragraph}</label>
 								<input
 									className="modal-input"
 									type="text"

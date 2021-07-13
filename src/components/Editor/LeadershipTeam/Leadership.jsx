@@ -86,7 +86,7 @@ export default function Leadership() {
 	return (
 		<div>
 			<ModalLeadership
-				getData={(getPanelData, getTeamData)}
+				getData={{ getPanelData, getTeamData }}
 				data={{ leadershipBanner, members }}
 				dataKeys={["leadershipBanner", "members"]}
 			/>
