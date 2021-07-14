@@ -1,5 +1,7 @@
 import React, { useEffect } from "react";
 
+import ModalList from "../Modal/ModalList";
+
 import { urls } from "../../../API/urls";
 import { useAPI } from "../../../API/services";
 
@@ -54,7 +56,7 @@ export default function Expertise() {
 		return services.map((service, i) => {
 			return (
 				<li key={i}>
-					<img src={service.image} alt="service=" />
+					<img src={service.image} alt="service" />
 					<p>{service.title}</p>
 				</li>
 			);
@@ -67,8 +69,15 @@ export default function Expertise() {
 	}, []);
 
 	return (
-		<ServicesPanel>
-			<ServicesList />
-		</ServicesPanel>
+		<div>
+			<ModalList
+				getData={{ getPanelData, getListData: getServiceData }}
+				data={{ panelData: servicesPanel, listData: services }}
+				dataKey={["servicesPanel", "services"]}
+			/>
+			<ServicesPanel>
+				<ServicesList />
+			</ServicesPanel>
+		</div>
 	);
 }

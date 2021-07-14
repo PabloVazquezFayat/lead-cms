@@ -1,5 +1,7 @@
 import React, { useEffect } from "react";
 
+import ModalList from "../Modal/ModalList";
+
 import { urls } from "../../../API/urls";
 import { useAPI } from "../../../API/services";
 
@@ -15,7 +17,7 @@ export default function Recognitions() {
 
 	const {
 		loading: recognitionsLoading,
-		data: { recognition },
+		data: { recognitions },
 		error: recognitionsError,
 	} = recognitionsRes || {};
 
@@ -51,9 +53,9 @@ export default function Recognitions() {
 			return <li>Loading</li>;
 		}
 
-		return recognition.map((recognition, i) => {
+		return recognitions.map((recognition, i) => {
 			return (
-				<li key={i}>
+				<li key={recognition._id}>
 					<a href={recognition.link}>
 						<img src={recognition.image} alt="org" />
 						<div>
@@ -71,8 +73,15 @@ export default function Recognitions() {
 	}, []);
 
 	return (
-		<RecognitionsPanel>
-			<RecognitionsList />
-		</RecognitionsPanel>
+		<div>
+			<ModalList
+				getData={{ getPanelData, getListData: getRecognitionsData }}
+				data={{ panelData: recognitionsPanel, listData: recognitions }}
+				dataKey={["recognitionsPanel", "recognitions"]}
+			/>
+			<RecognitionsPanel>
+				<RecognitionsList />
+			</RecognitionsPanel>
+		</div>
 	);
 }
