@@ -53,12 +53,10 @@ export default function ModalList(props) {
 
 	const handleSaveClick = () => {
 		if (Object.keys(newItem).length > 0 && active._id) {
-			console.log({ data: { ...newItem, id: active._id } });
 			updateItem({ data: { ...newItem, id: active._id } });
 		}
 
 		if (Object.keys(newItem).length > 0 && !active._id) {
-			console.log({ data: { ...newItem, index: active.index } });
 			createItem({ data: { ...newItem, index: active.index } });
 		}
 	};
@@ -66,7 +64,7 @@ export default function ModalList(props) {
 	const handleNewClick = () => {
 		setActive({
 			text: "",
-			index: data[data.length - 1].index + 1 || 1,
+			index: data.listData[data.listData.length - 1].index + 1 || 1,
 		});
 	};
 
@@ -108,7 +106,7 @@ export default function ModalList(props) {
 			getListData();
 			setActive({});
 		}
-	}, [resUpdate.data[dataKey[1]], resCreate.data[dataKey[1]], resDelete.data[data[1]]]);
+	}, [resUpdate.data[dataKey[1]], resCreate.data[dataKey[1]], resDelete.data[dataKey[1]]]);
 
 	return (
 		<div className="modal-container">
