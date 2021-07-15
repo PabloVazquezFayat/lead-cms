@@ -1,5 +1,7 @@
 import React, { useEffect } from "react";
 
+import ModalProjects from "../Modal/ModalProjects";
+
 import { urls } from "../../../API/urls";
 import { useAPI } from "../../../API/services";
 
@@ -82,8 +84,15 @@ export default function Projects() {
 	}, []);
 
 	return (
-		<ProjectPanel>
-			<ProjectsList />
-		</ProjectPanel>
+		<div>
+			<ModalProjects
+				getData={{ getPanelData, getListData: getProjectsData }}
+				data={{ panelData: projectsPanel, listData: projects }}
+				dataKey={["projectsPanel", "projects"]}
+			/>
+			<ProjectPanel>
+				<ProjectsList />
+			</ProjectPanel>
+		</div>
 	);
 }
