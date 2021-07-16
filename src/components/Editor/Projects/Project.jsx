@@ -63,15 +63,7 @@ export default function Projects() {
 					<div className="project-overlay">
 						{project.featured ? <h3 className="project-featured-indicator">FEATURED</h3> : null}
 						<p>{project.name}</p>
-						<h3 className="project-priority-indicator">{project.priority || "missing priority"}</h3>
-						<div className="project-crud-buttons">
-							<button id={project._id} className="edit-project btn-action">
-								edit
-							</button>
-							<button id={project._id} className="delete-project btn-action btn-delete">
-								delete
-							</button>
-						</div>
+						<h3 className="project-priority-indicator">{project.index}</h3>
 					</div>
 				</li>
 			);

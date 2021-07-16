@@ -19,6 +19,7 @@ export default function ModalList(props) {
 
 	const [newItem, setNewItem] = useState({});
 	const [active, setActive] = useState({});
+	const [activeImageID, setActiveImageID] = useState("");
 	const [assetManagerToggle, setAssetManagerToggle] = useState(false);
 	const [selectedImage, setSelectedImage] = useState("");
 	const [prompt, setPrompt] = useState(false);
@@ -62,6 +63,7 @@ export default function ModalList(props) {
 
 	const handleEditClick = (e) => {
 		const selected = data.listData.find((item) => item._id === e.target.id);
+		setNewItem("");
 		setActive(selected);
 	};
 
@@ -91,7 +93,7 @@ export default function ModalList(props) {
 		deleteItem({ id: itemID });
 	};
 
-	const handleImageSelectClick = () => {
+	const handleImageSelectClick = (e) => {
 		if (assetManagerToggle) {
 			setAssetManagerToggle(false);
 			return;
@@ -99,7 +101,21 @@ export default function ModalList(props) {
 
 		setSelectedImage("");
 		setAssetManagerToggle(true);
-		return;
+		setActiveImageID(e.target.id);
+	};
+
+	const handleImageDeleteClick = (e) => {
+		const { attributes } = e.target;
+		console.log(attributes["data-type"].value);
+
+		if (active) {
+			setActive((prevState) => {
+				const images = prevState.images.filter((image) => image !== attributes["data-type"].value);
+				console.log(images);
+
+				return { ...prevState, images };
+			});
+		}
 	};
 
 	const style = {
@@ -109,8 +125,11 @@ export default function ModalList(props) {
 	useEffect(() => {
 		if (selectedImage) {
 			setAssetManagerToggle(false);
-			setNewItem((prevState) => {
-				return { ...prevState, image: selectedImage };
+			setActive((prevState) => {
+				let images = [...active.images];
+				images[activeImageID] = selectedImage;
+
+				return { ...prevState, images };
 			});
 		}
 	}, [selectedImage]);
@@ -122,17 +141,17 @@ export default function ModalList(props) {
 		}
 	}, [resUpdate.data[dataKey[1]], resCreate.data[dataKey[1]], resDelete.data[dataKey[1]]]);
 
-	console.log("remount");
-
 	return (
 		<div className="modal-container">
 			<i className="far fa-edit modal-button" data-role="open" onClick={toggleModal}></i>
+
 			<div className="members-modal-wrapper" style={style}>
 				{prompt ? (
 					<Prompt active={prompt} setActive={setPrompt} action={handleDelete}>
 						Are you sure you want to delete this project?
 					</Prompt>
 				) : null}
+
 				<div className="modal-action-buttons">
 					<div>
 						<h3>Projects</h3>
@@ -142,6 +161,7 @@ export default function ModalList(props) {
 						<i className="fas fa-times-circle " data-role="close" aria-hidden="true" onClick={toggleModal}></i>
 					</div>
 				</div>
+
 				<div className="modal-leadership-section">
 					<ul className="members-list">
 						{data && data.listData
@@ -154,8 +174,8 @@ export default function ModalList(props) {
 											>
 												<div className="member-details">
 													<p>index: {data.index}</p>
-													<img className="modal-slide-image" src={data.image} alt="icon" />
-													<h3>{data.title}</h3>
+													<img className="modal-slide-image" src={data.titleImage} alt="icon" />
+													<h3>{data.name}</h3>
 												</div>
 												<div className="member-actions">
 													<i className="fas fa-edit" id={data._id} onClick={handleEditClick}></i>
@@ -167,10 +187,12 @@ export default function ModalList(props) {
 							  )
 							: null}
 					</ul>
+
 					<div className="create-new-member">
 						<i className="fas fa-plus" onClick={handleNewClick}></i>
 					</div>
 				</div>
+
 				<div className="modal-input-wrapper">
 					{Object.keys(active).length > 0 ? (
 						<div>
@@ -186,34 +208,50 @@ export default function ModalList(props) {
 										<AssetPage setSelectedImage={setSelectedImage} />
 									</div>
 								) : (
-									<div className="member-image-selector">
-										<ul>
-											{React.Children.toArray(
-												active.images.map((image) => {
-													return (
-														<li>
-															<div>
-																<label>Title image:</label>
-																<input
-																	type="checkbox"
-																	name="titleImage"
-																	data-image={image}
-																	onChange={handleTitleImageSelect}
-																/>
-															</div>
-															<img src={image} alt="image" />
-															<div>
-																<button>Edit</button>
-																<button>Delete</button>
-															</div>
-														</li>
-													);
-												})
-											)}
-										</ul>
+									<div>
+										<div className="project-image-selector">
+											<ul className="project-image-list">
+												{React.Children.toArray(
+													active.images.map((image, i) => {
+														return (
+															<li className="projects-image-selector-item">
+																<div className="projects-image-title-image-selector">
+																	<label>Title image:</label>
+																	<input
+																		type="checkbox"
+																		name="titleImage"
+																		data-image={image}
+																		onChange={handleTitleImageSelect}
+																	/>
+																</div>
+																<div className="projects-current-image">
+																	<img src={image} alt="image" />
+																</div>
+																<div className="projects-image-actions">
+																	<button className="btn-action" id={i} onClick={handleImageSelectClick}>
+																		Edit
+																	</button>
+																	<button
+																		className="btn-action btn-delete"
+																		data-type={image}
+																		onClick={handleImageDeleteClick}
+																	>
+																		Delete
+																	</button>
+																</div>
+															</li>
+														);
+													})
+												)}
+											</ul>
+										</div>
+										<div className="create-new-slide">
+											<i className="fas fa-plus"></i>
+										</div>
 									</div>
 								)}
 							</div>
+
 							<div>
 								<label>featured: {active.featured}</label>
 								<input
@@ -224,6 +262,7 @@ export default function ModalList(props) {
 									checked={newItem.featured || active.featured}
 								/>
 							</div>
+
 							<div className="member-content">
 								<label>index: {active.index}</label>
 								<input className="modal-input" type="text" name="index" onChange={handleDataInput} />
@@ -233,6 +272,14 @@ export default function ModalList(props) {
 								<input className="modal-input" type="text" name="client" onChange={handleDataInput} />
 								<label>location: {active.location}</label>
 								<input className="modal-input" type="text" name="location" onChange={handleDataInput} />
+								<label>paragraph:</label>
+								<textarea
+									className="modal-input"
+									rows="15"
+									name="paragraph"
+									onChange={handleDataInput}
+									defaultValue={active.paragraph}
+								></textarea>
 							</div>
 						</div>
 					) : null}
