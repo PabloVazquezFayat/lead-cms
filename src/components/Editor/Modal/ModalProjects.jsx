@@ -5,6 +5,7 @@ import Prompt from "../Prompt/Prompt";
 
 import { urls } from "../../../API/urls";
 import { useAPI } from "../../../API/services";
+import { act } from "react-dom/cjs/react-dom-test-utils.production.min";
 
 export default function ModalList(props) {
 	const {
@@ -17,8 +18,8 @@ export default function ModalList(props) {
 	const [resCreate, createItem] = useAPI("POST", urls[dataKey[1]].create);
 	const [resDelete, deleteItem] = useAPI("DELETE", urls[dataKey[1]].delete);
 
-	const [newItem, setNewItem] = useState({});
-	const [active, setActive] = useState({});
+	const [activeProject, setActiveProject] = useState({});
+
 	const [activeImageID, setActiveImageID] = useState("");
 	const [assetManagerToggle, setAssetManagerToggle] = useState(false);
 	const [selectedImage, setSelectedImage] = useState("");
@@ -35,14 +36,12 @@ export default function ModalList(props) {
 
 		if (action === "close") {
 			setDisplay("none");
-			setActive({});
+			setActiveProject({});
 		}
 	};
 
 	const handleDataInput = (e) => {
 		let { name, value, checked } = e.target;
-
-		console.log(checked);
 
 		if (checked === true) {
 			value = true;
@@ -50,35 +49,63 @@ export default function ModalList(props) {
 			value = false;
 		}
 
-		setNewItem((prevState) => {
+		setActiveProject((prevState) => {
 			return { ...prevState, [name]: value };
 		});
 	};
 
 	const handleTitleImageSelect = (e) => {
-		const { name, checked, attributes } = e.target;
+		const { checked, id } = e.target;
 
-		console.log(name, checked, attributes["data-image"].value);
+		console.log(checked, id);
+
+		if (checked === true) {
+			setActiveProject((prevState) => {
+				const images = [...prevState.images].map((image) => {
+					if (image.index === parseInt(id)) {
+						return { ...image, title: true };
+					}
+					return { ...image, title: false };
+				});
+
+				return { ...prevState, images, titleImage: prevState.images[id].url };
+			});
+
+			return;
+		}
+
+		setActiveProject((prevState) => {
+			const images = [...prevState.images].map((image) => {
+				return { ...image, title: false };
+			});
+
+			return { ...prevState, images, titleImage: "" };
+		});
 	};
 
 	const handleEditClick = (e) => {
-		const selected = data.listData.find((item) => item._id === e.target.id);
-		setNewItem("");
-		setActive(selected);
+		const selectedProject = data.listData.find((item) => item._id === e.target.id);
+
+		const transformedImagesArray = selectedProject.images.map((image, i) => {
+			return { url: image, index: i, title: selectedProject.titleImage === image || false };
+		});
+
+		const updatedSelectedProject = { ...selectedProject, images: transformedImagesArray };
+
+		setActiveProject(updatedSelectedProject);
 	};
 
 	const handleSaveClick = () => {
-		if (Object.keys(newItem).length > 0 && active._id) {
-			updateItem({ data: { ...newItem, id: active._id } });
-		}
-
-		if (Object.keys(newItem).length > 0 && !active._id) {
-			createItem({ data: { ...newItem, index: active.index } });
-		}
+		// if (Object.keys(newItem).length > 0 && active._id) {
+		// 	updateItem({ data: { ...newItem, id: active._id } });
+		// }
+		// if (Object.keys(newItem).length > 0 && !active._id) {
+		// 	createItem({ data: { ...newItem, index: active.index } });
+		// }
 	};
 
 	const handleNewClick = () => {
-		setActive({
+		setActiveProject({
 			text: "",
 			index: data.listData[data.listData.length - 1].index + 1 || 1,
 		});
@@ -101,16 +128,16 @@ export default function ModalList(props) {
 
 		setSelectedImage("");
 		setAssetManagerToggle(true);
-		setActiveImageID(e.target.id);
+		setActiveImageID(parseInt(e.target.id));
 	};
 
 	const handleImageDeleteClick = (e) => {
 		const { attributes } = e.target;
-		console.log(attributes["data-type"].value);
+		console.log(attributes["action-target"].value);
 
-		if (active) {
-			setActive((prevState) => {
-				const images = prevState.images.filter((image) => image !== attributes["data-type"].value);
+		if (activeProject) {
+			setActiveProject((prevState) => {
+				const images = prevState.images.filter((image) => image !== attributes["action-target"].value);
 				console.log(images);
 
 				return { ...prevState, images };
@@ -125,11 +152,10 @@ export default function ModalList(props) {
 	useEffect(() => {
 		if (selectedImage) {
 			setAssetManagerToggle(false);
-			setActive((prevState) => {
-				let images = [...active.images];
-				images[activeImageID] = selectedImage;
-
-				return { ...prevState, images };
+			setActiveProject((prevState) => {
+				const images = [...prevState.images];
+				const updatedImages = (images[activeImageID].url = selectedImage);
+				return { ...prevState, updatedImages };
 			});
 		}
 	}, [selectedImage]);
@@ -137,9 +163,11 @@ export default function ModalList(props) {
 	useEffect(() => {
 		if (resUpdate.data[dataKey[1]] || resCreate.data[dataKey[1]] || resDelete.data[dataKey[1]]) {
 			getListData();
-			setActive({});
+			setActiveProject({});
 		}
 	}, [resUpdate.data[dataKey[1]], resCreate.data[dataKey[1]], resDelete.data[dataKey[1]]]);
+
+	console.log({ activeProject });
 
 	return (
 		<div className="modal-container">
@@ -170,7 +198,7 @@ export default function ModalList(props) {
 										return (
 											<li
 												className="member-list-item"
-												style={active.index === data.index ? { background: "#badfff" } : null}
+												style={activeProject.index === data.index ? { background: "#badfff" } : null}
 											>
 												<div className="member-details">
 													<p>index: {data.index}</p>
@@ -194,10 +222,10 @@ export default function ModalList(props) {
 				</div>
 
 				<div className="modal-input-wrapper">
-					{Object.keys(active).length > 0 ? (
+					{Object.keys(activeProject).length > 0 ? (
 						<div>
 							<div className="member-image-preview">
-								<h3>Editing Project : {active.name}</h3>
+								<h3>Editing Project : {activeProject.name}</h3>
 							</div>
 							<div className="member-image-preview">
 								{assetManagerToggle ? (
@@ -212,7 +240,7 @@ export default function ModalList(props) {
 										<div className="project-image-selector">
 											<ul className="project-image-list">
 												{React.Children.toArray(
-													active.images.map((image, i) => {
+													activeProject.images.map((image, i) => {
 														return (
 															<li className="projects-image-selector-item">
 																<div className="projects-image-title-image-selector">
@@ -220,12 +248,13 @@ export default function ModalList(props) {
 																	<input
 																		type="checkbox"
 																		name="titleImage"
-																		data-image={image}
+																		id={i}
 																		onChange={handleTitleImageSelect}
+																		checked={image.title}
 																	/>
 																</div>
 																<div className="projects-current-image">
-																	<img src={image} alt="image" />
+																	<img src={image.url} alt="image" />
 																</div>
 																<div className="projects-image-actions">
 																	<button className="btn-action" id={i} onClick={handleImageSelectClick}>
@@ -233,7 +262,7 @@ export default function ModalList(props) {
 																	</button>
 																	<button
 																		className="btn-action btn-delete"
-																		data-type={image}
+																		action-target={image}
 																		onClick={handleImageDeleteClick}
 																	>
 																		Delete
@@ -245,6 +274,7 @@ export default function ModalList(props) {
 												)}
 											</ul>
 										</div>
+
 										<div className="create-new-slide">
 											<i className="fas fa-plus"></i>
 										</div>
@@ -253,24 +283,24 @@ export default function ModalList(props) {
 							</div>
 
 							<div>
-								<label>featured: {active.featured}</label>
+								<label>featured: {activeProject.featured}</label>
 								<input
 									className="modal-input"
 									type="checkbox"
 									name="featured"
 									onChange={handleDataInput}
-									checked={newItem.featured || active.featured}
+									checked={activeProject.featured}
 								/>
 							</div>
 
 							<div className="member-content">
-								<label>index: {active.index}</label>
+								<label>index: {activeProject.index}</label>
 								<input className="modal-input" type="text" name="index" onChange={handleDataInput} />
-								<label>name: {active.name}</label>
+								<label>name: {activeProject.name}</label>
 								<input className="modal-input" type="text" name="name" onChange={handleDataInput} />
-								<label>client: {active.client}</label>
+								<label>client: {activeProject.client}</label>
 								<input className="modal-input" type="text" name="client" onChange={handleDataInput} />
-								<label>location: {active.location}</label>
+								<label>location: {activeProject.location}</label>
 								<input className="modal-input" type="text" name="location" onChange={handleDataInput} />
 								<label>paragraph:</label>
 								<textarea
@@ -278,7 +308,7 @@ export default function ModalList(props) {
 									rows="15"
 									name="paragraph"
 									onChange={handleDataInput}
-									defaultValue={active.paragraph}
+									defaultValue={activeProject.paragraph}
 								></textarea>
 							</div>
 						</div>
