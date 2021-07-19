@@ -5,7 +5,6 @@ import Prompt from "../Prompt/Prompt";
 
 import { urls } from "../../../API/urls";
 import { useAPI } from "../../../API/services";
-import { act } from "react-dom/cjs/react-dom-test-utils.production.min";
 
 export default function ModalList(props) {
 	const {
@@ -21,6 +20,7 @@ export default function ModalList(props) {
 	const [activeProject, setActiveProject] = useState({});
 
 	const [activeImageID, setActiveImageID] = useState("");
+	const [newData, setNewData] = useState({});
 	const [assetManagerToggle, setAssetManagerToggle] = useState(false);
 	const [selectedImage, setSelectedImage] = useState("");
 	const [prompt, setPrompt] = useState(false);
@@ -41,23 +41,45 @@ export default function ModalList(props) {
 	};
 
 	const handleDataInput = (e) => {
-		let { name, value, checked } = e.target;
+		const { name, value, checked } = e.target;
 
-		if (checked === true) {
-			value = true;
-		} else if (checked === false) {
-			value = false;
+		if (checked === true && !value) {
+			setActiveProject((prevState) => {
+				return { ...prevState, [name]: true };
+			});
+			return;
+		} else if (checked === false && !value) {
+			setActiveProject((prevState) => {
+				return { ...prevState, [name]: false };
+			});
+			return;
+		}
+
+		if (value && !checked) {
+			setNewData((prevState) => {
+				return { ...prevState, [name]: value };
+			});
+		}
+	};
+
+	const handleFeatureInput = (e) => {
+		const { name, checked } = e.target;
+
+		if (checked) {
+			setActiveProject((prevState) => {
+				return { ...prevState, [name]: true };
+			});
+			return;
 		}
 
 		setActiveProject((prevState) => {
-			return { ...prevState, [name]: value };
+			return { ...prevState, [name]: false };
 		});
+		return;
 	};
 
 	const handleTitleImageSelect = (e) => {
 		const { checked, id } = e.target;
-
-		console.log(checked, id);
 
 		if (checked === true) {
 			setActiveProject((prevState) => {
@@ -96,17 +118,19 @@ export default function ModalList(props) {
 	};
 
 	const handleSaveClick = () => {
-		// if (Object.keys(newItem).length > 0 && active._id) {
-		// 	updateItem({ data: { ...newItem, id: active._id } });
-		// }
-		// if (Object.keys(newItem).length > 0 && !active._id) {
-		// 	createItem({ data: { ...newItem, index: active.index } });
-		// }
+		const data = { ...activeProject, images: activeProject.images.map((image) => image.url), ...newData };
+
+		if (data._id) {
+			updateItem({ data });
+			return;
+		}
+
+		createItem({ data });
+		return;
 	};
 
 	const handleNewClick = () => {
 		setActiveProject({
-			text: "",
 			index: data.listData[data.listData.length - 1].index + 1 || 1,
 		});
 	};
@@ -128,21 +152,23 @@ export default function ModalList(props) {
 
 		setSelectedImage("");
 		setAssetManagerToggle(true);
-		setActiveImageID(parseInt(e.target.id));
+
+		if (e.target.id) {
+			setActiveImageID(parseInt(e.target.id));
+		} else {
+			setActiveImageID(
+				activeProject && activeProject.images && activeProject.images.length ? activeProject.images.length : 0
+			);
+		}
 	};
 
 	const handleImageDeleteClick = (e) => {
-		const { attributes } = e.target;
-		console.log(attributes["action-target"].value);
+		const { id } = e.target;
 
-		if (activeProject) {
-			setActiveProject((prevState) => {
-				const images = prevState.images.filter((image) => image !== attributes["action-target"].value);
-				console.log(images);
-
-				return { ...prevState, images };
-			});
-		}
+		setActiveProject((prevState) => {
+			const images = prevState.images.filter((image) => image.index !== parseInt(id));
+			return { ...prevState, images };
+		});
 	};
 
 	const style = {
@@ -153,7 +179,13 @@ export default function ModalList(props) {
 		if (selectedImage) {
 			setAssetManagerToggle(false);
 			setActiveProject((prevState) => {
-				const images = [...prevState.images];
+				const images = prevState.images ? [...prevState.images] : [];
+
+				if (!images[activeImageID]) {
+					images.push({ url: selectedImage, index: activeImageID, title: false });
+					return { ...prevState, images };
+				}
+
 				const updatedImages = (images[activeImageID].url = selectedImage);
 				return { ...prevState, updatedImages };
 			});
@@ -166,8 +198,6 @@ export default function ModalList(props) {
 			setActiveProject({});
 		}
 	}, [resUpdate.data[dataKey[1]], resCreate.data[dataKey[1]], resDelete.data[dataKey[1]]]);
-
-	console.log({ activeProject });
 
 	return (
 		<div className="modal-container">
@@ -239,44 +269,46 @@ export default function ModalList(props) {
 									<div>
 										<div className="project-image-selector">
 											<ul className="project-image-list">
-												{React.Children.toArray(
-													activeProject.images.map((image, i) => {
-														return (
-															<li className="projects-image-selector-item">
-																<div className="projects-image-title-image-selector">
-																	<label>Title image:</label>
-																	<input
-																		type="checkbox"
-																		name="titleImage"
-																		id={i}
-																		onChange={handleTitleImageSelect}
-																		checked={image.title}
-																	/>
-																</div>
-																<div className="projects-current-image">
-																	<img src={image.url} alt="image" />
-																</div>
-																<div className="projects-image-actions">
-																	<button className="btn-action" id={i} onClick={handleImageSelectClick}>
-																		Edit
-																	</button>
-																	<button
-																		className="btn-action btn-delete"
-																		action-target={image}
-																		onClick={handleImageDeleteClick}
-																	>
-																		Delete
-																	</button>
-																</div>
-															</li>
-														);
-													})
-												)}
+												{activeProject.images
+													? React.Children.toArray(
+															activeProject.images.map((image, i) => {
+																return (
+																	<li className="projects-image-selector-item">
+																		<div className="projects-image-title-image-selector">
+																			<label>Title image:</label>
+																			<input
+																				type="checkbox"
+																				name="titleImage"
+																				id={i}
+																				onChange={handleTitleImageSelect}
+																				checked={image.title}
+																			/>
+																		</div>
+																		<div className="projects-current-image">
+																			<img src={image.url} alt="image" />
+																		</div>
+																		<div className="projects-image-actions">
+																			<button className="btn-action" id={image.index} onClick={handleImageSelectClick}>
+																				Edit
+																			</button>
+																			<button
+																				className="btn-action btn-delete"
+																				id={image.index}
+																				onClick={handleImageDeleteClick}
+																			>
+																				Delete
+																			</button>
+																		</div>
+																	</li>
+																);
+															})
+													  )
+													: null}
 											</ul>
 										</div>
 
 										<div className="create-new-slide">
-											<i className="fas fa-plus"></i>
+											<i className="fas fa-plus" onClick={handleImageSelectClick}></i>
 										</div>
 									</div>
 								)}
@@ -288,27 +320,34 @@ export default function ModalList(props) {
 									className="modal-input"
 									type="checkbox"
 									name="featured"
-									onChange={handleDataInput}
-									checked={activeProject.featured}
+									onChange={handleFeatureInput}
+									defaultChecked={activeProject.featured}
 								/>
 							</div>
 
 							<div className="member-content">
 								<label>index: {activeProject.index}</label>
-								<input className="modal-input" type="text" name="index" onChange={handleDataInput} />
+								<input className="modal-input" type="text" name="index" onChange={handleDataInput} defaultValue={""} />
 								<label>name: {activeProject.name}</label>
-								<input className="modal-input" type="text" name="name" onChange={handleDataInput} />
+								<input className="modal-input" type="text" name="name" onChange={handleDataInput} defaultValue={""} />
 								<label>client: {activeProject.client}</label>
-								<input className="modal-input" type="text" name="client" onChange={handleDataInput} />
+								<input className="modal-input" type="text" name="client" onChange={handleDataInput} defaultValue={""} />
 								<label>location: {activeProject.location}</label>
-								<input className="modal-input" type="text" name="location" onChange={handleDataInput} />
+								<input
+									className="modal-input"
+									type="text"
+									name="location"
+									onChange={handleDataInput}
+									defaultValue={""}
+								/>
 								<label>paragraph:</label>
+								<p>{activeProject.paragraph}</p>
 								<textarea
 									className="modal-input"
 									rows="15"
 									name="paragraph"
 									onChange={handleDataInput}
-									defaultValue={activeProject.paragraph}
+									defaultValue={""}
 								></textarea>
 							</div>
 						</div>
