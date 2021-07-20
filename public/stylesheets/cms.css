@@ -733,6 +733,10 @@ html {
 	margin: 5px 0px;
 }
 
+.select-input {
+	width: 99% !important;
+}
+
 /****************************************************
    MODAL CAROUSEL SECTION
 *****************************************************/
@@ -1022,11 +1026,13 @@ html {
 .member-image-selector {
 	background-color: #e5e5e5;
 	width: 100%;
+	min-height: 350px;
 	display: flex;
 	justify-content: center;
 }
 
-.member-image-selector img {
+.member-image-selector img,
+.member-image-selector video {
 	height: 400px;
 }
 

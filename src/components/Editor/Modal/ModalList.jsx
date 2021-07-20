@@ -126,6 +126,7 @@ export default function ModalList(props) {
 						<i className="fas fa-times-circle " data-role="close" aria-hidden="true" onClick={toggleModal}></i>
 					</div>
 				</div>
+
 				<div className="modal-leadership-section">
 					<ul className="members-list">
 						{data && data.listData
@@ -155,6 +156,7 @@ export default function ModalList(props) {
 						<i className="fas fa-plus" onClick={handleNewClick}></i>
 					</div>
 				</div>
+
 				<div className="modal-input-wrapper">
 					{Object.keys(active).length > 0 ? (
 						<div>

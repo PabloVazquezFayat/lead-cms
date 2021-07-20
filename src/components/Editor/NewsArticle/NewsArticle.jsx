@@ -1,5 +1,7 @@
 import React, { useEffect } from "react";
 
+import ModalNews from "../Modal/ModalNews";
+
 import { urls } from "../../../API/urls";
 import { useAPI } from "../../../API/services";
 
@@ -44,14 +46,6 @@ export default function NewsArticle() {
 					<p>{article.paragraph}</p>
 					<p>category: {article.category}</p>
 					<p>featured: {article.featured}</p>
-					<div className="news-article-crud-buttons">
-						<button id={article._id} className="edit-news-article">
-							edit
-						</button>
-						<button id={article._id} className="delete-news-article">
-							delete
-						</button>
-					</div>
 				</li>
 			);
 		});
@@ -62,11 +56,14 @@ export default function NewsArticle() {
 	}, []);
 
 	return (
-		<div className="news-articles-container">
-			<div className="news-articles-wrapper">
-				<ul className="news-articles">
-					<NewsArticles />
-				</ul>
+		<div>
+			<ModalNews getData={getData} data={newsArticles} />
+			<div className="news-articles-container">
+				<div className="news-articles-wrapper">
+					<ul className="news-articles">
+						<NewsArticles />
+					</ul>
+				</div>
 			</div>
 		</div>
 	);
