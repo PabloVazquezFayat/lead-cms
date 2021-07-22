@@ -1,6 +1,8 @@
 import "./AssetPage.css";
 import React, { useState, useEffect } from "react";
 
+import ModalAsset from "../../Editor/Modal/ModalAsset";
+
 import { urls } from "../../../API/urls";
 import { useAPI } from "../../../API/services";
 
@@ -100,6 +102,8 @@ export default function AssetPage(props) {
 		setFound(assetsFound);
 	};
 
+	const handleAddAssetClick = () => {};
+
 	useEffect(() => {
 		getData();
 	}, []);
@@ -108,6 +112,7 @@ export default function AssetPage(props) {
 		<div className="asset-manager-page">
 			<div className="assets-search-bar">
 				<input type="text" onChange={searchAssets} placeholder="Search for image or video by name" />
+				<ModalAsset />
 			</div>
 			<ul className="assets-gallery">{createAssets()}</ul>
 		</div>

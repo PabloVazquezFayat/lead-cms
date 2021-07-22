@@ -1127,6 +1127,54 @@ html {
 }
 
 /****************************************************
+   ASSETS MODAL SECTION
+*****************************************************/
+
+.modal-asset-container {
+	display: flex;
+	justify-content: flex-end;
+	align-items: center;
+	margin: 0px 30px 0px 0px;
+}
+
+.modal-asset-wrapper {
+	background-color: #ffffff;
+	width: 70%;
+	display: none;
+	position: absolute;
+	flex-direction: column;
+	justify-content: flex-start;
+	align-items: center;
+	margin: 49px 39px 0px 0px;
+	padding: 0px 0px 30px 0px;
+	border-radius: 4px;
+	box-shadow: 0px 2px 10px 0px #666;
+	-webkit-box-shadow: 0px 2px 10px 0px #666;
+	z-index: 999;
+}
+
+.create-new-asset {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin: 0px 30px 0px 0px;
+}
+
+.create-new-asset p {
+	margin: 4px 0px;
+	font-family: var(--popn);
+	font-size: 12px;
+}
+
+.create-new-asset i {
+	font-size: 25px;
+	color: #1f75fe;
+	cursor: pointer;
+	padding: 10px;
+	cursor: pointer;
+}
+
+/****************************************************
    PROMPT SECTION
 *****************************************************/
 
