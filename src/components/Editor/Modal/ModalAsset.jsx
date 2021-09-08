@@ -7,7 +7,13 @@ import { urls } from "../../../API/urls";
 import { useAPI } from "../../../API/services";
 
 export default function Modal(props) {
+	const { getData } = props || {};
+
+	const [resUploadImage, uploadImage] = useAPI("POST", urls.assets.createImage);
+	const [resUploadVideo, uploadVideo] = useAPI("UPLOAD", urls.assets.createVideo);
+
 	const [display, setDisplay] = useState("none");
+	const [file, setFile] = useState({});
 
 	const handleInput = (e) => {};
 
@@ -25,11 +31,38 @@ export default function Modal(props) {
 		}
 	};
 
+	const handleImageSelect = (e) => {
+		const fileFromInput = e.target.files[0];
+		setFile(fileFromInput);
+	};
+
+	const handleUploadClick = () => {
+		const data = new FormData();
+
+		if (file.type.indexOf("image") !== -1) {
+			data.append("file", file);
+			uploadImage({ data });
+			return;
+		}
+
+		if (file.type.indexOf("video") !== -1) {
+			data.append("file", file);
+			uploadVideo({ data });
+			return;
+		}
+	};
+
 	const handleSaveClick = async () => {};
 
 	const style = {
 		display: display,
 	};
+
+	useEffect(() => {
+		if (resUploadImage.data.asset || resUploadVideo.data.asset) {
+			getData();
+		}
+	}, [resUploadImage.data.asset, resUploadVideo.data.asset]);
 
 	return (
 		<div className="modal-asset-container">
@@ -48,8 +81,8 @@ export default function Modal(props) {
 					</div>
 				</div>
 				<div className="asset-inputs-container">
-					<input type="file" name="image" />
-					<input type="file" name="" id="" />
+					<input type="file" name="image" onChange={handleImageSelect} />
+					<button onClick={handleUploadClick}>Upload</button>
 				</div>
 			</div>
 		</div>

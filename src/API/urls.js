@@ -1,12 +1,11 @@
-const domain = "http://localhost:3001";
-
 const urls = {
 	applications: {
 		read: "/cms/applications",
 		delete: "/cms/applications",
 	},
 	assets: {
-		create: "/cms/assets",
+		createImage: "/cms/upload/assets",
+		createVideo: "/cms/upload/video",
 		read: "/cms/assets",
 		delete: "/cms/assets",
 	},
@@ -111,8 +110,4 @@ const urls = {
 	},
 };
 
-const allReadUrls = () => {
-	return Object.values(urls).map((value) => `${domain}${value["read"]}`);
-};
-
-export { domain, urls, allReadUrls };
+export { urls };

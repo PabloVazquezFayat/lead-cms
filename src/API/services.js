@@ -1,10 +1,21 @@
 import axios from "axios";
 import { useState } from "react";
 
+const baseURL = "http://localhost:3001";
+
 const axiosInstance = axios.create({
-	baseURL: `http://localhost:3001`,
+	baseURL: baseURL,
 	headers: {
 		"Content-Type": "application/json",
+		"Access-Control-Allow-Origin": "http://localhost:3000",
+	},
+	withCredentials: true,
+});
+
+const axiosInstanceForFileUpload = axios.create({
+	baseURL: baseURL,
+	headers: {
+		"Content-Type": "multipart/form-data",
 		"Access-Control-Allow-Origin": "http://localhost:3000",
 	},
 	withCredentials: true,
@@ -46,6 +57,15 @@ const deleteService = async (url) => {
 	}
 };
 
+const uploadService = async (url, data) => {
+	try {
+		const res = await axiosInstanceForFileUpload.post(url, data);
+		return res.data;
+	} catch (error) {
+		return error;
+	}
+};
+
 const useAPI = (method, url) => {
 	const [res, setRes] = useState({
 		loading: true,
@@ -58,6 +78,7 @@ const useAPI = (method, url) => {
 		POST: postService,
 		PUT: putService,
 		DELETE: deleteService,
+		UPLOAD: uploadService,
 	}[method];
 
 	const requestData = async (reqData) => {
