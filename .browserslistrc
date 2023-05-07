@@ -1,0 +1,9 @@
+# Browsers that are supported by default in Create React App
+defaults
+
+# Latest 2 versions of all major browsers
+last 2 versions
+
+# Not supporting IE 11 and below
+not IE 11
+not IE_Mob 11

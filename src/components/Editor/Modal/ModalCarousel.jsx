@@ -140,7 +140,7 @@ export default function Modal(props) {
 												style={activeSlide.index === i + 1 ? { background: "#badfff" } : null}
 											>
 												<div className="slide-details">
-													<p>Slide: {slide.index}</p>
+													<p>Slide: {slide.index || i + 1}</p>
 													<img className="modal-slide-image" src={slide.backgroundImage} alt="slide" />
 													<h3>{slide.header}</h3>
 												</div>

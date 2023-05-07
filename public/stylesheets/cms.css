@@ -649,6 +649,7 @@ html {
 	/* background: purple; */
 	width: 100%;
 	margin: 0px 0px -44px 0px;
+	z-index: 9999;
 }
 
 .modal-button {
@@ -868,10 +869,11 @@ html {
 
 .slide-image-container {
 	width: 100%;
+	display: flex;
+	justify-content: center;
 }
 
 .slide-image-container i {
-	position: absolute;
 	font-size: 50px;
 	color: #1f75fe;
 	top: 47%;

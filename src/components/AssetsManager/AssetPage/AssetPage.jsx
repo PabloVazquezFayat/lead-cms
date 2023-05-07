@@ -102,8 +102,6 @@ export default function AssetPage(props) {
 		setFound(assetsFound);
 	};
 
-	const handleAddAssetClick = () => {};
-
 	useEffect(() => {
 		getData();
 	}, []);

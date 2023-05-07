@@ -285,7 +285,7 @@ export default function ModalList(props) {
 																			/>
 																		</div>
 																		<div className="projects-current-image">
-																			<img src={image.url} alt="image" />
+																			<img src={image.url} alt="project" />
 																		</div>
 																		<div className="projects-image-actions">
 																			<button className="btn-action" id={image.index} onClick={handleImageSelectClick}>

@@ -1,8 +1,4 @@
 import React, { useEffect, useState } from "react";
-
-import AssetPage from "../../AssetsManager/AssetPage/AssetPage";
-import Prompt from "../Prompt/Prompt";
-
 import { urls } from "../../../API/urls";
 import { useAPI } from "../../../API/services";
 
@@ -14,8 +10,6 @@ export default function Modal(props) {
 
 	const [display, setDisplay] = useState("none");
 	const [file, setFile] = useState({});
-
-	const handleInput = (e) => {};
 
 	const toggleModal = (e) => {
 		const action = e.target.attributes["data-role"].value;
@@ -41,6 +35,7 @@ export default function Modal(props) {
 
 		if (file.type.indexOf("image") !== -1) {
 			data.append("file", file);
+			console.log(data)
 			uploadImage({ data });
 			return;
 		}

@@ -15,7 +15,6 @@ import StaticBanner from "../StaticBanner/StaticBanner";
 export default function AboutPage(props) {
 	const {
 		navbar,
-		staticBanner,
 		careers,
 		footer,
 		leadershipBanner,

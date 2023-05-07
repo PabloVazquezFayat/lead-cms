@@ -1,8 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 
-export default function Prompt(props) {
-	const [display, setDisplay] = useState("none");
-	const { active, setActive, action } = props || {};
+export default function Prompt(props) {;
+	const {  setActive, action } = props || {};
 
 	const handleCancelClick = () => {
 		setActive(false);
@@ -13,11 +12,6 @@ export default function Prompt(props) {
 		action();
 	};
 
-	useEffect(() => {
-		if (active) {
-			setDisplay("flex");
-		}
-	}, [active]);
 
 	return (
 		<div className="prompt-container">
